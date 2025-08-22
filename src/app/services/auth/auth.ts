@@ -3,7 +3,7 @@ import { AuthResponseData, User } from '../../models/auth.model';
 import {
   SIGNIN_BASE_URL,
   SIGNUP_BASE_URL,
-} from '../../environment/environment';
+} from '../../constants/url-constants';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
