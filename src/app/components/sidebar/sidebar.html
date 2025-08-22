@@ -1,0 +1,61 @@
+<div class="flex flex-col justify-start h-[100%] pt-4 pb-2">
+  <div class="flex justify-between" [ngClass]="isViewSidebar ? 'px-3' : 'px-3'">
+    <img
+      [src]="logo"
+      class="logo-img"
+      [ngStyle]="{ width: isViewSidebar || isPhoneScreen ? '6.5rem' : '4rem' }"
+    />
+    <div class="block sm:hidden" (click)="closePhoneSidebar()">
+      <i class="pi pi-times" style="color: white; font-size: 1.2rem"></i>
+    </div>
+  </div>
+  <div
+    class="w-full flex flex-col justify-start items-center py-2 px-2 fs-23 pointer"
+    style="gap: 10px; margin-top: 40px"
+  >
+    @for (item of sidebarItems; track item){
+
+    <div
+      class="flex flex-row items-center w-full border-b border-gray-200 cursor-pointer"
+      style="gap: 10px"
+      [ngClass]="{ 'light-blue-bg': isActiveTab(item) }"
+      (click)="navigateToPage(item)"
+    >
+      <span
+        [class.active]="activeTab == item.action"
+        style="border-radius: 0px"
+      >
+        <i
+          class="sidebar-icons text-white text-[0.9rem]"
+          [ngClass]="item.icon"
+          [class.activeText]="activeTab === item.action"
+        ></i>
+        <!-- <img
+          [src]="
+            'assets/images/sidebar/' +
+            (getActiveTab(item) ? item.yellowIcon : item.purpleIcon)
+          "
+          alt=""
+          class="sidebar-img"
+        /> -->
+      </span>
+      @if(isViewSidebar || isPhoneScreen){
+      <a
+        class="text-white font-medium text-[0.8rem] w-full"
+        [class.activeText]="activeTab == item.action"
+        >{{ item.title }}</a
+      >}
+    </div>
+    }
+
+    <div class="flex flex-row items-center logout-btn-container cursor-pointer">
+      <span
+        ><i class="fa-solid fa-arrow-right-from-bracket text-white"></i
+      ></span>
+
+      @if(isViewSidebar || isPhoneScreen){
+      <a class="text-white text-[0.8rem] font-medium">Logout</a>
+      }
+    </div>
+  </div>
+</div>

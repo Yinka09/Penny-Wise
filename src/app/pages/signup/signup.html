@@ -1,0 +1,184 @@
+<p-toast />
+
+<div class="bg-white block sm:grid lg:grid-cols-2 h-[100vh]">
+  <div
+    class="mobile-backdrop block lg:hidden"
+    style="background-image: url('login/signup-img.png')"
+  ></div>
+  <div class="hidden lg:block flex items-center justify-center">
+    <img src="login/signup-img.png" class="object-cover h-[100vh] w-full" />
+  </div>
+  <div class="bg-white w-full py-6 sm:py-24 md:py-0 lg:py-0">
+    <div class="flex flex-col items-center justify-center h-[100vh] p-4">
+      <form
+        [formGroup]="signUpForm"
+        (ngSubmit)="onSubmit()"
+        class="bg-white px-5 lg:px-8 py-12 rounded shadow-md w-full xl:w-[85%] border-2 border-gray-300"
+      >
+        <h3 class="text-3xl font-bold text-center">
+          PennyWise
+          <i class="fa-solid fa-wallet text-[#FE8864] text-2xl ms-1"></i>
+        </h3>
+        <h5 class="text-md font-medium text-center mt-4">
+          Create your account
+        </h5>
+        <div class="block sm:grid lg:grid-cols-2 gap-4">
+          <div class="mt-6">
+            <label
+              for="firstName"
+              class="block text-sm font-medium text-gray-700"
+            >
+              First Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="firstName"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Enter your first name"
+              formControlName="firstName"
+            />
+            @if(isFirstNameInvalid){
+            <span class="text-red-500 text-[0.7rem]"
+              >Please enter your first name</span
+            >
+            }
+          </div>
+
+          <div class="mt-6">
+            <label
+              for="lastName"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Last Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="lastName"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Enter your last name"
+              formControlName="lastName"
+            />
+            @if(isLastNameInvalid){
+            <span class="text-red-500 text-[0.7rem]"
+              >Please enter your last name</span
+            >
+            }
+          </div>
+        </div>
+
+        <div class="block sm:grid lg:grid-cols-2 gap-4">
+          <div class="mt-6">
+            <label
+              for="middleName"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Middle Name <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Enter your middle name "
+              formControlName="middleName"
+            />
+            @if(isMiddleNameInvalid){
+            <span class="text-red-500 text-[0.7rem]"
+              >Please enter your middle name</span
+            >
+            }
+          </div>
+          <div class="mt-6">
+            <label
+              for="middleName"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Email <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Enter your email "
+              formControlName="email"
+            />
+            @if(isEmailInvalid){
+            <span class="text-red-500 text-[0.7rem]"
+              >Please enter a valid email</span
+            >
+            }
+          </div>
+        </div>
+        <div
+          class="block sm:grid lg:grid-cols-2 gap-4"
+          formGroupName="passwords"
+        >
+          <div class="mt-6">
+            <label
+              for="password"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Password <span class="text-red-500">*</span>
+            </label>
+            <input
+              [type]="viewPassword ? 'text' : 'password'"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Enter your password"
+              formControlName="password"
+            />
+
+            <img
+              [src]="viewPassword ? 'login/eye-slash.svg' : 'login/eye.svg'"
+              alt=""
+              class="eye-svg"
+              (click)="togglePasswordVisibility()"
+            />
+            @if(isPasswordInvalid){
+            <span class="text-red-500 text-[0.7rem]"
+              >Please enter a min 6 character password</span
+            >
+            }
+          </div>
+          <div class="mt-6">
+            <label
+              for="confirmPassword"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password <span class="text-red-500">*</span>
+            </label>
+            <input
+              [type]="viewConfirmPassword ? 'text' : 'password'"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-[#B2E6EA]/20"
+              placeholder="Confirm password"
+              formControlName="confirmPassword"
+            />
+            <img
+              [src]="
+                viewConfirmPassword ? 'login/eye-slash.svg' : 'login/eye.svg'
+              "
+              alt=""
+              class="eye-svg"
+              (click)="toggleConfirmPasswordVisibility()"
+            />
+            @if(isPasswordMismatch){
+            <span class="text-red-500 text-[0.7rem] block"
+              >Passwords do not match, please try again</span
+            >
+            }
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!signUpForm.valid"
+          class="text-[1rem] text-center block w-full bg-[#00ADBA] text-white py-3 rounded-md hover:opacity-65 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-10 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          @if(isLoading){
+          <i class="pi pi-spin pi-spinner mt-0" style="font-size: 1.5rem"></i>
+          } Signup
+        </button>
+        <p class="text-[0.8rem] text-center mt-4 text-gray-600">
+          Already have an account?
+          <a class="text-[#00ADBA] font-medium" [routerLink]="'/login'"
+            >Login</a
+          >
+        </p>
+      </form>
+    </div>
+  </div>
+</div>

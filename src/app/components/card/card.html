@@ -1,0 +1,49 @@
+<div
+  class="card br-15 flex flex-col flex-1 px-4 py-6 shadow-md border-1 border-gray-300 gap-4 min-h-[140px] sm:min-h-[160px] items-center rounded-lg"
+>
+  <div class="flex flex-row w-full h-full gap-4">
+    <div
+      class="w-[2.5rem] h-[2.5rem] rounded-[50%] flex items-center justify-center"
+      [ngStyle]="{ 'background-color': getCardStyles(cardItem).iconBg }"
+    >
+      <!-- <img [src]="getCardStyles(cardItem).icon" alt="" class="icon" /> -->
+      <!-- <i class="fa-solid fa-briefcase"></i> -->
+      <i
+        class="fa-solid fa-money-bill"
+        [ngStyle]="{ color: getCardStyles(cardItem).color }"
+      ></i>
+    </div>
+    <div class="w-[calc(100%-2.5rem)]">
+      <p class="text-[0.9rem] font-medium first-letter:uppercase">
+        {{ cardItem.title }}
+      </p>
+      <div>
+        <div class="flex justify-between items-center w-[100%] mt-3 flex-wrap">
+          <h2
+            class="text-[1.1rem] font-semibold"
+            [ngStyle]="{ color: getCardStyles(cardItem).color }"
+          >
+            {{
+              trimText(cardItem.amount | currency : "₦" : "symbol" : "1.0-0")
+            }}
+          </h2>
+          <!-- <span
+            class="text-[0.9rem] font-medium"
+            [ngStyle]="{ color: getCardStyles(cardItem).color }"
+            >{{ cardItem.percentage }}%
+          </span> -->
+
+          <i
+            class="fa-solid"
+            [ngClass]="cardItem.icon"
+            [ngStyle]="{ color: getCardStyles(cardItem).color }"
+          ></i>
+        </div>
+
+        <p class="mb-0 mt-3 text-[0.65rem] text-[#7a8a99]">
+          {{ cardItem.description }} {{ monthName }} {{ year }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

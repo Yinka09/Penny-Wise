@@ -1,0 +1,35 @@
+.main-container {
+  height: 100vh;
+  display: flex;
+}
+
+.fixed-sidebar {
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 5;
+  overflow: hidden;
+  position: sticky;
+  transition: flex 1s ease-out;
+  //   background-color: #f6f3f8;
+}
+
+.content-container {
+  flex: 1;
+  height: 100vh;
+  overflow: hidden;
+
+  @media (max-width: 760px) {
+    overflow: auto;
+  }
+}
+
+.small-screen-sidebar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+
+  height: 100%;
+}

@@ -1,0 +1,41 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Actions">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button
+    data-bs-toggle="modal"
+    data-bs-target="#viewCustomerModal"
+    mat-menu-item
+    (click)="onView()"
+  >
+    <mat-icon>dialpad</mat-icon>
+    <span>View</span>
+  </button>
+
+  @if (checkCustomerStatus()){
+  <button
+    mat-menu-item
+    data-bs-toggle="modal"
+    data-bs-target="#changeCustomerStatusModal"
+    (click)="onHotlistCustomer()"
+  >
+    <mat-icon>credit_card_off</mat-icon>
+    <span>Hotlist</span>
+  </button>
+  } @else {
+  <button
+    mat-menu-item
+    data-bs-toggle="modal"
+    data-bs-target="#changeCustomerStatusModal"
+    (click)="onWhitelistCustomer()"
+  >
+    <mat-icon>credit_card</mat-icon>
+    <span>Whitelist</span>
+  </button>
+  }
+
+  <!-- <button mat-menu-item>
+    <mat-icon>cancel</mat-icon>
+    <span>Cancel</span>
+  </button> -->
+</mat-menu>

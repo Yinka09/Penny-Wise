@@ -1,0 +1,91 @@
+<p-toast />
+
+<div class="bg-white block sm:grid lg:grid-cols-2 h-[100vh]">
+  <div
+    class="mobile-backdrop block lg:hidden"
+    style="background-image: url('login/login-img.png')"
+  ></div>
+  <div class="hidden lg:block flex items-center justify-center">
+    <img src="login/login-img.png" class="object-contain h-[100vh] w-full" />
+  </div>
+  <div class="bg-[#F0F9FF] w-full">
+    <div class="flex flex-col items-center justify-center h-[100vh] p-4">
+      <form
+        (ngSubmit)="onSubmit()"
+        [formGroup]="loginForm"
+        class="bg-white px-5 lg:px-10 py-12 rounded shadow-md w-full lg:w-[75%] xl:w-[65%] max-w-lg border-2 border-gray-300"
+      >
+        <h3 class="text-3xl font-bold text-center">
+          PennyWise
+          <i class="fa-solid fa-wallet text-[#FE8864] text-2xl ms-1"></i>
+        </h3>
+        <h5 class="text-xl font-medium text-center mt-4">Welcome Back!</h5>
+        <p class="text-center text-gray-600 mt-3 text-[0.8rem] px-0 lg:px-10">
+          Enter your credentials to access your PennyWise account.
+        </p>
+        <div class="mt-6">
+          <label
+            for="email"
+            class="mb-3 block text-sm font-medium text-gray-700"
+          >
+            Email or Username
+          </label>
+          <input
+            type="email"
+            class="ps-10 text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-[#F0F9FF]"
+            placeholder="Enter your email"
+            formControlName="email"
+          />
+          <img src="login/person.svg" alt="" class="person-svg" />
+          @if(isEmailInvalid){
+          <span class="text-red-500 text-[0.7rem]"
+            >Please enter a valid email</span
+          >
+          }
+        </div>
+        <div class="mt-2">
+          <label
+            for="mb-3 password"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <input
+            [type]="viewPassword ? 'text' : 'password'"
+            class="ps-10 text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-[#F0F9FF]"
+            placeholder="Enter your password"
+            formControlName="password"
+          />
+          <img src="login/padlock.svg" alt="" class="padlock-svg" />
+
+          <img
+            [src]="viewPassword ? 'login/eye-slash.svg' : 'login/eye.svg'"
+            alt=""
+            class="eye-svg"
+            (click)="togglePasswordVisibility()"
+          />
+          @if(isPasswordInvalid){
+          <span class="text-red-500 text-[0.7rem]"
+            >Please enter a valid 6 character password</span
+          >
+          }
+        </div>
+        <button
+          type="submit"
+          [disabled]="!loginForm.valid || isLoading"
+          class="text-[1rem] text-center block w-full bg-[#0078bd] text-white py-3 rounded-md hover:opacity-65 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-10 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          @if(isLoading){
+          <i class="pi pi-spin pi-spinner mt-0" style="font-size: 1.5rem"></i>
+          } Login
+        </button>
+        <p class="text-[0.8rem] text-center mt-4 text-gray-600">
+          Don't have an account?
+          <a class="text-[#00ADBA] font-medium" [routerLink]="'/signup'"
+            >Signup</a
+          >
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
