@@ -69,3 +69,121 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.status-span {
+  // background-color: green;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  // width: 60px;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  // vertical-align: middle;
+}
+
+.bg-active {
+  background-color: #159d1e;
+}
+
+.bg-inactive {
+  background-color: #e11313;
+}
+
+.bg-hotlist {
+  background-color: #8b0000;
+}
+
+.bg-whitelist {
+  background-color: #0d9488;
+}
+
+.ag-grid-table {
+  color: #6f6f80;
+  cursor: pointer;
+  padding: 6px 1px;
+
+  font-size: 0.8rem;
+  border-bottom: none;
+  font-weight: 400;
+  font-family: "Poppins", sans-serif;
+  border-bottom: 1px solid #dee0e3;
+  // vertical-align: middle;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  }
+}
+
+.ag-row-last {
+  border-bottom: none !important;
+}
+.ag-row .ag-cell {
+  display: flex;
+  // justify-content: center;
+  align-items: center;
+}
+
+.ag-root-wrapper {
+  border: none;
+}
+
+.ag-header-container {
+  // background-color: #efe2f6;
+  // border-bottom: 2px solid #cc81f4;
+  background-color: #f5f7fb;
+  // border-bottom: 1px solid $primary-color;
+
+  // width: 100%;
+}
+
+.ag-header-cell-text {
+  color: #6f6f80;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.ag-root-wrapper {
+  border-radius: 0;
+}
+
+.ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+  border: none;
+  outline: none;
+}
+
+.span-class {
+  // background-color: green;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+  width: 80px;
+  font-size: 0.6rem;
+  // display: block;
+  text-align: center;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.verify-svg {
+  width: 15px;
+  height: auto;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  // height: 500px;
+  // height: calc(100vh - 170px);
+  height: 100%;
+  margin-top: 30px;
+}
+
+.ag-theme-alpine {
+  min-width: 600px;
+}

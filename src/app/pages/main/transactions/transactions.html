@@ -1,0 +1,45 @@
+<p-toast />
+<div
+  class="bg-white container px-4 py-3 h-full overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+>
+  <div class="flex items-center justify-between mt-4 mb-6 lg:mb-0">
+    <h3 class="text-[1.1rem] md:text-[1.3rem] text-[#0078BD] font-semibold">
+      Manage Transactions
+    </h3>
+
+    <div>
+      <button
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[#0078BD] cursor-pointer flex text-[white] font-medium"
+      >
+        <i class="fa-solid fa-circle-plus"></i>
+        <span class="text-[0.6rem] lg:text-[0.8rem]">Add Transaction</span>
+      </button>
+    </div>
+  </div>
+  <div class="w-full flex align-center justify-center gap-4">
+    @for(tab of tabHeaders; track tab.value){
+    <button
+      type="button"
+      type="button"
+      class="text-[0.9rem] md:text-[1.1rem] cursor-pointer"
+      [ngClass]="tab.value == selectedTab ? 'active' : 'tab-btn'"
+      (click)="onTabChange(tab)"
+    >
+      {{ tab.label }}
+    </button>
+    }
+  </div>
+
+  <div class="table-container">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      style="height: 100%; width: 100%"
+      [rowData]="displayTableData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowHeight]="rowHeight"
+      [rowClass]="rowClass"
+      (gridReady)="getTransactionTableData($event)"
+    ></ag-grid-angular>
+  </div>
+</div>

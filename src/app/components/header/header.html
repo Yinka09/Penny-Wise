@@ -7,18 +7,21 @@
       style="color: white"
       (click)="toggleSidebar()"
     ></i>
-    <h3 class="text-white font-semibold">{{ title }}</h3>
+    <h3 class="text-white font-semibold text-[1.1rem]">{{ title }}</h3>
   </div>
   <div class="flex items-center gap-4">
     <div>
       <i class="pi pi-bell" style="color: white"></i>
     </div>
+    @if(!isNotTransactionPage){
     <button
       class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[white] cursor-pointer hidden sm:flex text-[#0078BD] font-medium"
     >
       <i class="fa-solid fa-circle-plus"></i>
       <span class="text-[0.8rem]">Add New Transaction</span>
     </button>
+    }
+
     <div
       class="rounded-[50%] w-[40px] h-[40px] bg-white text-center font-semibold flex items-center justify-center text-[#0078BD] text-[0.9rem] shadow-md"
     >

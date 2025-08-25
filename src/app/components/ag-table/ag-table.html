@@ -1,1 +1,15 @@
-<p>ag-table works!</p>
+<ag-grid-angular
+  [style]="tableStyle"
+  [rowHeight]="rowHeight"
+  [rowClass]="rowClass"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [rowData]="rowData"
+  (gridReady)="getTransactionTableDetails($event)"
+  [pagination]="true"
+  [paginationPageSize]="paginationPageSize"
+  [paginationPageSizeSelector]="paginationPageSizeSelector"
+  [paginationNumberFormatter]="paginationNumberFormatter"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  [context]="{ componentParent: this }"
+/>

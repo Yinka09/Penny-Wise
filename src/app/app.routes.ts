@@ -23,6 +23,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./pages/main/main.routes').then((m) => m.MAIN_ROUTES),
   },
+
   {
     path: '*',
     component: PageNotFoundComponent,

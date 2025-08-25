@@ -14,6 +14,9 @@ export class MainService {
   private headerTitleSubject = new BehaviorSubject<string>('Dashboard');
   headerTitle$ = this.headerTitleSubject.asObservable();
 
+  private isTransactionPageSubject = new BehaviorSubject<boolean>(false);
+  isTransactionPage$ = this.isTransactionPageSubject.asObservable();
+
   getViewSidebar() {
     return this.viewSidebar$;
   }
@@ -33,5 +36,12 @@ export class MainService {
 
   setHeaderTitle(title: string) {
     this.headerTitleSubject.next(title);
+  }
+  getIsTransactionPage(): Observable<boolean> {
+    return this.isTransactionPage$;
+  }
+
+  setIsTransactionPage(transactionPage: boolean) {
+    this.isTransactionPageSubject.next(transactionPage);
   }
 }

@@ -16,11 +16,13 @@
 
 .content-container {
   flex: 1;
-  height: 100vh;
-  overflow: hidden;
+  // height: 100vh;
+  height: calc(100vh - 80px);
+  // overflow: hidden;
 
   @media (max-width: 760px) {
     overflow: auto;
+    height: 100vh;
   }
 }
 

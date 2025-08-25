@@ -1,7 +1,7 @@
 import { Component, Input, type OnInit } from '@angular/core';
 import { AgCharts } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
-import { IChartData } from '../../models/mock-data';
+import { IChartData } from '../../models/interfaces';
 
 @Component({
   selector: 'app-ag-chart',
