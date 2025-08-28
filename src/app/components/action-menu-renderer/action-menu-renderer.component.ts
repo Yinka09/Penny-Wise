@@ -15,24 +15,20 @@ import { CommonModule } from '@angular/common';
 })
 export class ActionMenuRendererComponent implements ICellRendererAngularComp {
   params!: ICellRendererParams;
-  customerStatus: string = '';
+  transactionType: string = '';
   @Output() actionSelected: EventEmitter<any> = new EventEmitter<any>();
   agInit(params: ICellRendererParams): void {
     this.params = params;
 
-    this.customerStatus = params.data.status;
+    this.transactionType = params.data.type;
   }
   refresh(params: ICellRendererParams): boolean {
     this.params = params;
     return true;
   }
 
-  checkCustomerStatus() {
-    if (this.customerStatus === 'whitelist') {
-      return true;
-    } else {
-      return false;
-    }
+  checkTransactionType() {
+    return this.transactionType === 'Income' ? true : false;
   }
 
   onSelectCustomerAction() {
@@ -40,19 +36,44 @@ export class ActionMenuRendererComponent implements ICellRendererAngularComp {
   }
 
   onView() {
-    if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onViewCustomer(this.params.data);
+    if (this.params.context) {
+      this.params.context.componentParent.onViewTransaction(this.params.data);
     }
   }
 
-  onWhitelistCustomer() {
+  onEdit() {
     if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onWhitelistCustomer(this.params.data);
+      this.params.context.componentParent.onEditTransaction(this.params.data);
     }
   }
-  onHotlistCustomer() {
+  onAddToExpense() {
     if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onHotlistCustomer(this.params.data);
+      this.params.context.componentParent.onAddTransactionToExpense(
+        this.params.data
+      );
     }
   }
+  onAddToIncome() {
+    if (this.params.context && this.params.context.componentParent) {
+      this.params.context.componentParent.onAddTransactionToIncome(
+        this.params.data
+      );
+    }
+  }
+
+  onDelete() {
+    if (this.params.context && this.params.context.componentParent) {
+      this.params.context.componentParent.onDeleteTransaction(this.params.data);
+    }
+  }
+  // onWhitelistCustomer() {
+  //   if (this.params.context && this.params.context.componentParent) {
+  //     this.params.context.componentParent.onWhitelistCustomer(this.params.data);
+  //   }
+  // }
+  // onHotlistCustomer() {
+  //   if (this.params.context && this.params.context.componentParent) {
+  //     this.params.context.componentParent.onHotlistCustomer(this.params.data);
+  //   }
+  // }
 }

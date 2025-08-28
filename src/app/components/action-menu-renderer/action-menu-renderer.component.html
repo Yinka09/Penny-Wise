@@ -2,37 +2,39 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <button
-    data-bs-toggle="modal"
-    data-bs-target="#viewCustomerModal"
-    mat-menu-item
-    (click)="onView()"
-  >
+  <button mat-menu-item (click)="onView()">
     <mat-icon>dialpad</mat-icon>
     <span>View</span>
   </button>
+  <button mat-menu-item (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+    <span>Edit</span>
+  </button>
 
-  @if (checkCustomerStatus()){
-  <button
-    mat-menu-item
-    data-bs-toggle="modal"
-    data-bs-target="#changeCustomerStatusModal"
-    (click)="onHotlistCustomer()"
-  >
-    <mat-icon>credit_card_off</mat-icon>
-    <span>Hotlist</span>
+  @if (checkTransactionType()){
+  <button mat-menu-item (click)="onAddToExpense()">
+    <mat-icon>add</mat-icon>
+    <span>Add to Expense</span>
   </button>
   } @else {
   <button
     mat-menu-item
-    data-bs-toggle="modal"
-    data-bs-target="#changeCustomerStatusModal"
-    (click)="onWhitelistCustomer()"
+    (click)="onAddToIncome()"
+    style="display: flex; justify-content: space-between; align-items: center"
   >
-    <mat-icon>credit_card</mat-icon>
-    <span>Whitelist</span>
+    <mat-icon>add</mat-icon>
+    <span>Add to Income</span>
   </button>
   }
+  <button
+    data-bs-toggle="modal"
+    data-bs-target="#viewCustomerModal"
+    mat-menu-item
+    (click)="onDelete()"
+  >
+    <mat-icon>delete</mat-icon>
+    <span>Delete</span>
+  </button>
 
   <!-- <button mat-menu-item>
     <mat-icon>cancel</mat-icon>

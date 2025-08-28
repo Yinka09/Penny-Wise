@@ -74,14 +74,14 @@ export class Login implements OnInit, OnDestroy {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
-    console.log('Form submitted with payload:', { email, password });
+    // console.log('Form submitted with payload:', { email, password });
     this.isLoading = true;
     this.authService
       .login(email, password)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (resData) => {
-          console.log(resData);
+          // console.log(resData);
           sessionStorage.setItem('userInitials', resData.email);
           this.isLoading = false;
           this.messageService.add({
@@ -95,7 +95,7 @@ export class Login implements OnInit, OnDestroy {
           }, 1500);
         },
         (errorMessage) => {
-          console.log(errorMessage);
+          // console.log(errorMessage);
           this.error = errorMessage;
           this.messageService.add({
             severity: 'error',

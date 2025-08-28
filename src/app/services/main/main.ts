@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -11,9 +11,10 @@ export class MainService {
   private viewSmallScreenSidebarSubject = new BehaviorSubject<boolean>(false);
   viewSmallScreenSidebar$ = this.viewSmallScreenSidebarSubject.asObservable();
 
-  private headerTitleSubject = new BehaviorSubject<string>('Dashboard');
-  headerTitle$ = this.headerTitleSubject.asObservable();
+  // private headerTitleSubject = new BehaviorSubject<string>('Dashboard');
+  // headerTitle$ = this.headerTitleSubject.asObservable();
 
+  headerTitle = signal<string>('Dashboard');
   private isTransactionPageSubject = new BehaviorSubject<boolean>(false);
   isTransactionPage$ = this.isTransactionPageSubject.asObservable();
 
@@ -30,13 +31,13 @@ export class MainService {
     this.viewSmallScreenSidebarSubject.next(value);
   }
 
-  getHeaderTitle(): Observable<string> {
-    return this.headerTitle$;
-  }
+  // getHeaderTitle(): Observable<string> {
+  //   return this.headerTitle$;
+  // }
 
-  setHeaderTitle(title: string) {
-    this.headerTitleSubject.next(title);
-  }
+  // setHeaderTitle(title: string) {
+  //   this.headerTitleSubject.next(title);
+  // }
   getIsTransactionPage(): Observable<boolean> {
     return this.isTransactionPage$;
   }

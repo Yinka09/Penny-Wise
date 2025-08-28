@@ -1,0 +1,200 @@
+<p-toast />
+<div class="card flex justify-center">
+  <p-dialog
+    [header]="setDialogHeader()"
+    [modal]="true"
+    (onHide)="onCancel()"
+    [(visible)]="showAddTransactionModal"
+    (visibleChange)="showAddTransactionModalChange.emit($event)"
+    [styleClass]="'custom-dialog'"
+    (onShow)="focusUsername()"
+  >
+    <span class="p-text-secondary block mb-6"
+      >Fill in the details for your transaction</span
+    >
+    <form [formGroup]="addTransactionForm" (ngSubmit)="onSubmit()">
+      <div class="block md:flex items-center justify-between gap-4 mb-4">
+        <!-- <div class="flex-1">
+          <label for="type" class="font-semibold w-24">Type</label>
+          <select
+            id="type"
+            class="w-full my-4 border border-gray-300 rounded-md p-2 cursor-pointer"
+          >
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div> -->
+
+        <div class="flex-1 mb-4 md:mb-0">
+          <label for="type" class="font-semibold block"
+            >Type <span class="text-red-600 font-bold">*</span></label
+          >
+
+          <p-select
+            [options]="transactionType"
+            placeholder="Select a Type"
+            [editable]="true"
+            optionLabel="name"
+            optionValue="code"
+            variant="filled"
+            class="w-full mt-4"
+            formControlName="type"
+          />
+          @if (isInvalid('type')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Type is required
+          </p>
+          }
+        </div>
+        <div class="flex-1 mb-4 md:mb-0">
+          <label for="category" class="font-semibold block"
+            >Category <span class="text-red-600 font-bold">*</span></label
+          >
+          <!-- <select
+            id="type"
+            class="w-full my-4 border border-gray-300 rounded-md p-2 cursor-pointer"
+          >
+            <option value="income">Income</option>
+            <option value="food">Food</option>
+            <option value="transport">Transport</option>
+            <option value="utilities">Utilities</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="shopping">Shopping</option>
+            <option value="health">Health</option>
+            <option value="family">Family</option>
+            <option value="charity">Charity</option>
+            <option value="donations">Donations</option>
+            <option value="miscellaneous">Miscellaneous</option>
+          </select> -->
+
+          <p-select
+            [options]="categories"
+            placeholder="Select a Category"
+            [editable]="true"
+            optionLabel="name"
+            optionValue="code"
+            variant="filled"
+            class="w-full mt-4"
+            formControlName="category"
+          />
+          @if (isInvalid('category')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Category is required
+          </p>
+          }
+        </div>
+      </div>
+
+      <div class="block md:flex items-center justify-between gap-4 mb-4 mt-6">
+        <div class="flex-1 mb-4 md:mb-0">
+          <label for="icondisplay" class="font-bold block mb-3">
+            Date <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-datepicker
+            [iconDisplay]="'input'"
+            [showIcon]="true"
+            inputId="icondisplay"
+            variant="filled"
+            [appendTo]="'body'"
+            [maxDate]="maxDate"
+            [readonlyInput]="true"
+            class="w-full"
+            formControlName="date"
+          />
+          @if (isInvalid('date')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Date is required
+          </p>
+          }
+        </div>
+        <div class="flex-1 mb-4 md:mb-0">
+          <label class="block font-bold mb-3" for="amount">
+            Amount(₦) <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-inputnumber
+            mode="currency"
+            currency="NGN"
+            currencyDisplay="symbol"
+            inputId="amount"
+            [minFractionDigits]="2"
+            variant="filled"
+            class="w-full"
+            formControlName="amount"
+          />
+          @if (isInvalid('amount')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Amount is required
+          </p>
+          }
+        </div>
+      </div>
+      <div class="block md:flex items-center justify-between gap-4 mb-4 mt-6">
+        <div class="flex-1">
+          <label for="category" class="font-semibold block"
+            >Payment Method <span class="text-red-600 font-bold">*</span></label
+          >
+
+          <p-select
+            [options]="paymentMethod"
+            placeholder="Select a Payment Method"
+            [editable]="true"
+            optionLabel="name"
+            optionValue="code"
+            variant="filled"
+            class="w-full mt-4"
+            formControlName="paymentMethod"
+          />
+          @if (isInvalid('paymentMethod')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Payment Method is required
+          </p>
+          }
+        </div>
+      </div>
+      <div class="block w-full mb-4 mt-6">
+        <label for="description" class="font-semibold block mb-2"
+          >Description <span class="text-red-600 font-bold">*</span></label
+        >
+
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          [autoResize]="true"
+          variant="filled"
+          class="w-full"
+          formControlName="description"
+        ></textarea>
+        @if (isInvalid('description')) {
+        <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+          Description is required
+        </p>
+        }
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button
+          type="button"
+          class="bg-gray-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer"
+          (click)="onCancel()"
+        >
+          {{ isViewMode() ? "Close" : "Cancel" }}
+        </button>
+        @if(!isViewMode()){
+        <button
+          type="submit"
+          class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+          [disabled]="!addTransactionForm.valid"
+        >
+          @if(formSubmitted){
+          <i
+            class="pi pi-spin pi-spinner mt-0 me-2"
+            style="font-size: 0.9rem"
+          ></i>
+          } {{ isCreateMode() ? "Submit" : "Update" }}
+        </button>
+        }
+      </div>
+    </form>
+  </p-dialog>
+</div>

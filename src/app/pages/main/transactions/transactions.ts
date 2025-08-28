@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 import { MainService } from '../../../services/main/main';
 import { ToastModule } from 'primeng/toast';
 import {
@@ -12,21 +12,9 @@ import {
 } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
-import {
-  ICardData,
-  IDashboardTableData,
-  ITransactions,
-  ICustomers,
-  IChartData,
-  ITransactionsTableData,
-} from '../../../models/interfaces';
-import {
-  CardDetails,
-  CustomersMockData,
-  TransactionsMockTableData,
-} from '../../../models/mock-data';
-import { CardComponent } from '../../../components/card/card';
-import { AgChartComponent } from '../../../components/ag-chart/ag-chart';
+import { ITransactionsTableData } from '../../../models/interfaces';
+import { TransactionsMockTableData } from '../../../models/mock-data';
+
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   ClientSideRowModelModule,
@@ -39,13 +27,17 @@ import {
   TextFilterModule,
   ValidationModule,
   DateFilterModule,
+  RowStyleModule,
+  CellStyleModule,
+  NumberFilterModule,
 } from 'ag-grid-community';
 
-import { RowStyleModule } from 'ag-grid-community';
-
-import { CellStyleModule } from 'ag-grid-community';
-import { NumberFilterModule } from 'ag-grid-community';
+ModuleRegistry.registerModules([ClientSideRowModelModule]);
 import { Router } from '@angular/router';
+import { ActionMenuRendererComponent } from '../../../components/action-menu-renderer/action-menu-renderer.component';
+import { AddTransactionComponent } from '../../../components/modals/add-transaction/add-transaction';
+import { TransactionsService } from '../../../services/transactions/transactions';
+import { ChangeDetectorRef } from '@angular/core';
 
 ModuleRegistry.registerModules([
   RowStyleModule,
@@ -56,7 +48,7 @@ ModuleRegistry.registerModules([
 @Component({
   standalone: true,
   selector: 'app-transactions',
-  imports: [ToastModule, CommonModule, AgGridAngular],
+  imports: [ToastModule, CommonModule, AgGridAngular, AddTransactionComponent],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
   providers: [MessageService],
@@ -77,23 +69,32 @@ export class TransactionsComponent implements OnInit {
     },
   ];
 
-  selectedTab = 'All';
+  showAddTransactionModal: boolean = false;
+  selectedTab = signal<string>('All');
+
+  // selectedTab = 'All';
 
   isShowSpinner: boolean = true;
 
   isTableDataComplete: boolean = false;
-  displayTableData: ITransactionsTableData[] = [];
+  selectedTransaction: ITransactionsTableData | undefined;
+
+  isEditMode = signal<boolean>(true);
+  isCreateMode = signal<boolean>(true);
+  isViewMode = signal<boolean>(false);
+  displayTableData = computed(() =>
+    this.transactionsService
+      .allTransactions()
+      .filter(
+        (el: ITransactionsTableData) =>
+          this.selectedTab() === 'All' || el.type === this.selectedTab()
+      )
+  );
   transactionTableDetails: ITransactionsTableData[] = [];
 
-  // defaultColDef: ColDef = {
-  //   // flex: 1,
-  //   minWidth: 120,
-  //   resizable: true,
-  // };
-
   defaultColDef: ColDef = {
-    flex: 1, // makes columns auto-fill available width
-    minWidth: 120, // prevents squishing too much
+    flex: 1,
+    minWidth: 120,
     resizable: true,
   };
 
@@ -148,7 +149,14 @@ export class TransactionsComponent implements OnInit {
           : `+₦${formatted}`;
       },
     },
-
+    {
+      headerName: 'PAYMENT METHOD',
+      field: 'paymentMethod',
+      // filter: 'agTextColumnFilter',
+      filter: true,
+      // flex: 1,
+      // width: 200,
+    },
     {
       headerName: 'TYPE',
       field: 'type',
@@ -169,29 +177,41 @@ export class TransactionsComponent implements OnInit {
       // width: 500,
       // flex: 0,
     },
+
+    {
+      headerName: 'ACTION',
+      field: 'action',
+      filter: false,
+      sortable: false,
+      cellRenderer: ActionMenuRendererComponent,
+      width: 120,
+
+      flex: 0,
+    },
   ];
 
   rowHeight = 70;
   tableStyle = 'height: 100%; margin: 10px auto 0 auto; width: 100%;';
   currentUrl = '';
-  constructor(private router: Router, private mainService: MainService) {}
+  constructor(
+    private router: Router,
+    private mainService: MainService,
+    private transactionsService: TransactionsService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-
+    // this.mainService.setHeaderTitle('Transactions');
+    this.mainService.headerTitle.set('Transactions');
     this.mainService.setIsTransactionPage(true);
   }
 
   onTabChange(tab: { label: string; value: string }) {
-    this.selectedTab = tab.value;
-
-    this.displayTableData = TransactionsMockTableData.filter(
-      (el: any) => this.selectedTab === 'All' || el.type === this.selectedTab
-    );
+    this.selectedTab.set(tab.value);
   }
 
   getTransactionTableData(params: GridReadyEvent<ITransactionsTableData>) {
-    this.displayTableData = TransactionsMockTableData;
     this.isTableDataComplete = true;
     this.showSpinner();
   }
@@ -201,7 +221,67 @@ export class TransactionsComponent implements OnInit {
       this.isShowSpinner = false;
     }
   }
+  showAddTransactionDialog() {
+    this.showAddTransactionModal = true;
+    this.selectedTransaction = undefined;
 
+    this.isEditMode.set(true);
+    this.isViewMode.set(false);
+    this.isCreateMode.set(true);
+  }
+
+  onAddTransaction(event: ITransactionsTableData) {
+    const formData = { ...event };
+    if (this.isCreateMode()) {
+      this.transactionsService.addTransaction(formData);
+    } else {
+      this.transactionsService.updateTransaction(
+        this.selectedTransaction?.transactionId,
+        formData
+      );
+    }
+
+    this.isEditMode.set(true);
+    // console.log('Received form', event);
+  }
+
+  onViewTransaction(data: ITransactionsTableData) {
+    // console.log('On View', data);
+
+    this.showAddTransactionModal = true;
+
+    this.selectedTransaction = data;
+    this.isEditMode.set(false);
+    this.isViewMode.set(true);
+    this.isCreateMode.set(false);
+  }
+
+  onEditTransaction(data: ITransactionsTableData) {
+    // console.log('On Edit', data);
+    this.showAddTransactionModal = true;
+
+    this.selectedTransaction = data;
+    this.isEditMode.set(true);
+    this.isViewMode.set(false);
+    this.isCreateMode.set(false);
+  }
+  onAddTransactionToExpense(data: ITransactionsTableData) {
+    console.log('On Add To Expense', data);
+  }
+  onAddTransactionToIncome(data: ITransactionsTableData) {
+    console.log('On Add to Income', data);
+  }
+
+  onDeleteTransaction(data: ITransactionsTableData) {
+    console.log('On Delete', data);
+    this.transactionsService.deleteTransaction(data.transactionId);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Transaction deleted Successfully',
+      life: 3000,
+    });
+  }
   currentUrlIsTransaction() {
     return this.currentUrl === '/main/transactions';
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit } from '@angular/core';
 import { MainService } from '../../services/main/main';
 import { take } from 'rxjs/internal/operators/take';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -13,7 +13,10 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userInitials: string = '';
-  title: string = '';
+  // title: string = '';
+  title = computed(() => {
+    return this.mainService.headerTitle();
+  });
   isViewSidebar!: boolean;
   currentUrl = '';
   isNotTransactionPage: boolean = false;
@@ -28,9 +31,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const savedInitials = sessionStorage.getItem('userInitials') || '';
     this.userInitials = this.getUserInitialsArray(savedInitials);
 
-    this.mainService.headerTitle$.pipe(take(1)).subscribe((title: string) => {
-      this.title = title;
-    });
+    // this.mainService.headerTitle$.pipe(take(1)).subscribe((title: string) => {
+    //   this.title = title;
+    // });
 
     const sub = this.mainService
       .getIsTransactionPage()

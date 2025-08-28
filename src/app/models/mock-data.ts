@@ -30,7 +30,7 @@ export const CardDetails: ICardData[] = [
   },
 
   {
-    title: 'Top Expenses',
+    title: 'Top Category',
     amount: 800000000000000,
     description: 'Top expenses for',
     icon: 'fa-money-bill-trend-up',
@@ -167,9 +167,10 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     transactionId: 'TXN-1001',
     date: new Date('2024-01-05'),
     description: 'Groceries at Shoprite',
-    category: 'Food',
+    category: 'Food Stuffs',
     amount: 18500,
     type: 'Expense',
+    paymentMethod: 'Credit Card',
   },
   {
     transactionId: 'TXN-1002',
@@ -178,6 +179,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Income',
     amount: 250000,
     type: 'Income',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1003',
@@ -186,6 +188,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Utilities',
     amount: 12000,
     type: 'Expense',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1004',
@@ -194,6 +197,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Entertainment',
     amount: 4500,
     type: 'Expense',
+    paymentMethod: 'Debit Card',
   },
   {
     transactionId: 'TXN-1005',
@@ -202,14 +206,16 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Income',
     amount: 15000,
     type: 'Income',
+    paymentMethod: 'Cash',
   },
   {
     transactionId: 'TXN-1006',
     date: new Date('2024-01-17'),
     description: 'Fuel Purchase',
-    category: 'Transport',
+    category: 'Transportation',
     amount: 10000,
     type: 'Expense',
+    paymentMethod: 'Credit Card',
   },
   {
     transactionId: 'TXN-1007',
@@ -218,6 +224,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Income',
     amount: 80000,
     type: 'Income',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1008',
@@ -226,14 +233,16 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Utilities',
     amount: 3000,
     type: 'Expense',
+    paymentMethod: 'Mobile Payment',
   },
   {
     transactionId: 'TXN-1009',
     date: new Date('2024-01-21'),
     description: 'Restaurant Dinner',
-    category: 'Food',
+    category: 'Restaurant & Dining',
     amount: 9500,
     type: 'Expense',
+    paymentMethod: 'Debit Card',
   },
   {
     transactionId: 'TXN-1010',
@@ -242,6 +251,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Utilities',
     amount: 18000,
     type: 'Expense',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1011',
@@ -250,6 +260,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Income',
     amount: 22000,
     type: 'Income',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1012',
@@ -258,14 +269,16 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Shopping',
     amount: 27000,
     type: 'Expense',
+    paymentMethod: 'Credit Card',
   },
   {
     transactionId: 'TXN-1013',
     date: new Date('2024-01-28'),
     description: 'Gym Membership',
-    category: 'Health',
+    category: 'Healthcare',
     amount: 15000,
     type: 'Expense',
+    paymentMethod: 'Debit Card',
   },
   {
     transactionId: 'TXN-1014',
@@ -274,13 +287,15 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     category: 'Income',
     amount: 50000,
     type: 'Income',
+    paymentMethod: 'Bank Transfer',
   },
   {
     transactionId: 'TXN-1015',
     date: new Date('2024-01-30'),
     description: 'Pharmacy Purchase',
-    category: 'Health',
+    category: 'Healthcare',
     amount: 6500,
     type: 'Expense',
+    paymentMethod: 'Cash',
   },
 ];

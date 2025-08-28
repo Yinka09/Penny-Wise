@@ -32,17 +32,18 @@ export class SidebarComponent {
       isActive: true,
       icon: 'pi pi-home',
     },
-    {
-      title: 'Customers',
-      action: '/main/customers',
-      isActive: false,
-      icon: 'pi pi-calendar-clock',
-    },
+
     {
       title: 'Transactions',
       action: '/main/transactions',
       isActive: false,
       icon: 'pi pi-chart-bar',
+    },
+    {
+      title: 'Budgets',
+      action: '/main/budgets',
+      isActive: false,
+      icon: 'pi pi-calendar-clock',
     },
 
     {
@@ -79,7 +80,8 @@ export class SidebarComponent {
 
   setOpenMenu(item: any) {
     this.activeTab = item.action;
-    this.mainService.setHeaderTitle(item.title);
+    // this.mainService.setHeaderTitle(item.title);
+    this.mainService.headerTitle.set(item.title);
   }
 
   isActiveTab(item: ISidebarItems): boolean {

@@ -53,6 +53,7 @@ ModuleRegistry.registerModules([
 ]);
 
 import { AgTableComponent } from '../../../components/ag-table/ag-table';
+import { DashboardService } from '../../../services/dashboard/dashboard';
 
 @Component({
   standalone: true,
@@ -63,7 +64,6 @@ import { AgTableComponent } from '../../../components/ag-table/ag-table';
     CardComponent,
     AgChartComponent,
     AgGridAngular,
-    AgTableComponent,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -71,6 +71,7 @@ import { AgTableComponent } from '../../../components/ag-table/ag-table';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   cardData: ICardData[] = [];
+  chartData: { expense: string; amount: number }[] = [];
 
   isShowSpinner = true;
 
@@ -164,51 +165,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
   transactionTableDetails: ITransactionsTableData[] = [];
   constructor(
     private mainService: MainService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
-    this.mainService.setHeaderTitle('Dashboard');
-    this.cardData = CardDetails;
+    this.mainService.headerTitle.set('Dashboard');
+    // this.mainService.setHeaderTitle('Dashboard');
+    // this.cardData = CardDetails;
+    this.cardData = this.dashboardService.createDashboardCards();
+    this.chartData = this.dashboardService.chartData();
     this.mainService.setIsTransactionPage(false);
+
+    // console.log(this.dashboardService.createDashboardCards());
+    // console.log(this.dashboardService.chartData());
   }
 
   getData() {
-    return [
-      { expense: 'Food', amount: 60000 },
-      { expense: 'Clothing', amount: 40000 },
-      { expense: 'Rent', amount: 7000 },
-      { expense: 'Groceries', amount: 5000 },
-      { expense: 'Donations', amount: 3000 },
-      { expense: 'Miscellaneous', amount: 3000 },
-    ];
+    return this.chartData;
   }
+  // getData() {
+  //   return [
+  //     { expense: 'Food', amount: 60000 },
+  //     { expense: 'Clothing', amount: 40000 },
+  //     { expense: 'Rent', amount: 7000 },
+  //     { expense: 'Groceries', amount: 5000 },
+  //     { expense: 'Donations', amount: 3000 },
+  //     { expense: 'Miscellaneous', amount: 3000 },
+  //   ];
+  // }
 
   getTransactionTableDetails(params: GridReadyEvent<ITransactionsTableData>) {
-    // this.customerTableDetails$
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((data: any) => {
-    //     this.transactionTableDetails = data.slice(0, 5);
-    //     this.displayTableData = this.transactionTableDetails;
-    //     // console.log(
-    //     //   'see transaction new cut table details:',
-    //     //   this.transactionTableDetails
-    //     // );
-    //     this.isAllDataLoaded.isAllTableDataLoaded = true;
-    //     this.showSpinner();
-    //   });
-    this.displayTableData = TransactionsMockTableData.slice(0, 5);
+    this.displayTableData = this.dashboardService
+      .getAllTransactions()
+      .slice(0, 5);
     this.isAllDataLoaded.isAllTableDataLoaded = true;
   }
 
   onTransactionSelectChange(event: any) {
     const selectedTransactionOption = event.target.value;
     if (selectedTransactionOption === 'All') {
-      this.displayTableData = TransactionsMockTableData.slice(0, 5);
+      this.displayTableData = this.dashboardService
+        .getAllTransactions()
+        .slice(0, 5);
     } else {
-      this.displayTableData = TransactionsMockTableData.filter(
-        (el) => el.type === selectedTransactionOption
-      ).slice(0, 5);
+      this.displayTableData = this.dashboardService
+        .getAllTransactions()
+        .filter((el) => el.type === selectedTransactionOption)
+        .slice(0, 5);
     }
   }
 

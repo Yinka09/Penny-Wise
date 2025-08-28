@@ -45,7 +45,7 @@ export interface IDashboardTableData {
 
 export interface ICardData {
   title: string;
-  amount: number;
+  amount: number | null;
   description: string;
   icon: string;
   iconBg: string;
@@ -102,7 +102,13 @@ export interface ITransactionsTableData {
   transactionId: string;
   date: Date;
   description: string;
+  paymentMethod: string;
   category: string;
   amount: number;
   type: 'Expense' | 'Income';
+}
+
+export interface ITransactionCategory {
+  name: string;
+  code: string;
 }

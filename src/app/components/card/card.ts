@@ -37,7 +37,7 @@ export class CardComponent {
           iconBg: '#E113131A',
           color: '#E11313',
         };
-      case 'Top Expenses':
+      case 'Top Category':
         return {
           icon: 'assets/dashboard/pending.svg',
           iconBg: '#DFA2261A',
@@ -52,14 +52,6 @@ export class CardComponent {
         };
     }
   }
-
-  // trimAmount(amount: number) {
-  //   const amountStr = amount.toString().substring(0, 4);
-  //   if (amountStr.length < amount.toString().length) {
-  //     return amountStr + '...';
-  //   }
-  //   return amountStr;
-  // }
 
   trimText(value: any): string {
     return value.length > 10 ? value.substring(0, 10) + '...' : value;

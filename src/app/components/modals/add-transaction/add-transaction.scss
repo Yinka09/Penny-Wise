@@ -1,0 +1,28 @@
+::ng-deep .custom-dialog {
+  width: 25rem !important;
+}
+
+@media (min-width: 768px) {
+  ::ng-deep .custom-dialog {
+    width: 50rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  ::ng-deep .custom-dialog {
+    width: 40rem !important;
+  }
+}
+
+:host ::ng-deep .p-select .p-placeholder {
+  font-size: 1rem;
+  // color: #9ca3af;
+}
+
+:host ::ng-deep .p-inputtext {
+  font-size: 1rem;
+  // color: #9ca3af;
+}
+// :host ::ng-deep .p-select-label.p-placeholder {
+//   color: black !important;
+// }

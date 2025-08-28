@@ -10,6 +10,7 @@
     <div>
       <button
         class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[#0078BD] cursor-pointer flex text-[white] font-medium"
+        (click)="showAddTransactionDialog()"
       >
         <i class="fa-solid fa-circle-plus"></i>
         <span class="text-[0.6rem] lg:text-[0.8rem]">Add Transaction</span>
@@ -22,7 +23,7 @@
       type="button"
       type="button"
       class="text-[0.9rem] md:text-[1.1rem] cursor-pointer"
-      [ngClass]="tab.value == selectedTab ? 'active' : 'tab-btn'"
+      [ngClass]="tab.value == selectedTab() ? 'active' : 'tab-btn'"
       (click)="onTabChange(tab)"
     >
       {{ tab.label }}
@@ -34,12 +35,22 @@
     <ag-grid-angular
       class="ag-theme-alpine"
       style="height: 100%; width: 100%"
-      [rowData]="displayTableData"
+      [rowData]="displayTableData()"
       [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef"
       [rowHeight]="rowHeight"
       [rowClass]="rowClass"
       (gridReady)="getTransactionTableData($event)"
+      [context]="{ componentParent: this }"
     ></ag-grid-angular>
   </div>
 </div>
+
+<app-add-transaction
+  [(showAddTransactionModal)]="showAddTransactionModal"
+  (formDetails)="onAddTransaction($event)"
+  [selectedTransaction]="selectedTransaction"
+  [isEditMode]="isEditMode()"
+  [isCreateMode]="isCreateMode()"
+  [isViewMode]="isViewMode()"
+></app-add-transaction>
