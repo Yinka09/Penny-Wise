@@ -1,5 +1,6 @@
 import {
   ICardData,
+  type IBudgetsCategory,
   type ITransactions,
   type ITransactionsTableData,
 } from './interfaces';
@@ -297,5 +298,214 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
     amount: 6500,
     type: 'Expense',
     paymentMethod: 'Cash',
+  },
+];
+
+export const Categories = [
+  'Food Stuffs',
+  'Utilities',
+  'Entertainment',
+  'Transportation',
+  'Healthcare',
+  'Shopping',
+  'Restaurant & Dining',
+  'Income',
+];
+
+// export const BudgetCategoryData: IBudgetsCategory[] = [
+//   {
+//     id: 1,
+//     budgetCategory: 'Food Stuffs',
+//     amountBudgeted: 50000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 2,
+//     budgetCategory: 'Family',
+//     amountBudgeted: 100000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 3,
+//     budgetCategory: 'Transportation',
+//     amountBudgeted: 30000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 4,
+//     budgetCategory: 'Toiletries',
+//     amountBudgeted: 20000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 5,
+//     budgetCategory: 'Restaurant & Dining',
+//     amountBudgeted: 200000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 6,
+//     budgetCategory: 'Bills & Subscriptions',
+//     amountBudgeted: 150000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 7,
+//     budgetCategory: 'Entertainment',
+//     amountBudgeted: 40000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 8,
+//     budgetCategory: 'Utilities',
+//     amountBudgeted: 7000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 9,
+//     budgetCategory: 'Healthcare',
+//     amountBudgeted: 60000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 10,
+//     budgetCategory: 'Education',
+//     amountBudgeted: 160000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 11,
+//     budgetCategory: 'Shopping',
+//     amountBudgeted: 10000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 12,
+//     budgetCategory: 'Travel',
+//     amountBudgeted: 30000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 13,
+//     budgetCategory: 'Personal Care',
+//     amountBudgeted: 12000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 14,
+//     budgetCategory: 'Gifts & Donations',
+//     amountBudgeted: 72000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 15,
+//     budgetCategory: 'Loan',
+//     amountBudgeted: 2000,
+//     amountSpent: 0,
+//   },
+//   {
+//     id: 16,
+//     budgetCategory: 'Miscellaneous',
+//     amountBudgeted: 1000,
+//     amountSpent: 0,
+//   },
+// ];
+
+export const BudgetCategoryData: IBudgetsCategory[] = [
+  {
+    id: 1,
+    budgetCategory: 'Food Stuffs',
+    amountBudgeted: 25000,
+    amountSpent: 0,
+  },
+  {
+    id: 2,
+    budgetCategory: 'Family',
+    amountBudgeted: 20000,
+    amountSpent: 0,
+  },
+  {
+    id: 3,
+    budgetCategory: 'Transportation',
+    amountBudgeted: 12000,
+    amountSpent: 0,
+  },
+  {
+    id: 4,
+    budgetCategory: 'Toiletries',
+    amountBudgeted: 6000,
+    amountSpent: 0,
+  },
+  {
+    id: 5,
+    budgetCategory: 'Restaurant & Dining',
+    amountBudgeted: 15000,
+    amountSpent: 0,
+  },
+  {
+    id: 6,
+    budgetCategory: 'Bills & Subscriptions',
+    amountBudgeted: 10000,
+    amountSpent: 0,
+  },
+  {
+    id: 7,
+    budgetCategory: 'Entertainment',
+    amountBudgeted: 6000,
+    amountSpent: 0,
+  },
+  {
+    id: 8,
+    budgetCategory: 'Utilities',
+    amountBudgeted: 5000,
+    amountSpent: 0,
+  },
+  {
+    id: 9,
+    budgetCategory: 'Healthcare',
+    amountBudgeted: 8000,
+    amountSpent: 0,
+  },
+  {
+    id: 10,
+    budgetCategory: 'Education',
+    amountBudgeted: 8000,
+    amountSpent: 0,
+  },
+  {
+    id: 11,
+    budgetCategory: 'Shopping',
+    amountBudgeted: 2000,
+    amountSpent: 0,
+  },
+  {
+    id: 12,
+    budgetCategory: 'Travel',
+    amountBudgeted: 3000,
+    amountSpent: 0,
+  },
+  {
+    id: 13,
+    budgetCategory: 'Personal Care',
+    amountBudgeted: 2000,
+    amountSpent: 0,
+  },
+  {
+    id: 14,
+    budgetCategory: 'Gifts & Donations',
+    amountBudgeted: 2000,
+    amountSpent: 0,
+  },
+  {
+    id: 15,
+    budgetCategory: 'Loan',
+    amountBudgeted: 1000,
+    amountSpent: 0,
+  },
+  {
+    id: 16,
+    budgetCategory: 'Miscellaneous',
+    amountBudgeted: 1000,
+    amountSpent: 0,
   },
 ];

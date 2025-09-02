@@ -1,0 +1,47 @@
+<div
+  class="flex flex-col gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%] bg-white"
+>
+  <div class="heading flex justify-between items-center w-full">
+    <div class="text-gray-700 font-semibold text-[1.1rem]">
+      {{ budgetCardData.budgetCategory }}
+    </div>
+    <div class="heading flex justify-between items-center gap-4">
+      <i
+        class="fa-solid fa-pencil text-gray-400 cursor-pointer"
+        (click)="updateCategory(budgetCardData)"
+      ></i>
+      <i
+        class="fa-solid fa-trash-can text-gray-400 cursor-pointer"
+        (click)="deleteCategory(budgetCardData)"
+      ></i>
+    </div>
+  </div>
+
+  <div class="card w-[100%]">
+    <p-progressBar
+      [value]="percentageBudgetSpent"
+      [color]="strokeColor"
+      [style]="{
+              height: '13px',
+             
+            }"
+    />
+  </div>
+  <div class="flex justify-between items-center w-full">
+    <div class="text-gray-500 text-[0.7rem]">
+      Spent:
+      <span class="font-semibold" [ngStyle]="{ color: strokeColor }">{{
+        totalAmountSpent | currency : "₦" : "symbol" : "1.2-2"
+      }}</span>
+    </div>
+    <div class="text-gray-500 text-[0.7rem]">
+      Budget: {{ amountBudgeted | currency : "₦" : "symbol" : "1.2-2" }}
+    </div>
+  </div>
+  @if(overBudgetWarningMessage){
+  <p class="text-red-500 text-[0.7rem] font-medium text-left">
+    You are over Budget by
+    {{ overBudgetWarningMessage | currency : "₦" : "symbol" : "1.2-2" }}!
+  </p>
+  }
+</div>

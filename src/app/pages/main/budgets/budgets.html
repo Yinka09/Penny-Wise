@@ -1,9 +1,16 @@
-<div class="p-5 w-full">
-  <div
-    class="bg-[#F0F9FF] w-full p-2 md:p-5 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between gap-5"
+<app-scroll-to-top [scrollContainer]="scrollContainer"></app-scroll-to-top>
+
+<div
+  class="p-5 w-full overflow-auto h-[calc(100vh-80px)]"
+  [@fadeSlideInOut]="isVisible"
+  (@fadeSlideInOut.done)="isVisible = false"
+  #scrollContainer
+>
+  <section
+    class="bg-[#F0F9FF] w-full p-2 rounded-xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-5 p-7 lg:p-4"
   >
-    <div class="w-full p-4 lg:p-8">
-      <h3 class="font-semibold text-[1.rem] lg:text-[1.7rem] leading-loose">
+    <div class="w-full">
+      <h3 class="font-semibold text-[1.1rem] lg:text-[1.7rem] leading-loose">
         Manage your Budgets with Ease
       </h3>
       <p class="my-2 text-gray-500 text-[0.8rem] font-small text-justify">
@@ -13,11 +20,162 @@
       <!-- <p class="my-5 block md:hidden">Your Spending Overview</p> -->
       <button
         type="button"
-        class="bg-[#0078BD] text-[0.9rem] px-4 py-2 rounded shadow-md text-white font-semibold hover:bg-[#005f8a] transition duration-300 cursor-pointer"
+        class="bg-[#0078BD] text-[0.9rem] px-4 py-2 rounded shadow-md text-white font-semibold hover:bg-[#005f8a] transition duration-300 cursor-pointer hidden md:block"
+        (click)="showAddBudgetDialog()"
       >
         Add New Budget
       </button>
     </div>
-    <div class="w-full p-8">kjk</div>
-  </div>
+    <div class="w-full flex items-center justify-center md:justify-end">
+      <app-circle-progress [progressData]="progressData"></app-circle-progress>
+    </div>
+    <button
+      type="button"
+      class="bg-[#0078BD] text-[0.9rem] px-4 py-4 rounded shadow-md text-white font-semibold hover:bg-[#005f8a] transition duration-300 cursor-pointer block md:hidden w-full"
+      (click)="showAddBudgetDialog()"
+    >
+      Add New Budget
+    </button>
+  </section>
+  <section
+    class="py-4 px-5 border border-gray-200 w-full bg-white rounded-xl mt-7"
+  >
+    <h3 class="font-semibold text-[1.1rem] lg:text-[1.3rem] leading-loose">
+      Budgets at a Glance
+    </h3>
+    <div
+      class="mt-6 grid grid-1 md:grid-cols-2 lg:grid-cols-3 place-items-center w-[100%] lg:w-[80%] gap-7 mx-auto"
+    >
+      @for( card of budgetCards; track card.id){
+      <div
+        class="flex flex-col items-center justify-center gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%]"
+        [ngStyle]="{ color: getCardTextColor(card) }"
+      >
+        <i
+          class="fa-solid fa-money-bill-wave text-[1.3rem] lg:text-[1.3rem] font-bold"
+          [ngClass]="card.icon"
+        ></i>
+        <p class="text-[1.3rem] lg:text-[1.3rem] font-bold">
+          {{ card.amount | currency : "₦" : "symbol" : "1.2-2" }}
+        </p>
+        <span class="text-[0.9rem] lg:text-[0.9rem] text-gray-400">{{
+          card.label
+        }}</span>
+      </div>
+      }
+    </div>
+  </section>
+  <section>
+    <div class="mt-4" style="width: 100%; height: 100%; flex: 1 1 auto">
+      <ag-charts
+        [options]="options"
+        style="width: 100%; height: 100%; flex: 1 1 auto; display: block"
+      ></ag-charts>
+    </div>
+  </section>
+  <section
+    class="py-4 px-5 border border-gray-200 w-full bg-gray-100 rounded-xl mt-7"
+  >
+    <div
+      class="flex flex-col lg:flex-row items-center justify-between gap-4 my-0 lg:my-4 relative"
+    >
+      <h3 class="font-semibold text-[1.1rem] lg:text-[1.3rem] leading-loose">
+        Your Current Budgets
+      </h3>
+      <input
+        type="text"
+        placeholder="Search Budgets"
+        class="w-full lg:w-[30%] border-2 border-gray-300 rounded-lg p-2 w-full bg-white text-[0.9rem] focus:outline-none focus:border-[#0078BD] pl-10 placeholder:text-gray-400"
+        [(ngModel)]="listFilter"
+      />
+      <i class="pi pi-search" style="font-size: 0.9rem; color: #99a1af"></i>
+    </div>
+
+    <!-- <div
+      class="mt-6 grid grid-1 md:grid-cols-2 lg:grid-cols-3 place-items-center w-[100%] gap-7 mx-auto"
+    >
+      <div
+        class="flex flex-col gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%] bg-white"
+      >
+        <div class="heading flex justify-between items-center w-full">
+          <div class="text-gray-700 font-semibold text-[1.1rem]">Groceries</div>
+          <div class="heading flex justify-between items-center gap-4">
+            <i class="fa-solid fa-pencil text-gray-400 cursor-pointer"></i>
+            <i class="fa-solid fa-trash-can text-gray-400 cursor-pointer"></i>
+          </div>
+        </div>
+
+        <div class="card w-[100%]">
+          <p-progressBar
+            [value]="50"
+            [color]="'red'"
+            [style]="{
+              height: '13px',
+             
+            }"
+          />
+        </div>
+        <div class="flex justify-between items-center w-full">
+          <div class="text-gray-500 text-[0.7rem]">
+            Spent: <span>₦4,500</span>
+          </div>
+          <div class="text-gray-500 text-[0.7rem]">Budget: ₦5,000</div>
+        </div>
+        <p class="text-red-500 text-[0.7rem] font-medium text-left">
+          You are over budget by ₦500!
+        </p>
+      </div>
+    </div> -->
+
+    @if(displayBudgetCategoryData().length > 0){
+    <div
+      class="mt-6 grid grid-1 md:grid-cols-2 lg:grid-cols-3 place-items-center w-[100%] gap-7 mx-auto"
+    >
+      @for (budgetCategory of displayBudgetCategoryData(); track
+      budgetCategory.id) {
+      <app-budget-category-card
+        class="w-[100%]"
+        [budgetCardData]="budgetCategory"
+        [amountBudgeted]="budgetCategory.amountBudgeted"
+        [totalAmountSpent]="getBudgetAmountSpent(budgetCategory.budgetCategory)"
+        [overBudgetWarningMessage]="
+          getOverBudgetWarningMessage(
+            getBudgetAmountSpent(budgetCategory.budgetCategory),
+            budgetCategory.amountBudgeted
+          ).difference
+        "
+        [percentageBudgetSpent]="
+          getPerecentageOfBudgetSpent(
+            getBudgetAmountSpent(budgetCategory.budgetCategory),
+            budgetCategory.amountBudgeted
+          )
+        "
+        [strokeColor]="
+          getOverBudgetWarningMessage(
+            getBudgetAmountSpent(budgetCategory.budgetCategory),
+            budgetCategory.amountBudgeted
+          ).color
+        "
+        (updateBudgetEmitter)="onEditBudget($event)"
+        (deleteBudgetEmitter)="onDeleteBudget($event, $event)"
+      ></app-budget-category-card>
+      }
+    </div>
+    } @else {
+    <p class="text-gray-500 text-center text-[1rem] md:text-[1.1rem] mt-4">
+      No budget category found.
+    </p>
+    }
+  </section>
 </div>
+
+<app-add-budget
+  [(showAddBudgetModal)]="showAddBudgetModal"
+  (formDetails)="onAddBudget($event)"
+  [selectedBudget]="selectedBudget"
+  [isEditMode]="isEditMode()"
+  [isCreateMode]="isCreateMode()"
+  [isViewMode]="isViewMode()"
+></app-add-budget>
+
+<p-confirmDialog />

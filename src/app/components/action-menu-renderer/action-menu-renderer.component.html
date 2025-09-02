@@ -12,14 +12,14 @@
   </button>
 
   @if (checkTransactionType()){
-  <button mat-menu-item (click)="onAddToExpense()">
+  <button mat-menu-item (click)="onAddToExpense($event)">
     <mat-icon>add</mat-icon>
     <span>Add to Expense</span>
   </button>
   } @else {
   <button
     mat-menu-item
-    (click)="onAddToIncome()"
+    (click)="onAddToIncome($event)"
     style="display: flex; justify-content: space-between; align-items: center"
   >
     <mat-icon>add</mat-icon>
@@ -30,7 +30,7 @@
     data-bs-toggle="modal"
     data-bs-target="#viewCustomerModal"
     mat-menu-item
-    (click)="onDelete()"
+    (click)="onDelete($event)"
   >
     <mat-icon>delete</mat-icon>
     <span>Delete</span>

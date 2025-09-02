@@ -89,9 +89,9 @@ export class Login implements OnInit, OnDestroy {
             summary: 'Success',
             detail: 'Login Successful',
           });
+          this.loginForm.reset();
           setTimeout(() => {
             this.router.navigate(['./main/dashboard']);
-            this.loginForm.reset();
           }, 1500);
         },
         (errorMessage) => {

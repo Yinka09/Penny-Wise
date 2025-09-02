@@ -187,3 +187,53 @@ body {
 .ag-theme-alpine {
   min-width: 600px;
 }
+
+/* Style the entire pagination panel */
+.ag-paging-panel {
+  // background-color: #f0f0f0;
+  // padding: 10px;
+  border-top: 1px solid #ccc;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.6rem;
+  @media (max-width: 768px) {
+    font-size: 0.6rem;
+    gap: 8px;
+    // justify-content: start;
+    padding: 0;
+  }
+}
+
+/* Style the page number buttons */
+.ag-paging-button {
+  // background-color: #007bff;
+  // color: white;
+  // color: #0078bd;
+  // border-radius: 4px;
+  // padding: 5px 10px;
+  // margin: 0 5px;
+  cursor: pointer;
+}
+
+:where(.ag-paging-page-size) .ag-wrapper {
+  @media (max-width: 768px) {
+    min-width: 20px;
+  }
+}
+
+.ag-picker-field-wrapper {
+  @media (max-width: 768px) {
+    padding: 4px;
+  }
+}
+/* Style the active page number button */
+.ag-paging-button.ag-active {
+  // background-color: #0056b3;
+}
+
+/* Style the navigation arrows (e.g., "Next", "Previous") */
+.ag-paging-panel-wrapper .ag-icon-next,
+.ag-paging-panel-wrapper .ag-icon-previous {
+  color: #333;
+  font-size: 14px;
+}
+

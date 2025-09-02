@@ -1,0 +1,11 @@
+.pi-search {
+  position: absolute;
+  top: 13px;
+  left: 71%;
+  //   right: 27.5%;
+
+  @media (max-width: 1023px) {
+    left: 15px;
+    top: 63px;
+  }
+}

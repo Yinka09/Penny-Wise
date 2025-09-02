@@ -1,0 +1,102 @@
+<p-toast />
+<div class="card flex justify-center">
+  <p-dialog
+    [header]="setDialogHeader()"
+    [modal]="true"
+    (onHide)="onCancel()"
+    [(visible)]="showAddBudgetModal"
+    (visibleChange)="showAddBudgetModalChange.emit($event)"
+    [styleClass]="'custom-dialog'"
+    (onShow)="focusUsername()"
+  >
+    <span class="p-text-secondary block mb-6"
+      >Fill in the details for your budget</span
+    >
+    <form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
+      <div class="flex-1 w-full mb-4">
+        <label for="budgetCategory" class="font-semibold"
+          >Budget Category <span class="text-red-600 font-bold">*</span></label
+        >
+        <p-select
+          [options]="categories"
+          placeholder="Select a Category"
+          [editable]="true"
+          optionLabel="name"
+          optionValue="code"
+          variant="filled"
+          class="w-full mt-4"
+          formControlName="budgetCategory"
+        />
+        @if (isInvalid('budgetCategory')) {
+        <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+          Budget Category is required
+        </p>
+        }
+      </div>
+      <div class="flex-1 w-full mb-4">
+        <label class="font-bold mb-3" for="amountBudgeted">
+          Budget Amount(₦) <span class="text-red-600 font-bold">*</span></label
+        >
+        <p-inputnumber
+          mode="currency"
+          currency="NGN"
+          currencyDisplay="symbol"
+          inputId="amount"
+          [minFractionDigits]="2"
+          variant="filled"
+          class="w-full"
+          formControlName="amountBudgeted"
+        />
+        @if (isInvalid('amountBudgeted')) {
+        <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+          Amount Budgeted is required
+        </p>
+        }
+      </div>
+      <!-- <div class="flex-1 w-full mb-4">
+        <label class="font-bold mb-3" for="amountSpent">
+          Amount Spent(₦) <span class="text-red-600 font-bold">*</span></label
+        >
+        <p-inputnumber
+          mode="currency"
+          currency="NGN"
+          currencyDisplay="symbol"
+          inputId="amount"
+          [minFractionDigits]="2"
+          variant="filled"
+          class="w-full"
+          formControlName="amountSpent"
+        />
+        @if (isInvalid('amountSpent')) {
+        <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+          Amount Spent is required
+        </p>
+        }
+      </div> -->
+
+      <div class="flex justify-end gap-2">
+        <button
+          type="button"
+          class="bg-gray-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer"
+          (click)="onCancel()"
+        >
+          {{ isViewMode() ? "Close" : "Cancel" }}
+        </button>
+        @if(!isViewMode()){
+        <button
+          type="submit"
+          class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+          [disabled]="!addBudgetForm.valid || formSubmitted"
+        >
+          @if(formSubmitted){
+          <i
+            class="pi pi-spin pi-spinner mt-0 me-2"
+            style="font-size: 0.9rem"
+          ></i>
+          } {{ isCreateMode() ? "Submit" : "Update" }}
+        </button>
+        }
+      </div>
+    </form>
+  </p-dialog>
+</div>

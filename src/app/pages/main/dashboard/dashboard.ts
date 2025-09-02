@@ -54,6 +54,10 @@ ModuleRegistry.registerModules([
 
 import { AgTableComponent } from '../../../components/ag-table/ag-table';
 import { DashboardService } from '../../../services/dashboard/dashboard';
+import {
+  routerTransitions,
+  routerTransitions2,
+} from '../../../services/animation/animation';
 
 @Component({
   standalone: true,
@@ -68,8 +72,10 @@ import { DashboardService } from '../../../services/dashboard/dashboard';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   providers: [MessageService],
+  animations: [routerTransitions, routerTransitions2],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  isVisible = false;
   cardData: ICardData[] = [];
   chartData: { expense: string; amount: number }[] = [];
 
@@ -166,10 +172,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private mainService: MainService,
     private messageService: MessageService,
-    public dashboardService: DashboardService
+    private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
+    this.isVisible = true;
     this.mainService.headerTitle.set('Dashboard');
     // this.mainService.setHeaderTitle('Dashboard');
     // this.cardData = CardDetails;

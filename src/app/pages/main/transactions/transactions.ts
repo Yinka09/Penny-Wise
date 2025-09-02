@@ -10,7 +10,7 @@ import {
   catchError,
   of,
 } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { ITransactionsTableData } from '../../../models/interfaces';
 import { TransactionsMockTableData } from '../../../models/mock-data';
@@ -30,28 +30,47 @@ import {
   RowStyleModule,
   CellStyleModule,
   NumberFilterModule,
+  PaginationNumberFormatterParams,
+  FirstDataRenderedEvent,
+  PaginationModule,
 } from 'ag-grid-community';
+ModuleRegistry.registerModules([
+  RowStyleModule,
+  CellStyleModule,
+  NumberFilterModule,
+  ClientSideRowModelModule,
+  PaginationModule,
+  TextFilterModule,
+  DateFilterModule,
+]);
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+// ModuleRegistry.registerModules([ClientSideRowModelModule, PaginationModule]);
 
-ModuleRegistry.registerModules([ClientSideRowModelModule]);
 import { Router } from '@angular/router';
 import { ActionMenuRendererComponent } from '../../../components/action-menu-renderer/action-menu-renderer.component';
 import { AddTransactionComponent } from '../../../components/modals/add-transaction/add-transaction';
 import { TransactionsService } from '../../../services/transactions/transactions';
 import { ChangeDetectorRef } from '@angular/core';
-
-ModuleRegistry.registerModules([
-  RowStyleModule,
-  CellStyleModule,
-  NumberFilterModule,
-]);
+import {
+  routerTransitions,
+  routerTransitions2,
+} from '../../../services/animation/animation';
 
 @Component({
   standalone: true,
   selector: 'app-transactions',
-  imports: [ToastModule, CommonModule, AgGridAngular, AddTransactionComponent],
+  imports: [
+    ToastModule,
+    CommonModule,
+    AgGridAngular,
+    AddTransactionComponent,
+    ConfirmDialogModule,
+    ToastModule,
+  ],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
+  animations: [routerTransitions, routerTransitions2],
 })
 export class TransactionsComponent implements OnInit {
   tabHeaders = [
@@ -68,6 +87,8 @@ export class TransactionsComponent implements OnInit {
       value: 'Expense',
     },
   ];
+
+  isVisible = false;
 
   showAddTransactionModal: boolean = false;
   selectedTab = signal<string>('All');
@@ -103,8 +124,8 @@ export class TransactionsComponent implements OnInit {
     {
       headerName: 'DATE',
       field: 'date',
-      // filter: 'agDateColumnFilter',
-      filter: true,
+      filter: 'agDateColumnFilter',
+      // filter: true,
       // width: 200,
     },
     {
@@ -120,8 +141,8 @@ export class TransactionsComponent implements OnInit {
     {
       headerName: 'CATEGORY',
       field: 'category',
-      // filter: 'agTextColumnFilter',
-      filter: true,
+      filter: 'agTextColumnFilter',
+      // filter: true,
       // flex: 1,
       // width: 200,
     },
@@ -191,16 +212,21 @@ export class TransactionsComponent implements OnInit {
   ];
 
   rowHeight = 70;
+
+  paginationPageSize = 10;
+  paginationPageSizeSelector: number[] | boolean = [2, 5, 8, 10, 15, 20];
   tableStyle = 'height: 100%; margin: 10px auto 0 auto; width: 100%;';
   currentUrl = '';
   constructor(
     private router: Router,
     private mainService: MainService,
     private transactionsService: TransactionsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
+    this.isVisible = true;
     this.currentUrl = this.router.url;
     // this.mainService.setHeaderTitle('Transactions');
     this.mainService.headerTitle.set('Transactions');
@@ -265,24 +291,126 @@ export class TransactionsComponent implements OnInit {
     this.isViewMode.set(false);
     this.isCreateMode.set(false);
   }
-  onAddTransactionToExpense(data: ITransactionsTableData) {
+  onAddTransactionToExpense(data: ITransactionsTableData, event: any) {
     console.log('On Add To Expense', data);
+
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to add transaction to expense?',
+      header: 'Add to Expense',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger   ',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: 'Transaction deleted',
+        // });
+        this.transactionsService.addTransactionToExpense(data);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: ' Added to Expense Successfully',
+          life: 3000,
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Action cancelled',
+        });
+      },
+    });
   }
-  onAddTransactionToIncome(data: ITransactionsTableData) {
+  onAddTransactionToIncome(data: ITransactionsTableData, event: any) {
     console.log('On Add to Income', data);
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to add transaction to income?',
+      header: 'Add to Income',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger   ',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: 'Transaction deleted',
+        // });
+        this.transactionsService.addTransactionToIncome(data);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: ' Added to Income Successfully',
+          life: 3000,
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Action cancelled',
+        });
+      },
+    });
   }
 
-  onDeleteTransaction(data: ITransactionsTableData) {
+  onDeleteTransaction(data: ITransactionsTableData, event: any) {
     console.log('On Delete', data);
-    this.transactionsService.deleteTransaction(data.transactionId);
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Transaction deleted Successfully',
-      life: 3000,
+
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete this transaction?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger   ',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: 'Transaction deleted',
+        // });
+        this.transactionsService.deleteTransaction(data.transactionId);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Transaction Deleted Successfully',
+          life: 3000,
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Delete action cancelled',
+        });
+      },
     });
   }
   currentUrlIsTransaction() {
     return this.currentUrl === '/main/transactions';
+  }
+
+  paginationNumberFormatter: (
+    params: PaginationNumberFormatterParams
+  ) => string = (params: PaginationNumberFormatterParams) => {
+    return '[' + params.value.toLocaleString() + ']';
+  };
+
+  onFirstDataRendered(params: FirstDataRenderedEvent) {
+    // params.api.paginationGoToPage(4);
+    params.api.paginationGoToPage(0);
   }
 }

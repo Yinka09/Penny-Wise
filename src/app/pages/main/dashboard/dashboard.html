@@ -1,6 +1,9 @@
 <p-toast />
+
 <div
-  class="bg-white container px-2 py-3 h-full overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+  class="bg-white px-2 py-3 h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+  [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
+  (@fadeSlideInOut.done)="isVisible = false"
 >
   @if(cardData.length > 0){
   <div

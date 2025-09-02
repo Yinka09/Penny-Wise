@@ -46,24 +46,29 @@ export class ActionMenuRendererComponent implements ICellRendererAngularComp {
       this.params.context.componentParent.onEditTransaction(this.params.data);
     }
   }
-  onAddToExpense() {
+  onAddToExpense(event: any) {
     if (this.params.context && this.params.context.componentParent) {
       this.params.context.componentParent.onAddTransactionToExpense(
-        this.params.data
+        this.params.data,
+        event
       );
     }
   }
-  onAddToIncome() {
+  onAddToIncome(event: any) {
     if (this.params.context && this.params.context.componentParent) {
       this.params.context.componentParent.onAddTransactionToIncome(
-        this.params.data
+        this.params.data,
+        event
       );
     }
   }
 
-  onDelete() {
+  onDelete(event: any) {
     if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onDeleteTransaction(this.params.data);
+      this.params.context.componentParent.onDeleteTransaction(
+        this.params.data,
+        event
+      );
     }
   }
   // onWhitelistCustomer() {

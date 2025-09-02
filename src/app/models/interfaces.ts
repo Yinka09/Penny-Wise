@@ -112,3 +112,21 @@ export interface ITransactionCategory {
   name: string;
   code: string;
 }
+
+export interface IProgressData {
+  percent: number;
+  radius: number;
+  outerStrokeWidth: number;
+  innerStrokeWidth: number;
+  outerStrokeColor: string;
+  innerStrokeColor: string;
+  animation: boolean;
+  animationDuration: number;
+}
+
+export interface IBudgetsCategory {
+  id: number;
+  budgetCategory: string;
+  amountBudgeted: number;
+  amountSpent: number;
+}

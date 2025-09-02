@@ -33,4 +33,23 @@ export class TransactionsService {
       prevTrans.filter((el: ITransactionsTableData) => el.transactionId !== id)
     );
   }
+
+  addTransactionToIncome(transaction: ITransactionsTableData) {
+    this.transactionsData.update((prevTrans) => {
+      return prevTrans.map((el) =>
+        el.transactionId === transaction.transactionId
+          ? { ...el, type: 'Income' }
+          : el
+      );
+    });
+  }
+  addTransactionToExpense(transaction: ITransactionsTableData) {
+    this.transactionsData.update((prevTrans) => {
+      return prevTrans.map((el) =>
+        el.transactionId === transaction.transactionId
+          ? { ...el, type: 'Expense' }
+          : el
+      );
+    });
+  }
 }

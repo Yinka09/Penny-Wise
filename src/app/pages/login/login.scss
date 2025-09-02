@@ -2,23 +2,6 @@ input.ng-invalid.ng-touched {
   border-color: red;
 }
 
-// .eye-svg,
-// .eye-slash {
-//   position: relative;
-//   top: 20px;
-//   left: 92%;
-//   color: #0000004d;
-//   cursor: pointer;
-//   width: 1rem;
-//   height: auto;
-
-//   @media (max-width: 768px) {
-//     left: 90%;
-
-//     width: 18px;
-//   }
-// }
-
 .pi-spinner {
   position: relative;
   top: 1px;
@@ -47,4 +30,15 @@ input.ng-invalid.ng-touched {
   width: 17px;
   height: auto;
   cursor: pointer;
+}
+
+.main-container {
+  background-image: url("/login/login3-img.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  @media (max-width: 1030px) {
+    background-image: url("/login/login2-img.png");
+  }
 }

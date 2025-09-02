@@ -184,7 +184,7 @@
         <button
           type="submit"
           class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
-          [disabled]="!addTransactionForm.valid"
+          [disabled]="!addTransactionForm.valid || formSubmitted"
         >
           @if(formSubmitted){
           <i

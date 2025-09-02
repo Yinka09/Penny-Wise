@@ -7,7 +7,7 @@ import { ICardData } from '../../models/interfaces';
 })
 export class DashboardService {
   cardData: ICardData[] = [];
-  totalBalance = signal<number>(12000000);
+  totalBalance = signal<number>(200000);
   incomeArray = signal<number[]>([]);
   expenseArray = signal<number[]>([]);
   categoryAmountObj = signal<{ category: string; amount: number } | null>(null);
@@ -77,9 +77,9 @@ export class DashboardService {
   createDashboardCards = computed(() => {
     const cardData = [
       {
-        title: 'Total Balance',
+        title: 'Total Budget',
         amount: this.totalBalance(),
-        description: 'Total balance for',
+        description: 'Total budget for',
         icon: 'fa-piggy-bank',
         iconBg: '#E1BFF399',
         percentage: this.getTotalBalancePercentage(this.totalBalance()),

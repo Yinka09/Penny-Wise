@@ -35,7 +35,7 @@ import { MessageService } from 'primeng/api';
 
 import {
   ITransactionCategory,
-  type ITransactionsTableData,
+  ITransactionsTableData,
 } from '../../../models/interfaces';
 
 @Component({
@@ -53,7 +53,6 @@ import {
     FluidModule,
     InputNumber,
     TextareaModule,
-
     Toast,
   ],
   templateUrl: './add-transaction.html',
@@ -79,7 +78,8 @@ export class AddTransactionComponent implements OnInit, OnChanges {
     { name: 'Salary Payment', code: 'Salary Payment' },
     { name: 'Family', code: 'Family' },
     { name: 'Food Stuffs', code: 'Food Stuffs' },
-    { name: 'Restaurant & Dining', code: 'Restaurant Dining' },
+    { name: 'Toiletries', code: 'Toiletries' },
+    { name: 'Restaurant & Dining', code: 'Restaurant & Dining' },
     { name: 'Bills & Subscriptions', code: 'Bills Subscriptions' },
     { name: 'Transportation', code: 'Transportation' },
     { name: 'Entertainment', code: 'Entertainment' },
@@ -185,8 +185,8 @@ export class AddTransactionComponent implements OnInit, OnChanges {
           summary: 'Success',
           detail:
             this.isEditMode() && this.isCreateMode()
-              ? 'Form is submitted'
-              : 'Form is Updated',
+              ? 'Transaction submitted Successfully'
+              : 'Transaction Updated Successfully',
           life: 3000,
         });
       }, 1500);

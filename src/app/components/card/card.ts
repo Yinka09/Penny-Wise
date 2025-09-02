@@ -17,7 +17,7 @@ export class CardComponent {
     const itemTitle = item.title;
 
     switch (itemTitle) {
-      case 'Total Balance':
+      case 'Total Budget':
         return {
           icon: 'assets/dashboard/total.svg',
           iconBg: '#E1BFF399',
