@@ -247,6 +247,7 @@ export class TransactionsComponent implements OnInit {
       this.isShowSpinner = false;
     }
   }
+
   showAddTransactionDialog() {
     this.showAddTransactionModal = true;
     this.selectedTransaction = undefined;
@@ -254,6 +255,18 @@ export class TransactionsComponent implements OnInit {
     this.isEditMode.set(true);
     this.isViewMode.set(false);
     this.isCreateMode.set(true);
+  }
+
+  onActionSelectChange(event: any) {
+    console.log('Action Event', event.target.value);
+    const action = event.target.value;
+    if (action === '1') {
+      this.showAddTransactionDialog();
+    } else if (action === '2') {
+      this.deleteAllTransactions(event);
+    } else {
+      return;
+    }
   }
 
   onAddTransaction(event: ITransactionsTableData) {
@@ -412,5 +425,40 @@ export class TransactionsComponent implements OnInit {
   onFirstDataRendered(params: FirstDataRenderedEvent) {
     // params.api.paginationGoToPage(4);
     params.api.paginationGoToPage(0);
+  }
+
+  deleteAllTransactions(event: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete all transactions?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger   ',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: 'Transaction deleted',
+        // });
+        this.transactionsService.resetTransactions();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Transactions Deleted Successfully',
+          life: 3000,
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Delete action cancelled',
+        });
+      },
+    });
   }
 }

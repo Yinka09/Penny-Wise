@@ -52,4 +52,8 @@ export class TransactionsService {
       );
     });
   }
+
+  resetTransactions() {
+    this.transactionsData.set([]);
+  }
 }

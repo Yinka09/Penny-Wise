@@ -1,11 +1,19 @@
 .pi-search {
   position: absolute;
-  top: 13px;
-  left: 71%;
-  //   right: 27.5%;
-
+  top: 12px;
+  left: 31%;
   @media (max-width: 1023px) {
     left: 15px;
-    top: 63px;
+    // top: 63px;
   }
+
+  @media (max-width: 1300px) {
+    left: 15px;
+    top: 20px;
+  }
+
+  // @media (min-width: 1301px) {
+  //   left: 35%;
+  //   top: 13px;
+  // }
 }

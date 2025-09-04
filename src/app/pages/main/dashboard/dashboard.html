@@ -3,7 +3,6 @@
 <div
   class="bg-white px-2 py-3 h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
-  (@fadeSlideInOut.done)="isVisible = false"
 >
   @if(cardData.length > 0){
   <div
@@ -30,7 +29,7 @@
             <h4 class="text-[0.9rem] font-semibold">Categories</h4>
           </div>
           <select
-            class="text-[0.8rem] cursor-pointer focus:outline-none rounded-lg w-[35%] lg:w-[20%] py-1 px-2 border-1 border-gray-300 font-medium"
+            class="text-[0.8rem] cursor-pointer focus:outline-none rounded-lg w-[35%] lg:w-[20%] py-1 px-2 border-1 border-gray-300 font-medium focus:border-[#0078BD] transition duration-300"
           >
             <option value="1">Monthly</option>
           </select>

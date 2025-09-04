@@ -1,0 +1,42 @@
+<div class="w-full border-1 border-gray-200 rounded-xl p-3 lg:p-3 mt-5">
+  <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
+    Key Insights
+  </h4>
+  <article
+    class="mt-4 text-[0.8rem] lg:text-[0.9rem] text-justify text-gray-500"
+  >
+    <p class="leading-snug">
+      {{ summaryMsg() }} from your total budget of
+      <b>{{ valueFormatter(totalBudget) }}</b>
+      for the month of {{ currentMonth }} {{ currentYear }}.
+    </p>
+    @if(topExpense()){
+    <p class="leading-snug mt-3">
+      <b>{{ topExpense() }} </b>constitutes
+      <b>{{ topExpensePercentage() }}%</b> of your total expenses Consider
+      reviewing this category to identify potential savings.
+    </p>
+    } @if(overbudgetCategories().length > 0){
+    <p class="leading-snug mt-3">
+      You are overbudget in @for(budget of overbudgetCategories(); track
+      $index){<b
+        >{{ budget.budgetCategory }}@if(isLastItem($index,
+        overbudgetCategories())){. } @else {, } </b
+      >} Consider adjusting your spending in these areas to realign with your
+      financial goals.
+    </p>
+    } @if(getHighestBudgetCategory()){
+    <p class="leading-snug mt-3">
+      A significant portion of your budget is allocated to
+      <b>{{ highestBudgetCategory()?.category }}</b> with an amount of
+      <b>{{ valueFormatter(highestBudgetCategory().amount) }}</b
+      >. Review this allocation to ensure it aligns with your priorities.
+    </p>
+    } @else{
+    <p class="leading-snug mt-3">
+      You have no budgets set yet. Setting budgets can help you manage your
+      finances better and avoid overspending.
+    </p>
+    }
+  </article>
+</div>

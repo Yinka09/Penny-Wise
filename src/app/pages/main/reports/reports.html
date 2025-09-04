@@ -1,0 +1,219 @@
+<div
+  class="p-5 w-full overflow-auto h-[calc(100vh-80px)] bg-white"
+  [@fadeSlideInOut]="isVisible"
+  #scrollContainer
+>
+  <section class="bg-[#F0F9FF] w-full p-2 rounded-xl shadow-lg p-5 lg:p-6">
+    <div
+      class="w-full flex flex-col md:flex-row items-center justify-center p-1 lg:p-0 mx-auto gap-5 lg:gap-10"
+    >
+      <div class="w-full">
+        <h3
+          class="font-semibold text-[1.2rem] md:text-[1.1rem] lg:text-[1.7rem] leading-snug"
+        >
+          Unlock Your Financial Potential with Detailed Reports
+        </h3>
+        <p class="my-2 text-gray-500 text-[0.8rem] font-small text-justify">
+          Gain clarity and control over your finances. Our detailed reports
+          provide actionable insights into your spending habits, income streams,
+          and budget adherence, empowering you to make smarter financial
+          decisions.
+        </p>
+
+        <button
+          type="button"
+          class="mt-7 bg-[#0078BD] text-[0.9rem] px-4 py-2 rounded shadow-md text-white font-semibold hover:bg-[#005f8a] transition duration-300 cursor-pointer hidden md:block"
+        >
+          Explore Reports
+        </button>
+      </div>
+      <div class="w-full flex items-center justify-center md:justify-end">
+        <img
+          src="reports/header-img.png"
+          alt="Reports Header image"
+          class="w-[100%] lg:w-[70%] h-auto border-1 border-gray-300 rounded-lg shadow-md aspect-video object-cover"
+        />
+      </div>
+      <button
+        type="button"
+        class="bg-[#0078BD] text-[0.9rem] px-4 py-4 rounded shadow-md text-white font-semibold hover:bg-[#005f8a] transition duration-300 cursor-pointer block md:hidden w-full"
+      >
+        Explore Reports
+      </button>
+    </div>
+  </section>
+
+  <section class="mt-7 w-full rounded-xl">
+    <h3
+      class="font-semibold text-center text-[1rem] md:text-[1.1rem] lg:text-[1.5rem] leading-snug"
+    >
+      Comprehensive Financial Overview
+    </h3>
+    <div class="flex flex-col lg:flex-row w-full gap-5 mt-5">
+      <div class="w-full">
+        <!-- <div class="w-full border-1 border-gray-200 rounded-xl p-3 lg:p-3">
+          <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
+            Summary Statistics
+          </h4>
+          <form [formGroup]="summaryForm">
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Income</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="totalIncome"
+              />
+            </div>
+
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Budget</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="totalBudget"
+              />
+            </div>
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Budget Allocated</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="totalBudgetAllocated"
+              />
+            </div>
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Budget Unallocated</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="totalBudgetUnallocated"
+              />
+            </div>
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Expenses</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="totalExpenses"
+              />
+            </div>
+            <hr class="my-4 border-gray-200" />
+            <div class="flex flex-row items-center justify-between mt-4">
+              <label
+                for="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] lg:text-[1rem] text-gray-400"
+                >Total Budget After Expenses</label
+              >
+              <input
+                type="text"
+                id="totalIncome"
+                name="totalIncome"
+                class="text-[0.9rem] lg:text-[1rem] focus:outline-none text-gray-700 text-end font-bold"
+                formControlName="remainingBudget"
+              />
+            </div>
+          </form>
+        </div> -->
+
+        <app-summary-statistics
+          [totalIncome]="totalIncome"
+          [totalBudget]="totalBudget"
+          [totalExpenses]="totalExpenses"
+          [remainingBudget]="remainingBudget"
+          [totalBudgetAllocated]="totalBudgetAllocated()"
+          [totalBudgetUnallocated]="totalBudgetUnallocated()"
+        ></app-summary-statistics>
+
+        <app-key-insights
+          [summaryMsg]="getSummarryMsg(totalExpenses, totalBudget)"
+          [totalBudget]="totalBudget"
+          [topExpense]="topExpense"
+          [topExpensePercentage]="topExpensePercentage"
+          [overbudgetCategories]="getOverbudgetCategories()"
+          [highestBudgetCategory]="highestBudgetCategory()"
+          [getHighestBudgetCategory]="getHighestBudgetCategory()"
+        ></app-key-insights>
+
+        <!-- <div class="w-full border-1 border-gray-200 rounded-xl p-3 lg:p-3 mt-5">
+          <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
+            Key Insights
+          </h4>
+          <article
+            class="mt-4 text-[0.8rem] lg:text-[0.9rem] text-justify text-gray-500"
+          >
+            <p class="leading-snug">
+              {{ getSummarryMsg(totalExpenses, totalBudget) }} from your total
+              budget of
+              <b>{{ valueFormatter(totalBudget) }}</b>
+              for the month of {{ currentMonth }} {{ currentYear }}.
+            </p>
+            @if(topExpense){
+            <p class="leading-snug mt-3">
+              <b>{{ topExpense }} </b>constitutes
+              <b>{{ topExpensePercentage }}%</b> of your total expenses Consider
+              reviewing this category to identify potential savings.
+            </p>
+            } @if(getOverbudgetCategories().length > 0){
+            <p class="leading-snug mt-3">
+              You are overbudget in @for(budget of getOverbudgetCategories();
+              track $index){<b
+                >{{ budget.budgetCategory }}@if(isLastItem($index,
+                getOverbudgetCategories())){. } @else {, } </b
+              >} Consider adjusting your spending in these areas to realign with
+              your financial goals.
+            </p>
+            } @if(getHighestBudgetCategory()){
+            <p class="leading-snug mt-3">
+              A significant portion of your budget is allocated to
+              <b>{{ highestBudgetCategory().category }}</b> with an amount of
+              <b>{{ valueFormatter(highestBudgetCategory().amount) }}</b
+              >. Review this allocation to ensure it aligns with your
+              priorities.
+            </p>
+            } @else{
+            <p class="leading-snug mt-3">
+              You have no budgets set yet. Setting budgets can help you manage
+              your finances better and avoid overspending.
+            </p>
+            }
+          </article>
+        </div> -->
+      </div>
+      <div class="w-full">
+        <div class="w-full border-1 border-gray-200 rounded-lg p-6 lg:p-6">
+          Woman
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

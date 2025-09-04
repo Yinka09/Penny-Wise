@@ -60,6 +60,7 @@ import { DashboardService } from '../../../services/dashboard/dashboard';
   styleUrl: './add-budget.scss',
 })
 export class AddBudget implements OnInit, OnChanges {
+  displayUpdateTotalBudgetModal = input<boolean>(false);
   @Input() showAddBudgetModal: boolean = false;
   @Output() showAddBudgetModalChange = new EventEmitter<boolean>();
   @Input() selectedBudget: IBudgetsCategory | undefined;
@@ -78,6 +79,7 @@ export class AddBudget implements OnInit, OnChanges {
     { name: 'Family', code: 'Family' },
     { name: 'Food Stuffs', code: 'Food Stuffs' },
     { name: 'Toiletries', code: 'Toiletries' },
+    { name: 'Rent', code: 'Rent' },
     { name: 'Restaurant & Dining', code: 'Restaurant & Dining' },
     { name: 'Bills & Subscriptions', code: 'Bills Subscriptions' },
     { name: 'Transportation', code: 'Transportation' },
@@ -117,11 +119,22 @@ export class AddBudget implements OnInit, OnChanges {
   }
 
   private initEmptyForm() {
-    this.addBudgetForm = this.fb.group({
-      budgetCategory: [null, [Validators.required]],
-      amountBudgeted: [null, [Validators.required, Validators.min(0)]],
-      // amountSpent: [null, [Validators.required, Validators.min(0)]],
-    });
+    if (!this.displayUpdateTotalBudgetModal()) {
+      this.addBudgetForm = this.fb.group({
+        budgetCategory: [null, [Validators.required]],
+        amountBudgeted: [null, [Validators.required, Validators.min(0)]],
+        // amountSpent: [null, [Validators.required, Validators.min(0)]],
+      });
+    } else {
+      this.addBudgetForm = this.fb.group({
+        budgetCategory: ['Select Category', [Validators.required]],
+        amountBudgeted: [
+          this.getTotalBudgetedAmount(),
+          [Validators.required, Validators.min(0)],
+        ],
+        // amountSpent: [null, [Validators.required, Validators.min(0)]],
+      });
+    }
   }
 
   private buildForm(budget: IBudgetsCategory) {
@@ -217,6 +230,9 @@ export class AddBudget implements OnInit, OnChanges {
   }
 
   setDialogHeader() {
+    if (this.displayUpdateTotalBudgetModal()) {
+      return 'Update Total Budget';
+    }
     if (this.isEditMode() && this.isCreateMode()) {
       return 'Add New Budget';
     } else if (this.isViewMode()) {
@@ -237,13 +253,8 @@ export class AddBudget implements OnInit, OnChanges {
     // }
     return newId;
   }
-  // generateTransactionId() {
-  //   let newNum = '';
-  //   const constantText = 'TNX-';
-  //   for (let i = 0; i < 4; i++) {
-  //     let randamString = Math.floor(Math.random() * 10);
-  //     newNum += randamString;
-  //   }
-  //   return constantText + newNum;
-  // }
+
+  private getTotalBudgetedAmount() {
+    return this.dashboardService.totalBalance();
+  }
 }

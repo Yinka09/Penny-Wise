@@ -23,6 +23,23 @@ export class BudgetsService {
       };
     });
   });
+
+  highestBudgetCategory = computed(() => {
+    const allBudget = this.getBudgetCatagoriesWithAmount();
+
+    let maxCategory = '';
+    let maxAmount = 0;
+
+    for (const [category, amount] of Object.entries(allBudget)) {
+      if (amount > maxAmount) {
+        maxAmount = amount;
+        maxCategory = category;
+      }
+    }
+    // console.log('this is', { maxCategory, maxAmount });
+
+    return { category: maxCategory, amount: maxAmount };
+  });
   // budgetCardData: IBudgetsCategory[] = [];
   //  budgetCardData = computed(() => this.budgetCategories());
   constructor(
@@ -73,6 +90,12 @@ export class BudgetsService {
   //   });
   // }
 
+  updateAllBudgets(updatedVal: number) {
+    this.budgetCategories.update((prevBudget: IBudgetsCategory[]) => {
+      return prevBudget.map((el) => ({ ...el, amountBudgeted: updatedVal }));
+    });
+  }
+
   updateBudget(budget: IBudgetsCategory | undefined, updatedVal: any) {
     console.log(this.budgetCategories());
     this.budgetCategories.update((prevTrans: IBudgetsCategory[]) => {
@@ -88,5 +111,9 @@ export class BudgetsService {
     this.budgetCategories.update((prevTrans: IBudgetsCategory[]) =>
       prevTrans.filter((el: IBudgetsCategory) => el.id !== id)
     );
+  }
+
+  deleteAllBudgets() {
+    this.budgetCategories.set([]);
   }
 }

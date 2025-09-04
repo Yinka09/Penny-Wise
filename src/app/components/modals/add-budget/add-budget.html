@@ -13,6 +13,7 @@
       >Fill in the details for your budget</span
     >
     <form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
+      @if(!displayUpdateTotalBudgetModal()){
       <div class="flex-1 w-full mb-4">
         <label for="budgetCategory" class="font-semibold"
           >Budget Category <span class="text-red-600 font-bold">*</span></label
@@ -33,6 +34,7 @@
         </p>
         }
       </div>
+      }
       <div class="flex-1 w-full mb-4">
         <label class="font-bold mb-3" for="amountBudgeted">
           Budget Amount(₦) <span class="text-red-600 font-bold">*</span></label
@@ -82,7 +84,7 @@
         >
           {{ isViewMode() ? "Close" : "Cancel" }}
         </button>
-        @if(!isViewMode()){
+        @if(!isViewMode() && !displayUpdateTotalBudgetModal()){
         <button
           type="submit"
           class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
@@ -94,6 +96,19 @@
             style="font-size: 0.9rem"
           ></i>
           } {{ isCreateMode() ? "Submit" : "Update" }}
+        </button>
+        } @if(displayUpdateTotalBudgetModal()){
+        <button
+          type="submit"
+          class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+          [disabled]="!addBudgetForm.valid || formSubmitted"
+        >
+          @if(formSubmitted){
+          <i
+            class="pi pi-spin pi-spinner mt-0 me-2"
+            style="font-size: 0.9rem"
+          ></i>
+          } Save Changes
         </button>
         }
       </div>

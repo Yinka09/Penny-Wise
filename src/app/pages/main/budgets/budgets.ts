@@ -71,6 +71,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   isEditMode = signal<boolean>(true);
   isCreateMode = signal<boolean>(true);
   isViewMode = signal<boolean>(false);
+  displayUpdateTotalBudgetModal = signal<boolean>(false);
   // _listFilter: string = '';
   get listFilter(): string {
     return this._listFilter();
@@ -103,6 +104,57 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     const budgetCategoryData = this.budgetService.budgetCardData();
     // console.log({ budgetCategoryData });
     this.isVisible = true;
+
+    // this.budgetCards = [
+    //   {
+    //     id: 1,
+    //     icon: 'fa-money-bill-wave',
+    //     amount: this.totalBalance(),
+    //     label: 'Total Budget',
+    //   },
+    //   {
+    //     id: 2,
+    //     icon: 'fa-money-bill-transfer',
+    //     amount: this.totalExpenses(),
+    //     label: 'Total Expenses',
+    //   },
+    //   {
+    //     id: 3,
+    //     icon: 'fa-piggy-bank',
+    //     amount:
+    //       this.totalExpenses() > this.totalBalance()
+    //         ? 0
+    //         : this.totalBalance() - this.totalExpenses(),
+    //     label: 'Remaining Budget',
+    //   },
+    // ];
+    this.updateBudgetCards();
+    this.getChartOptions(30);
+    this.getProgressData();
+
+    // this.options = {
+    //   data: this.getBudgetChartData(),
+    //   title: {
+    //     text: 'Budget Composition',
+    //   },
+    //   series: [
+    //     {
+    //       type: 'pie',
+    //       angleKey: 'amount',
+    //       calloutLabelKey: 'category',
+    //       sectorLabelKey: 'amount',
+    //       outerRadiusOffset: 30,
+    //       sectorLabel: {
+    //         color: 'white',
+    //         fontWeight: 'bold',
+    //         formatter: ({ value }: any) => `₦${(value / 1000).toFixed(0)}K`,
+    //       },
+    //     },
+    //   ],
+    // };
+  }
+
+  getProgressData() {
     this.progressData = {
       percent: this.getExpensesPercentage(),
       radius: 100,
@@ -113,7 +165,32 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       animation: true,
       animationDuration: 300,
     };
+  }
 
+  private getChartOptions(radius: number) {
+    this.options = {
+      data: this.getBudgetChartData(),
+      title: {
+        text: 'Budget Composition',
+      },
+      series: [
+        {
+          type: 'pie',
+          angleKey: 'amount',
+          calloutLabelKey: 'category',
+          sectorLabelKey: 'amount',
+          outerRadiusOffset: radius,
+          sectorLabel: {
+            color: 'white',
+            fontWeight: 'bold',
+            formatter: ({ value }: any) => `₦${(value / 1000).toFixed(0)}K`,
+          },
+        },
+      ],
+    };
+  }
+
+  private updateBudgetCards() {
     this.budgetCards = [
       {
         id: 1,
@@ -137,27 +214,17 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         label: 'Remaining Budget',
       },
     ];
+  }
 
-    this.options = {
-      data: this.getBudgetChartData(),
-      title: {
-        text: 'Budget Composition',
-      },
-      series: [
-        {
-          type: 'pie',
-          angleKey: 'amount',
-          calloutLabelKey: 'category',
-          sectorLabelKey: 'amount',
-          outerRadiusOffset: 30,
-          sectorLabel: {
-            color: 'white',
-            fontWeight: 'bold',
-            formatter: ({ value }: any) => `₦${(value / 1000).toFixed(0)}K`,
-          },
-        },
-      ],
-    };
+  resetAllBudgets() {
+    this.budgetService.updateAllBudgets(0);
+    this.getChartOptions(10);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Budgets successfully reset',
+      life: 3000,
+    });
   }
 
   getBudgetChartData() {
@@ -310,7 +377,16 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   showAddBudgetDialog() {
     this.showAddBudgetModal = true;
     this.selectedBudget = undefined;
+    this.displayUpdateTotalBudgetModal.set(false);
+    this.isEditMode.set(true);
+    this.isViewMode.set(false);
+    this.isCreateMode.set(true);
+  }
+  showUpdateTotalBudgetDialog() {
+    this.showAddBudgetModal = true;
+    this.selectedBudget = undefined;
 
+    this.displayUpdateTotalBudgetModal.set(true);
     this.isEditMode.set(true);
     this.isViewMode.set(false);
     this.isCreateMode.set(true);
@@ -318,15 +394,30 @@ export class BudgetsComponent implements OnInit, OnDestroy {
 
   onAddBudget(event: IBudgetsCategory) {
     const formData = { ...event };
+
     this.isCreateMode.set(true);
     this.isEditMode.set(false);
 
     if (this.isCreateMode()) {
-      console.log('I am here!');
       const formData = { ...event };
-      this.budgetService.addBudget(formData);
+      if (this.displayUpdateTotalBudgetModal()) {
+        this.dashboardService.totalBalance.set(formData.amountBudgeted);
+
+        this.updateBudgetCards();
+
+        this.getProgressData();
+        this.resetAllBudgets();
+        this.displayUpdateTotalBudgetModal.set(false);
+      } else {
+        console.log('I am not updating total budget only');
+        this.budgetService.addBudget(formData);
+        this.getChartOptions(30);
+        this.getProgressData();
+      }
     } else {
       this.budgetService.updateBudget(this.selectedBudget, formData);
+      this.getChartOptions(30);
+      this.getProgressData();
     }
 
     // this.budgetService.updateBudget(this.selectedBudget, formData);
@@ -375,6 +466,8 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         //   detail: 'Transaction deleted',
         // });
         this.budgetService.deleteBudget(data.id);
+        this.getChartOptions(30);
+        this.getProgressData();
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -392,5 +485,41 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDeleteAllBudgets(event: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete all budgets?',
+      header: 'Confirm Delete',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger   ',
+      rejectButtonStyleClass: 'p-button-secondary',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+
+      accept: () => {
+        // this.messageService.add({
+        //   severity: 'info',
+        //   summary: 'Confirmed',
+        //   detail: 'Transaction deleted',
+        // });
+        this.budgetService.deleteAllBudgets();
+        this.getChartOptions(10);
+        this.getProgressData();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Budgets Deleted Successfully',
+          life: 3000,
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelled',
+          detail: 'Delete action cancelled',
+        });
+      },
+    });
+  }
   ngOnDestroy(): void {}
 }

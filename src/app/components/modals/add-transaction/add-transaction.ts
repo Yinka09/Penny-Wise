@@ -78,6 +78,7 @@ export class AddTransactionComponent implements OnInit, OnChanges {
     { name: 'Salary Payment', code: 'Salary Payment' },
     { name: 'Family', code: 'Family' },
     { name: 'Food Stuffs', code: 'Food Stuffs' },
+    { name: 'Rent', code: 'Rent' },
     { name: 'Toiletries', code: 'Toiletries' },
     { name: 'Restaurant & Dining', code: 'Restaurant & Dining' },
     { name: 'Bills & Subscriptions', code: 'Bills Subscriptions' },

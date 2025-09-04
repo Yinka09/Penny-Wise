@@ -2,24 +2,44 @@
 <div
   class="bg-white container px-4 py-3 h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
-  (@fadeSlideInOut.done)="isVisible = false"
 >
-  <div class="flex items-center justify-between mt-4 mb-6 lg:mb-0">
+  <div class="flex flex-row items-center justify-between mt-4 mb-6 lg:mb-0">
     <h3 class="text-[1.1rem] md:text-[1.3rem] text-[#0078BD] font-semibold">
       Manage Transactions
     </h3>
 
-    <div>
+    <div class="hidden lg:flex items-center gap-3 md:mt-0">
       <button
-        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[#0078BD] cursor-pointer flex text-[white] font-medium"
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[#0078BD] cursor-pointer flex text-[white] font-medium hover:bg-[#005f8a] transition duration-300"
         (click)="showAddTransactionDialog()"
       >
-        <i class="fa-solid fa-circle-plus"></i>
-        <span class="text-[0.6rem] lg:text-[0.8rem]">Add Transaction</span>
+        <i class="fa-solid fa-circle-plus text-[0.9rem]"></i>
+        <span class="text-[0.9rem]">Add Transaction</span>
       </button>
+      @if(displayTableData().length > 0){
+      <button
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-red-500 cursor-pointer flex text-[white] font-medium hover:bg-red-600 transition duration-300"
+        (click)="deleteAllTransactions($event)"
+      >
+        <i class="fa-solid fa-times text-[0.9rem]"></i>
+        <span class="text-[0.9rem]">Delete All Transactions</span>
+      </button>
+      }
     </div>
+    <select
+      (change)="onActionSelectChange($event)"
+      class="block lg:hidden text-[0.8rem] cursor-pointer focus:outline-none rounded-lg w-[35%] lg:w-[20%] py-1 px-2 border-1 border-gray-300 font-medium focus:border-[#0078BD] transition duration-300"
+    >
+      <option value="0">Choose Action</option>
+      <option value="1" class="text-[#0078BD] font-medium">
+        Add Transaction
+      </option>
+      <option value="2" class="text-red-600 font-medium">
+        Delete All Transactions
+      </option>
+    </select>
   </div>
-  <div class="w-full flex align-center justify-center gap-4">
+  <div class="w-full flex align-center justify-center gap-4 mt-0 lg:mt-5">
     @for(tab of tabHeaders; track tab.value){
     <button
       type="button"

@@ -118,7 +118,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       headerName: 'AMOUNT (₦)',
       field: 'amount',
-      filter: 'agNumberColumnFilter',
+      filter: false,
+      // filter: 'agNumberColumnFilter',
       valueFormatter: (params) => {
         return params.value != null
           ? new Intl.NumberFormat('en-NG', {
@@ -133,7 +134,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     {
       headerName: 'TYPE',
       field: 'type',
-      filter: true,
+      filter: false,
+      // filter: true,
 
       cellRenderer: (params: any) => {
         const statusClass =
@@ -191,16 +193,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getData() {
     return this.chartData;
   }
-  // getData() {
-  //   return [
-  //     { expense: 'Food', amount: 60000 },
-  //     { expense: 'Clothing', amount: 40000 },
-  //     { expense: 'Rent', amount: 7000 },
-  //     { expense: 'Groceries', amount: 5000 },
-  //     { expense: 'Donations', amount: 3000 },
-  //     { expense: 'Miscellaneous', amount: 3000 },
-  //   ];
-  // }
 
   getTransactionTableDetails(params: GridReadyEvent<ITransactionsTableData>) {
     this.displayTableData = this.dashboardService

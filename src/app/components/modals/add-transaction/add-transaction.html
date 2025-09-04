@@ -9,9 +9,10 @@
     [styleClass]="'custom-dialog'"
     (onShow)="focusUsername()"
   >
-    <span class="p-text-secondary block mb-6"
+    @if(isEditMode() ){<span class="p-text-secondary block mb-6"
       >Fill in the details for your transaction</span
-    >
+    >}
+
     <form [formGroup]="addTransactionForm" (ngSubmit)="onSubmit()">
       <div class="block md:flex items-center justify-between gap-4 mb-4">
         <!-- <div class="flex-1">
