@@ -1,10 +1,6 @@
 <app-scroll-to-top [scrollContainer]="scrollContainer"></app-scroll-to-top>
 
-<div
-  class="p-5 w-full overflow-auto h-[calc(100vh-80px)] bg-white"
-  [@fadeSlideInOut]="isVisible"
-  #scrollContainer
->
+<div class="w-full bg-white" [@fadeSlideInOut]="isVisible" #scrollContainer>
   <section
     class="bg-[#F0F9FF] w-full rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-5 p-5 lg:p-4"
   >

@@ -2,8 +2,9 @@ import { Component, computed, OnDestroy, OnInit } from '@angular/core';
 import { MainService } from '../../services/main/main';
 import { take } from 'rxjs/internal/operators/take';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -24,22 +25,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
   allSubscriptions = new Subscription();
   private destroy$ = new Subject<void>();
 
-  // viewSidebar$ = this.mainService.getViewSidebar();
-  constructor(private mainService: MainService, private router: Router) {}
+  showBackArrow = false;
+
+  constructor(
+    private mainService: MainService,
+    private router: Router,
+    private location: Location
+  ) {}
   ngOnInit(): void {
     this.currentUrl = this.router.url;
     const savedInitials = sessionStorage.getItem('userInitials') || '';
     this.userInitials = this.getUserInitialsArray(savedInitials);
-
-    // this.mainService.headerTitle$.pipe(take(1)).subscribe((title: string) => {
-    //   this.title = title;
-    // });
 
     const sub = this.mainService
       .getIsTransactionPage()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.isNotTransactionPage = data;
+      });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        const currentUrl = event.urlAfterRedirects;
+
+        if (currentUrl === '/dashboard') {
+          if (this.mainService.firstDashboardVisit) {
+            this.showBackArrow = false;
+            this.mainService.firstDashboardVisit = false;
+          } else {
+            this.showBackArrow = true;
+          }
+        } else {
+          this.showBackArrow = true;
+        }
       });
   }
 
@@ -60,12 +79,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return initials;
   }
 
+  currentUrlIsTransaction() {
+    return this.currentUrl === '/main/transactions';
+  }
+
+  navigateToPrev() {
+    this.location.back();
+  }
   ngOnDestroy(): void {
     this.userInitials = '';
     this.allSubscriptions.unsubscribe();
-  }
-
-  currentUrlIsTransaction() {
-    return this.currentUrl === '/main/transactions';
   }
 }

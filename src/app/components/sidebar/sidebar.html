@@ -1,4 +1,6 @@
-<div class="flex flex-col justify-start h-[100%] pt-4 pb-2">
+<div
+  class="flex flex-col justify-start h-[100%] pt-4 pb-2 transition-animation"
+>
   <div class="flex justify-between" [ngClass]="isViewSidebar ? 'px-3' : 'px-3'">
     <img
       [src]="logo"
@@ -10,13 +12,13 @@
     </div>
   </div>
   <div
-    class="w-full flex flex-col justify-start items-center py-2 px-2 fs-23 pointer"
+    class="w-full flex flex-col justify-start items-center py-2 px-2 fs-23 pointer transition-animation"
     style="gap: 10px; margin-top: 40px"
   >
     @for (item of sidebarItems; track item){
 
     <div
-      class="flex flex-row items-center w-full border-b border-gray-200 cursor-pointer"
+      class="flex flex-row items-center w-full border-b border-gray-200 cursor-pointer transition-animation"
       style="gap: 10px"
       [ngClass]="{ 'light-blue-bg': isActiveTab(item) }"
       (click)="navigateToPage(item)"

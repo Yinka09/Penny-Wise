@@ -1,4 +1,4 @@
-<ag-grid-angular
+<!-- <ag-grid-angular
   [style]="tableStyle"
   [rowHeight]="rowHeight"
   [rowClass]="rowClass"
@@ -12,4 +12,24 @@
   [paginationNumberFormatter]="paginationNumberFormatter"
   (firstDataRendered)="onFirstDataRendered($event)"
   [context]="{ componentParent: this }"
-/>
+/> -->
+
+<div class="w-full border-1 border-gray-200 rounded-xl p-3 lg:p-3 mt-5">
+  <div class="flex flex-row justify-between">
+    <div>
+      <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
+        Recent Transactions
+      </h4>
+    </div>
+  </div>
+  <div class="mt-4 min-w-full" style="height: 100%; overflow-x: auto">
+    <ag-grid-angular
+      style="height: 300px; display: block; min-width: 100%; overflow-x: auto"
+      [rowHeight]="50"
+      [rowClass]="rowClass"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowData]="displayTableData"
+    />
+  </div>
+</div>

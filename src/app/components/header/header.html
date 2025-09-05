@@ -1,12 +1,22 @@
 <div
-  class="flex items-center justify-between px-0 bg-[#0078BD] py-4 px-4 gap-4 sticky top-0 z-10"
+  class="flex items-center justify-between px-0 bg-[#0078BD] py-4 px-4 gap-4 flex items-center px-4 sticky top-0 z-10"
 >
   <div class="flex items-center gap-4">
-    <i
-      class="pi pi-bars cursor-pointer"
-      style="color: white"
-      (click)="toggleSidebar()"
-    ></i>
+    <div class="flex flex-col gap-3">
+      <i
+        class="pi pi-bars cursor-pointer"
+        style="color: white"
+        (click)="toggleSidebar()"
+      ></i>
+      @if(showBackArrow){
+      <i
+        class="pi pi-arrow-left cursor-pointer"
+        style="color: white"
+        (click)="navigateToPrev()"
+      ></i>
+      }
+    </div>
+
     <h3 class="text-white font-semibold text-[1.1rem]">{{ title() }}</h3>
   </div>
   <div class="flex items-center gap-4">

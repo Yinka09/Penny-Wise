@@ -28,7 +28,7 @@
     } @if(getHighestBudgetCategory()){
     <p class="leading-snug mt-3">
       A significant portion of your budget is allocated to
-      <b>{{ highestBudgetCategory()?.category }}</b> with an amount of
+      <b>{{ highestBudgetCategory().category }}</b> with an amount of
       <b>{{ valueFormatter(highestBudgetCategory().amount) }}</b
       >. Review this allocation to ensure it aligns with your priorities.
     </p>

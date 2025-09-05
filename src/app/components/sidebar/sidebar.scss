@@ -77,3 +77,8 @@ a {
   // background-color: rgba(101, 139, 161, 0.1);
   background-color: oklch(97.7% 0.013 236.62);
 }
+
+.transition-animation {
+  transition: width 1s ease-out, margin-left 1s ease-out, flex 1s ease-out,
+    display 1s ease-out;
+}

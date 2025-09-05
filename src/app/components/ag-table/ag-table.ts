@@ -55,43 +55,16 @@ export class AgTableComponent implements OnInit, OnChanges {
   @Output() actionSelected: EventEmitter<any> = new EventEmitter<any>();
   @Output() hotlistCustomer: EventEmitter<any> = new EventEmitter<any>();
   @Output() whitelistCustomer: EventEmitter<any> = new EventEmitter<any>();
+  @Input() displayTableData!: ITransactionsTableData[];
 
-  @Input() selectedCustomer: ICustomers | null = null;
-
-  paginationPageSize = 10;
-  paginationPageSizeSelector: number[] | boolean = [2, 5, 8, 10];
+  selectedCustomer: ICustomers | null = null;
 
   ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
-    this.getTransactionTableDetails(this.rowData);
+    this.getTransactionTableDetails();
   }
-  getTransactionTableDetails(item: any) {
-    this.gridReady.emit(item);
-  }
-
-  paginationNumberFormatter: (
-    params: PaginationNumberFormatterParams
-  ) => string = (params: PaginationNumberFormatterParams) => {
-    return '[' + params.value.toLocaleString() + ']';
-  };
-
-  onFirstDataRendered(params: FirstDataRenderedEvent) {
-    // params.api.paginationGoToPage(4);
-    params.api.paginationGoToPage(0);
-  }
-
-  onViewCustomer(rowData: any): void {
-    // console.log('View customer:', rowData);
-    this.actionSelected.emit(rowData);
-  }
-
-  onWhitelistCustomer(rowData: any): void {
-    // console.log('Whitelist customer:', rowData);
-    this.whitelistCustomer.emit(rowData);
-  }
-  onHotlistCustomer(rowData: any): void {
-    // console.log('Hotlist customer:', rowData);
-    this.hotlistCustomer.emit(rowData);
+  getTransactionTableDetails() {
+    this.gridReady.emit();
   }
 }

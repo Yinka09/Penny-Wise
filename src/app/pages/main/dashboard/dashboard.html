@@ -1,12 +1,12 @@
 <p-toast />
 
 <div
-  class="bg-white px-2 py-3 h-[calc(100vh-80px)] overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+  class="bg-white overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
 >
   @if(cardData.length > 0){
   <div
-    class="card-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full px-4 mt-5"
+    class="card-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full"
   >
     @for (item of cardData; track item){
     <app-card [cardItem]="item"></app-card>
@@ -16,7 +16,7 @@
   } @else {
   <div class="text-center mt-10">No data available!</div>
   }
-  <div class="mt-10 px-4">
+  <div class="mt-10">
     <h3 class="font-bold">Recent Activity</h3>
     <div
       class="chart-table-container flex flex-col lg:flex-row justify-start gap-4 lg:justify-between w-full mt-3"
@@ -58,13 +58,13 @@
             <option value="Expense">Expense</option>
           </select>
         </div>
-        <div class="mt-4 min-w-full" style="height: 100%; overflow-x: auto">
+        <div class="mt-4 min-w-full" style="height: 100%; overflow: auto">
           <ag-grid-angular
             style="
               height: 300px;
               display: block;
               min-width: 100%;
-              overflow-x: auto;
+              overflow: auto;
             "
             [rowHeight]="50"
             [rowClass]="rowClass"

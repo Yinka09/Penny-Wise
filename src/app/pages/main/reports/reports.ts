@@ -20,16 +20,51 @@ import {
 } from '../../../models/interfaces';
 import { KeyInsights } from '../../../components/key-insights/key-insights';
 import { SummaryStatisticsComponent } from '../../../components/summary-statistics/summary-statistics';
+import { AgChartComponent } from '../../../components/ag-chart/ag-chart';
+import { AgGridAngular } from 'ag-grid-angular';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  ColGroupDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ModuleRegistry,
+  TextFilterModule,
+  ValidationModule,
+  DateFilterModule,
+} from 'ag-grid-community';
+
+import { RowStyleModule } from 'ag-grid-community';
+
+import { CellStyleModule } from 'ag-grid-community';
+import { NumberFilterModule } from 'ag-grid-community';
+import { ToastModule } from 'primeng/toast';
+import { Subject, type Subscription } from 'rxjs';
+import { AgTableComponent } from '../../../components/ag-table/ag-table';
+import { ReportsService } from '../../../services/reports/reports';
+import { AgCharts } from 'ag-charts-angular';
+import { AgChartOptions } from 'ag-charts-community';
+
+ModuleRegistry.registerModules([
+  RowStyleModule,
+  CellStyleModule,
+  NumberFilterModule,
+]);
 
 @Component({
   selector: 'app-reports',
   imports: [
-    CurrencyPipe,
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
     KeyInsights,
     SummaryStatisticsComponent,
+    ToastModule,
+    CommonModule,
+
+    AgTableComponent,
+    AgCharts,
   ],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
@@ -45,6 +80,91 @@ export class ReportsComponent implements OnInit {
   topExpenseAmount = 0;
   topExpensePercentage = 0;
   allExpenses: ITransactionsTableData[] = [];
+
+  allSubscription: Subscription[] = [];
+
+  private destroy$ = new Subject<void>();
+  rowClass = 'ag-grid-table ';
+
+  columnDefs: ColDef[] = [
+    {
+      headerName: 'DATE',
+      field: 'date',
+      // filter: 'agDateColumnFilter',
+      filter: false,
+      width: 100,
+    },
+    {
+      headerName: 'DESCRIPTION',
+      field: 'description',
+      filter: false,
+      cellStyle: {
+        fontWeight: '600',
+        // textDecoration: 'underline',
+      },
+      // flex: 1,
+    },
+    {
+      headerName: 'CATEGORY',
+      field: 'category',
+      // filter: 'agTextColumnFilter',
+      filter: false,
+      // flex: 1,
+      width: 100,
+    },
+    {
+      headerName: 'AMOUNT (₦)',
+      field: 'amount',
+      filter: false,
+      // filter: 'agNumberColumnFilter',
+      valueFormatter: (params) => {
+        return params.value != null
+          ? new Intl.NumberFormat('en-NG', {
+              style: 'decimal',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }).format(params.value)
+          : '';
+      },
+    },
+
+    {
+      headerName: 'TYPE',
+      field: 'type',
+      filter: false,
+      // filter: true,
+
+      cellRenderer: (params: any) => {
+        const statusClass =
+          params.value === 'Income' ? 'bg-active' : 'bg-inactive';
+        const statusIcon =
+          params.value === 'Income'
+            ? 'fa-hand-holding-dollar'
+            : 'fa-money-bill-transfer';
+        // const statusIcon = params.value === 'whitelist' ? 'bi-check' : 'bi-x';
+
+        return `<span class="span-class ${statusClass}"><i class="fa-solid ${statusIcon}"></i>${params.value}</span>`;
+        // return `<span class="span-class ${statusClass}"><i class="bi ${statusIcon} me-2"></i>${params.value}</span>`;
+      },
+      width: 140,
+      // flex: 0,
+    },
+  ];
+
+  defaultColDef: ColDef = {
+    // flex: 1,
+    minWidth: 120,
+    resizable: true,
+  };
+
+  displayTableData: ITransactionsTableData[] = [];
+
+  isAllDataLoaded = {
+    isAllCustomersDataLoaded: false,
+    isAllTransactionsDataLoaded: false,
+    isAllTableDataLoaded: false,
+    isAllAgChartDataLoaded: false,
+  };
 
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   currentYear = new Date().getFullYear();
@@ -72,15 +192,20 @@ export class ReportsComponent implements OnInit {
   });
 
   summaryForm: FormGroup = new FormGroup({});
+  donutChartConfig: any;
+  barChartConfig: any;
+  lineChartConfig: any;
 
   constructor(
     private fb: FormBuilder,
     private dashboardService: DashboardService,
     private transactionService: TransactionsService,
-    private budgetService: BudgetsService
+    private budgetService: BudgetsService,
+    private reportsService: ReportsService
   ) {}
   ngOnInit(): void {
     // this.budgetCardData.set(this.budgetService.budgetCardData());
+    // console.log(this.reportsService.getBarChartConfig());
 
     this.allExpenses = this.transactionService
       .allTransactions()
@@ -104,6 +229,18 @@ export class ReportsComponent implements OnInit {
     );
 
     this.isVisible = true;
+    this.buildForm();
+    this.getTransactionTableDetails();
+    this.setDonutChartConfig();
+  }
+
+  setDonutChartConfig() {
+    this.donutChartConfig = this.reportsService.getDonutChartConfig();
+    this.barChartConfig = this.reportsService.getBarChartConfig();
+    this.lineChartConfig = this.reportsService.getLineChartConfig();
+  }
+
+  buildForm() {
     this.summaryForm = this.fb.group({
       totalIncome: [
         { value: this.valueFormatter(this.totalIncome), disabled: true },
@@ -138,8 +275,15 @@ export class ReportsComponent implements OnInit {
     });
   }
 
+  getTransactionTableDetails() {
+    // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+
+    this.displayTableData = this.dashboardService
+      .getAllTransactions()
+      .slice(0, 5);
+    this.isAllDataLoaded.isAllTableDataLoaded = true;
+  }
   getOverbudgetCategories() {
-    // console.log(this.budgetCardData());
     return this.budgetCardData().filter(
       (budget) =>
         budget.amountSpent > budget.amountBudgeted && budget.amountBudgeted > 0

@@ -12,13 +12,13 @@ export class BudgetsService {
   public allBudgetCategories = this.budgetCategories.asReadonly();
   budgetCardData = computed<IBudgetsCategory[]>(() => {
     const budCategory = this.budgetCategories();
-    return budCategory.map((expense) => {
+    return budCategory.map((budget) => {
       const expenses = this.getExpenses().filter(
-        (el) => el.category === expense.budgetCategory
+        (el) => el.category === budget.budgetCategory
       );
       const totalSpent = expenses.reduce((acc, curr) => acc + curr.amount, 0);
       return {
-        ...expense,
+        ...budget,
         amountSpent: totalSpent,
       };
     });

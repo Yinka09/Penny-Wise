@@ -1,0 +1,11 @@
+.pi-bars,
+.pi-arrow-left {
+  font-size: 0.8rem;
+
+  @media (max-width: 1020px) {
+    font-size: 0.8rem;
+  }
+}
+.transition-animation {
+  transition: width 1s ease-out, margin-left 1s ease-out, flex 1s ease-out;
+}

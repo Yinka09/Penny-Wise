@@ -18,6 +18,8 @@ export class MainService {
   private isTransactionPageSubject = new BehaviorSubject<boolean>(false);
   isTransactionPage$ = this.isTransactionPageSubject.asObservable();
 
+  firstDashboardVisit = true;
+
   getViewSidebar() {
     return this.viewSidebar$;
   }
@@ -44,5 +46,9 @@ export class MainService {
 
   setIsTransactionPage(transactionPage: boolean) {
     this.isTransactionPageSubject.next(transactionPage);
+  }
+
+  resetNavigationState() {
+    this.firstDashboardVisit = true;
   }
 }

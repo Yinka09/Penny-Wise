@@ -4,6 +4,7 @@ import {
   type ITransactions,
   type ITransactionsTableData,
 } from './interfaces';
+import { getRandomDateWithinLast10Days } from './helper-funtion';
 export const CardDetails: ICardData[] = [
   {
     title: 'Total Balance',
@@ -166,7 +167,7 @@ export const CustomersMockData = [
 export const TransactionsMockTableData: ITransactionsTableData[] = [
   {
     transactionId: 'TXN-1001',
-    date: new Date('2024-01-05'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Groceries at Shoprite',
     category: 'Food Stuffs',
     amount: 18500,
@@ -175,7 +176,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1002',
-    date: new Date('2024-01-07'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Salary Payment',
     category: 'Income',
     amount: 250000,
@@ -184,7 +185,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1003',
-    date: new Date('2024-01-09'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Electricity Bill (PHCN)',
     category: 'Utilities',
     amount: 12000,
@@ -193,7 +194,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1004',
-    date: new Date('2024-01-12'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Netflix Subscription',
     category: 'Entertainment',
     amount: 4500,
@@ -202,7 +203,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1005',
-    date: new Date('2024-01-14'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Transport Allowance',
     category: 'Income',
     amount: 15000,
@@ -211,7 +212,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1006',
-    date: new Date('2024-01-17'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Fuel Purchase',
     category: 'Transportation',
     amount: 10000,
@@ -220,7 +221,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1007',
-    date: new Date('2024-01-18'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Freelance Project Payment',
     category: 'Income',
     amount: 80000,
@@ -229,7 +230,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1008',
-    date: new Date('2024-01-20'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Airtime Recharge',
     category: 'Utilities',
     amount: 3000,
@@ -238,7 +239,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1009',
-    date: new Date('2024-01-21'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Restaurant Dinner',
     category: 'Restaurant & Dining',
     amount: 9500,
@@ -247,7 +248,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1010',
-    date: new Date('2024-01-23'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Internet Subscription (Spectranet)',
     category: 'Utilities',
     amount: 18000,
@@ -256,7 +257,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1011',
-    date: new Date('2024-01-24'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Dividend Payout',
     category: 'Income',
     amount: 22000,
@@ -265,7 +266,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1012',
-    date: new Date('2024-01-26'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Clothing Purchase',
     category: 'Shopping',
     amount: 27000,
@@ -274,7 +275,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1013',
-    date: new Date('2024-01-28'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Gym Membership',
     category: 'Healthcare',
     amount: 15000,
@@ -283,7 +284,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1014',
-    date: new Date('2024-01-29'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Bonus Payment',
     category: 'Income',
     amount: 50000,
@@ -292,7 +293,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1015',
-    date: new Date('2024-01-30'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Pharmacy Purchase',
     category: 'Healthcare',
     amount: 6500,
@@ -301,7 +302,7 @@ export const TransactionsMockTableData: ITransactionsTableData[] = [
   },
   {
     transactionId: 'TXN-1016',
-    date: new Date('2024-01-31'),
+    date: getRandomDateWithinLast10Days(10),
     description: 'Rent Payment',
     category: 'Rent',
     amount: 30000,

@@ -165,6 +165,7 @@ export class AddTransactionComponent implements OnInit, OnChanges {
 
       const { type, category, date, amount, paymentMethod, description } =
         this.addTransactionForm.value;
+      console.log('Form values', this.addTransactionForm.value);
 
       this.formDetails.emit({
         transactionId,

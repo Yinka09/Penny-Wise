@@ -36,3 +36,21 @@
 
   height: 100%;
 }
+
+.transition-animation {
+  transition: width 1s ease-out, margin-left 1s ease-out, flex 1s ease-out,
+    display 1s ease-out;
+}
+
+.margin-left-wide {
+  margin-left: 200px;
+  @media (max-width: 760px) {
+    margin-left: 0px;
+  }
+}
+.margin-left-small {
+  margin-left: 80px;
+  @media (max-width: 760px) {
+    margin-left: 0px;
+  }
+}
