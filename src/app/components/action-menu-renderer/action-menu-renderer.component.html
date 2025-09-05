@@ -12,14 +12,14 @@
   </button>
 
   @if (checkTransactionType()){
-  <button mat-menu-item (click)="onAddToExpense($event)">
+  <button mat-menu-item (click)="onAddToExpense($event, 'Expense')">
     <mat-icon>add</mat-icon>
     <span>Add to Expense</span>
   </button>
   } @else {
   <button
     mat-menu-item
-    (click)="onAddToIncome($event)"
+    (click)="onAddToIncome($event, 'Income')"
     style="display: flex; justify-content: space-between; align-items: center"
   >
     <mat-icon>add</mat-icon>

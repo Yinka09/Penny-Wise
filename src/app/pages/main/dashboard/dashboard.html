@@ -1,5 +1,7 @@
 <p-toast />
-
+@if(isLoading){
+<app-spinner></app-spinner>
+} @else {
 <div
   class="bg-white overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
@@ -78,3 +80,4 @@
     </div>
   </div>
 </div>
+}

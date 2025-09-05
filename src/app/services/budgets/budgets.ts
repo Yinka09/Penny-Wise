@@ -8,7 +8,9 @@ import { BudgetCategoryData } from '../../models/mock-data';
   providedIn: 'root',
 })
 export class BudgetsService {
-  public budgetCategories = signal<IBudgetsCategory[]>(BudgetCategoryData);
+  public budgetCategories = signal<IBudgetsCategory[]>(
+    this.fetchBudgetsFromStorageData()
+  );
   public allBudgetCategories = this.budgetCategories.asReadonly();
   budgetCardData = computed<IBudgetsCategory[]>(() => {
     const budCategory = this.budgetCategories();
@@ -36,15 +38,13 @@ export class BudgetsService {
         maxCategory = category;
       }
     }
-    // console.log('this is', { maxCategory, maxAmount });
 
     return { category: maxCategory, amount: maxAmount };
   });
-  // budgetCardData: IBudgetsCategory[] = [];
-  //  budgetCardData = computed(() => this.budgetCategories());
+
   constructor(
     private transactionService: TransactionsService,
-    private dashBoardService: DashboardService
+    private dashboardService: DashboardService
   ) {}
 
   getExpenses() {
@@ -55,7 +55,6 @@ export class BudgetsService {
 
   getBudgetCatagoriesWithAmount() {
     let categoriesObj: { [key: string]: number } = {};
-    // let categoriesObj: { category: string, amount: number } = {};
     this.budgetCategories().map((el) => {
       categoriesObj[el.budgetCategory] = el.amountBudgeted;
     });
@@ -74,46 +73,67 @@ export class BudgetsService {
   }
 
   addBudget(formData: any) {
-    console.log({ formData });
-    console.log(this.budgetCategories());
+    // console.log({ formData });
+    // console.log(this.budgetCategories());
     this.budgetCategories.update((prevTrans: IBudgetsCategory[]) => {
-      return prevTrans.map((el) =>
+      const updated = prevTrans.map((el) =>
         el.budgetCategory === formData?.budgetCategory
           ? { ...el, amountBudgeted: formData.amountBudgeted }
           : el
       );
+      sessionStorage.setItem('budgetData', JSON.stringify(updated));
+      return updated;
     });
   }
-  // addBudget(budget: IBudgetsCategory) {
-  //   this.budgetCategories.update((prevTrans) => {
-  //     return [budget, ...prevTrans];
-  //   });
-  // }
 
   updateAllBudgets(updatedVal: number) {
     this.budgetCategories.update((prevBudget: IBudgetsCategory[]) => {
-      return prevBudget.map((el) => ({ ...el, amountBudgeted: updatedVal }));
+      const updated = prevBudget.map((el) => ({
+        ...el,
+        amountBudgeted: updatedVal,
+      }));
+      sessionStorage.setItem('budgetData', JSON.stringify(updated));
+      return updated;
     });
   }
 
   updateBudget(budget: IBudgetsCategory | undefined, updatedVal: any) {
-    console.log(this.budgetCategories());
+    // console.log(this.budgetCategories());
     this.budgetCategories.update((prevTrans: IBudgetsCategory[]) => {
-      return prevTrans.map((el) =>
+      const updated = prevTrans.map((el) =>
         el.budgetCategory === budget?.budgetCategory
           ? { ...el, ...updatedVal }
           : el
       );
+      sessionStorage.setItem('budgetData', JSON.stringify(updated));
+      return updated;
     });
   }
 
   deleteBudget(id: number) {
-    this.budgetCategories.update((prevTrans: IBudgetsCategory[]) =>
-      prevTrans.filter((el: IBudgetsCategory) => el.id !== id)
-    );
+    this.budgetCategories.update((prevTrans: IBudgetsCategory[]) => {
+      const updated = prevTrans.filter((el: IBudgetsCategory) => el.id !== id);
+      sessionStorage.setItem('budgetData', JSON.stringify(updated));
+      return updated;
+    });
   }
 
   deleteAllBudgets() {
     this.budgetCategories.set([]);
+    sessionStorage.setItem('budgetData', JSON.stringify([]));
+  }
+
+  updateTotalBudgetAmount(updatedVal: number) {
+    this.dashboardService.totalBalance.set(updatedVal);
+    sessionStorage.setItem('budgetData', JSON.stringify([]));
+  }
+
+  fetchBudgetsFromStorageData() {
+    const data = sessionStorage.getItem('budgetData');
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return BudgetCategoryData;
+    }
   }
 }

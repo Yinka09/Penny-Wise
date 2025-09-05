@@ -3,6 +3,7 @@ import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
 import { DashboardComponent } from './pages/main/dashboard/dashboard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found';
+import { AuthGuard } from './services/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -20,12 +21,13 @@ export const routes: Routes = [
   },
   {
     path: 'main',
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./pages/main/main.routes').then((m) => m.MAIN_ROUTES),
   },
 
   {
-    path: '*',
+    path: '**',
     component: PageNotFoundComponent,
   },
 ];

@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-    const savedInitials = sessionStorage.getItem('userInitials') || '';
+    const savedInitials = localStorage.getItem('userInitials') || '';
     this.userInitials = this.getUserInitialsArray(savedInitials);
 
     const sub = this.mainService
@@ -65,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   toggleSidebar() {
     const subscribe1 = this.mainService.getViewSidebar().subscribe((val) => {
       this.isViewSidebar = val;
-      console.log('isViewSidebar:', this.isViewSidebar);
+      // console.log('isViewSidebar:', this.isViewSidebar);
     });
     this.mainService.setViewSidebar(!this.isViewSidebar);
     this.mainService.setViewSmallScreenSidebar(!this.isViewSidebar);
@@ -81,6 +81,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentUrlIsTransaction() {
     return this.currentUrl === '/main/transactions';
+  }
+
+  navigateToTransactions() {
+    this.router.navigate(['/main/transactions']);
   }
 
   navigateToPrev() {

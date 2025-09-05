@@ -7,7 +7,7 @@ import { ICardData } from '../../models/interfaces';
 })
 export class DashboardService {
   cardData: ICardData[] = [];
-  totalBalance = signal<number>(200000);
+  totalBalance = signal<number>(this.fetchTotalBalanceFromStorage());
   incomeArray = signal<number[]>([]);
   expenseArray = signal<number[]>([]);
   categoryAmountObj = signal<{ category: string; amount: number } | null>(null);
@@ -31,8 +31,6 @@ export class DashboardService {
 
   highestExpenseCategory = computed(() => {
     const totals = this.updateCategoryTotals();
-    // const totals = this.categoryTotals();
-    // console.log({ totals });
 
     let maxCategory = '';
     let maxAmount = 0;
@@ -43,34 +41,9 @@ export class DashboardService {
         maxCategory = category;
       }
     }
-    // console.log('this is', { maxCategory, maxAmount });
 
     return { category: maxCategory, amount: maxAmount };
   });
-
-  // highestExpenseTransaction = computed(() => {
-  //   const expenses = this.transactionService
-  //     .allTransactions()
-  //     .filter((txn) => txn.type === 'Expense');
-
-  //   if (expenses.length === 0) {
-  //     return null;
-  //   }
-
-  //   return expenses.reduce((max, txn) => (txn.amount > max.amount ? txn : max));
-  // });
-
-  // highestExpenseCategory = computed(() =>
-  //   this.highestExpenseTransaction()
-  //     ? this.highestExpenseTransaction()!.category
-  //     : null
-  // );
-
-  // highestExpenseAmount = computed(() =>
-  //   this.highestExpenseTransaction()
-  //     ? this.highestExpenseTransaction()!.amount
-  //     : null
-  // );
 
   constructor(private transactionService: TransactionsService) {}
 
@@ -121,12 +94,6 @@ export class DashboardService {
       .filter((txn) => txn.type === 'Expense');
 
     const totals: Record<string, number> = {};
-    // for (const txn of expenses) {
-    //   if (!totals[txn.category]) {
-    //     totals[txn.category] = 0;
-    //   }
-    //   totals[txn.category] += txn.amount;
-    // }
 
     expenses.map(
       (el) =>
@@ -134,8 +101,7 @@ export class DashboardService {
           ? totals[el.category] + el.amount
           : el.amount)
     );
-    // this.categoryTotals.set(totals);
-    // console.log({ totals });
+
     return totals;
   }
 
@@ -160,5 +126,14 @@ export class DashboardService {
   getTotalBalancePercentage(value: number) {
     if (value === 0) return 0;
     return Number(((this.totalBalance() / value) * 100).toFixed(2));
+  }
+
+  fetchTotalBalanceFromStorage() {
+    const data = sessionStorage.getItem('totalBalance');
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return 200000;
+    }
   }
 }

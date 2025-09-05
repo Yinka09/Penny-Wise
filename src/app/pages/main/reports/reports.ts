@@ -45,6 +45,7 @@ import { AgTableComponent } from '../../../components/ag-table/ag-table';
 import { ReportsService } from '../../../services/reports/reports';
 import { AgCharts } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
+import { SpinnerComponent } from '../../../components/spinner/spinner';
 
 ModuleRegistry.registerModules([
   RowStyleModule,
@@ -62,9 +63,9 @@ ModuleRegistry.registerModules([
     SummaryStatisticsComponent,
     ToastModule,
     CommonModule,
-
     AgTableComponent,
     AgCharts,
+    SpinnerComponent,
   ],
   templateUrl: './reports.html',
   styleUrl: './reports.scss',
@@ -195,6 +196,7 @@ export class ReportsComponent implements OnInit {
   donutChartConfig: any;
   barChartConfig: any;
   lineChartConfig: any;
+  isLoading = true;
 
   constructor(
     private fb: FormBuilder,
@@ -204,7 +206,6 @@ export class ReportsComponent implements OnInit {
     private reportsService: ReportsService
   ) {}
   ngOnInit(): void {
-    // this.budgetCardData.set(this.budgetService.budgetCardData());
     // console.log(this.reportsService.getBarChartConfig());
 
     this.allExpenses = this.transactionService
@@ -232,6 +233,9 @@ export class ReportsComponent implements OnInit {
     this.buildForm();
     this.getTransactionTableDetails();
     this.setDonutChartConfig();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   setDonutChartConfig() {
@@ -276,8 +280,6 @@ export class ReportsComponent implements OnInit {
   }
 
   getTransactionTableDetails() {
-    // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-
     this.displayTableData = this.dashboardService
       .getAllTransactions()
       .slice(0, 5);

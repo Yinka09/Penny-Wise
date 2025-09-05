@@ -11,8 +11,6 @@ export class MainService {
   private viewSmallScreenSidebarSubject = new BehaviorSubject<boolean>(false);
   viewSmallScreenSidebar$ = this.viewSmallScreenSidebarSubject.asObservable();
 
-  // private headerTitleSubject = new BehaviorSubject<string>('Dashboard');
-  // headerTitle$ = this.headerTitleSubject.asObservable();
 
   headerTitle = signal<string>('Dashboard');
   private isTransactionPageSubject = new BehaviorSubject<boolean>(false);

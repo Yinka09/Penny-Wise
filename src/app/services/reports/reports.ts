@@ -110,7 +110,7 @@ export class ReportsService {
 
   getBarChartData() {
     const allTransactions = this.transactionsService.allTransactions();
-    const lastTenDays = this.getLast7Days(10);
+    const lastTenDays = this.getLastNDays(10);
 
     let chartSeries = [
       {
@@ -150,7 +150,7 @@ export class ReportsService {
     return { chartData, chartSeries };
   }
 
-  getLast7Days(n: number): { day: string; date: string }[] {
+  getLastNDays(n: number): { day: string; date: string }[] {
     const days: { day: string; date: string }[] = [];
     const today = new Date();
 

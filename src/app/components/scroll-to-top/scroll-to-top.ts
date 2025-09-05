@@ -6,6 +6,7 @@ import {
   ElementRef,
   OnInit,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ScrollToTop implements OnInit, OnDestroy {
   @Input() scrollContainer?: any;
+  // @ViewChild('scrollContainer') scrollContainer!: ElementRef;
   showButton = false;
 
   private boundScrollHandler: any;

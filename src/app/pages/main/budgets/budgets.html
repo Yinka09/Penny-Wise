@@ -1,6 +1,7 @@
-<app-scroll-to-top [scrollContainer]="scrollContainer"></app-scroll-to-top>
-
-<div class="w-full bg-white" [@fadeSlideInOut]="isVisible" #scrollContainer>
+@if(isLoading){
+<app-spinner></app-spinner>
+} @else {
+<div class="w-full bg-white" [@fadeSlideInOut]="isVisible">
   <section
     class="bg-[#F0F9FF] w-full rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-5 p-5 lg:p-4"
   >
@@ -75,10 +76,10 @@
     </div>
   </section>
   <section>
-    <div class="mt-7" style="width: 100%; height: 100%; flex: 1 1 auto">
+    <div class="mt-7" style="width: 100%; height: 100%">
       <ag-charts
         [options]="options"
-        style="width: 100%; height: 100%; flex: 1 1 auto; display: block"
+        style="width: 100%; height: 100%; display: block"
       ></ag-charts>
     </div>
   </section>
@@ -91,15 +92,15 @@
       <h3
         class="font-semibold text-[1.1rem] lg:text-[1.3rem] leading-loose w-full"
       >
-        Your Current Budgets
+        Your Current Allocated Budgets
       </h3>
       <div
-        class="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-end gap-2 relative"
+        class="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-end"
       >
         <input
           type="text"
           placeholder="Search Budgets"
-          class="w-full lg:w-[300px] border-2 border-gray-300 rounded-lg p-2 w-full text-[0.9rem] focus:outline-none focus:border-[#0078BD] pl-10 placeholder:text-gray-400 bg-white"
+          class="w-full lg:w-[50%] border-2 border-gray-300 rounded-lg p-2 w-full text-[0.9rem] focus:outline-none focus:border-[#0078BD] pl-10 placeholder:text-gray-400 bg-white"
           [(ngModel)]="listFilter"
         />
         <i class="pi pi-search" style="font-size: 0.9rem; color: #99a1af"></i>
@@ -108,9 +109,9 @@
         >
           <i class="fa-solid fa-times text-[0.7rem] lg:text-[0.7rem]"></i>
           <span
-            class="text-[0.7rem] lg:text-[0.7rem]"
+            class="text-[0.8rem] lg:text-[0.8rem]"
             (click)="onDeleteAllBudgets($event)"
-            >Delete All Budgets</span
+            >Delete All</span
           >
         </button>
       </div>
@@ -205,3 +206,4 @@
 ></app-add-budget>
 
 <p-confirmDialog />
+}

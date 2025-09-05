@@ -58,6 +58,7 @@ import {
   routerTransitions,
   routerTransitions2,
 } from '../../../services/animation/animation';
+import { SpinnerComponent } from '../../../components/spinner/spinner';
 
 @Component({
   standalone: true,
@@ -68,6 +69,7 @@ import {
     CardComponent,
     AgChartComponent,
     AgGridAngular,
+    SpinnerComponent,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -171,6 +173,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   transactionsData: ITransactions[] = [];
 
   transactionTableDetails: ITransactionsTableData[] = [];
+  isLoading = true;
   constructor(
     private mainService: MainService,
     private messageService: MessageService,
@@ -178,13 +181,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.isVisible = true;
     this.mainService.headerTitle.set('Dashboard');
     // this.mainService.setHeaderTitle('Dashboard');
     // this.cardData = CardDetails;
-    this.cardData = this.dashboardService.createDashboardCards();
-    this.chartData = this.dashboardService.chartData();
+
     this.mainService.setIsTransactionPage(false);
+
+    setTimeout(() => {
+      this.cardData = this.dashboardService.createDashboardCards();
+      this.chartData = this.dashboardService.chartData();
+      this.isLoading = false;
+    }, 1000);
 
     // console.log(this.dashboardService.createDashboardCards());
     // console.log(this.dashboardService.chartData());
@@ -198,6 +207,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.displayTableData = this.dashboardService
       .getAllTransactions()
       .slice(0, 5);
+    this.isLoading = false;
+
     this.isAllDataLoaded.isAllTableDataLoaded = true;
   }
 

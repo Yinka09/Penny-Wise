@@ -82,7 +82,7 @@ export class Login implements OnInit, OnDestroy {
       .subscribe(
         (resData) => {
           // console.log(resData);
-          sessionStorage.setItem('userInitials', resData.email);
+          localStorage.setItem('userInitials', resData.email);
           this.isLoading = false;
           this.messageService.add({
             severity: 'success',
@@ -91,7 +91,7 @@ export class Login implements OnInit, OnDestroy {
           });
           this.loginForm.reset();
           setTimeout(() => {
-            this.router.navigate(['./main/dashboard']);
+            this.router.navigate(['/main/dashboard']);
           }, 1500);
         },
         (errorMessage) => {

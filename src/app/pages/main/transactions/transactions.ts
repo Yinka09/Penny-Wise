@@ -55,6 +55,7 @@ import {
   routerTransitions,
   routerTransitions2,
 } from '../../../services/animation/animation';
+import { SpinnerComponent } from '../../../components/spinner/spinner';
 
 @Component({
   standalone: true,
@@ -66,6 +67,7 @@ import {
     AddTransactionComponent,
     ConfirmDialogModule,
     ToastModule,
+    SpinnerComponent,
   ],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss',
@@ -103,6 +105,7 @@ export class TransactionsComponent implements OnInit {
   isEditMode = signal<boolean>(true);
   isCreateMode = signal<boolean>(true);
   isViewMode = signal<boolean>(false);
+
   displayTableData = computed(() =>
     this.transactionsService
       .allTransactions()
@@ -117,6 +120,7 @@ export class TransactionsComponent implements OnInit {
     flex: 1,
     minWidth: 120,
     resizable: true,
+    sortable: true,
   };
 
   rowClass = 'ag-grid-table ';
@@ -125,26 +129,20 @@ export class TransactionsComponent implements OnInit {
       headerName: 'DATE',
       field: 'date',
       filter: 'agDateColumnFilter',
-      // filter: true,
-      // width: 200,
     },
     {
       headerName: 'DESCRIPTION',
       field: 'description',
       filter: true,
+
       cellStyle: {
         fontWeight: '600',
-        // textDecoration: 'underline',
       },
-      // flex: 1,
     },
     {
       headerName: 'CATEGORY',
       field: 'category',
       filter: 'agTextColumnFilter',
-      // filter: true,
-      // flex: 1,
-      // width: 200,
     },
     {
       headerName: 'AMOUNT (₦)',
@@ -173,10 +171,8 @@ export class TransactionsComponent implements OnInit {
     {
       headerName: 'PAYMENT METHOD',
       field: 'paymentMethod',
-      // filter: 'agTextColumnFilter',
+
       filter: true,
-      // flex: 1,
-      // width: 200,
     },
     {
       headerName: 'TYPE',
@@ -190,10 +186,8 @@ export class TransactionsComponent implements OnInit {
           params.value === 'Income'
             ? 'fa-hand-holding-dollar'
             : 'fa-money-bill-transfer';
-        // const statusIcon = params.value === 'whitelist' ? 'bi-check' : 'bi-x';
 
         return `<span class="span-class ${statusClass}"><i class="fa-solid ${statusIcon}"></i>${params.value}</span>`;
-        // return `<span class="span-class ${statusClass}"><i class="bi ${statusIcon} me-2"></i>${params.value}</span>`;
       },
       // width: 500,
       // flex: 0,
@@ -217,6 +211,7 @@ export class TransactionsComponent implements OnInit {
   paginationPageSizeSelector: number[] | boolean = [2, 5, 8, 10, 15, 20];
   tableStyle = 'height: 100%; margin: 10px auto 0 auto; width: 100%;';
   currentUrl = '';
+  isLoading = true;
   constructor(
     private router: Router,
     private mainService: MainService,
@@ -228,9 +223,12 @@ export class TransactionsComponent implements OnInit {
   ngOnInit(): void {
     this.isVisible = true;
     this.currentUrl = this.router.url;
-    // this.mainService.setHeaderTitle('Transactions');
+
     this.mainService.headerTitle.set('Transactions');
     this.mainService.setIsTransactionPage(true);
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   onTabChange(tab: { label: string; value: string }) {
@@ -304,13 +302,17 @@ export class TransactionsComponent implements OnInit {
     this.isViewMode.set(false);
     this.isCreateMode.set(false);
   }
-  onAddTransactionToExpense(data: ITransactionsTableData, event: any) {
-    console.log('On Add To Expense', data);
 
+  onUpdateTransactionType(
+    data: ITransactionsTableData,
+    event: any,
+    type: 'Income' | 'Expense'
+  ) {
+    // console.log('On Add to Income', data);
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure you want to add transaction to expense?',
-      header: 'Add to Expense',
+      message: `Are you sure you want to add transaction to ${type.toLocaleLowerCase()}?`,
+      header: `Add to ${type}`,
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: 'p-button-danger   ',
       rejectButtonStyleClass: 'p-button-secondary',
@@ -318,51 +320,11 @@ export class TransactionsComponent implements OnInit {
       rejectIcon: 'none',
 
       accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
-        this.transactionsService.addTransactionToExpense(data);
+        this.transactionsService.updateTransactionType(data, type);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: ' Added to Expense Successfully',
-          life: 3000,
-        });
-      },
-      reject: () => {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Cancelled',
-          detail: 'Action cancelled',
-        });
-      },
-    });
-  }
-  onAddTransactionToIncome(data: ITransactionsTableData, event: any) {
-    console.log('On Add to Income', data);
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure you want to add transaction to income?',
-      header: 'Add to Income',
-      icon: 'pi pi-info-circle',
-      acceptButtonStyleClass: 'p-button-danger   ',
-      rejectButtonStyleClass: 'p-button-secondary',
-      acceptIcon: 'none',
-      rejectIcon: 'none',
-
-      accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
-        this.transactionsService.addTransactionToIncome(data);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: ' Added to Income Successfully',
+          detail: `Added to ${type} Successfully`,
           life: 3000,
         });
       },
@@ -390,11 +352,6 @@ export class TransactionsComponent implements OnInit {
       rejectIcon: 'none',
 
       accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
         this.transactionsService.deleteTransaction(data.transactionId);
         this.messageService.add({
           severity: 'success',
@@ -423,7 +380,6 @@ export class TransactionsComponent implements OnInit {
   };
 
   onFirstDataRendered(params: FirstDataRenderedEvent) {
-    // params.api.paginationGoToPage(4);
     params.api.paginationGoToPage(0);
   }
 
@@ -439,11 +395,6 @@ export class TransactionsComponent implements OnInit {
       rejectIcon: 'none',
 
       accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
         this.transactionsService.resetTransactions();
         this.messageService.add({
           severity: 'success',

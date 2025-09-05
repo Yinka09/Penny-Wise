@@ -1,4 +1,8 @@
 <p-toast />
+@if(isLoading){
+<app-spinner></app-spinner>
+} @else {
+
 <div
   class="bg-white container h-[100%] lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
@@ -84,3 +88,4 @@
 ></app-add-transaction>
 
 <p-confirmDialog />
+}

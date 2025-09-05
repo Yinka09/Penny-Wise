@@ -14,11 +14,12 @@ import { IBudgetsCategory } from '../../../models/interfaces';
 import { TransactionsService } from '../../../services/transactions/transactions';
 import { FormsModule } from '@angular/forms';
 import { AgCharts } from 'ag-charts-angular';
-import { AgChartOptions } from 'ag-charts-community';
+
 import { AddBudget } from '../../../components/modals/add-budget/add-budget';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ScrollToTop } from '../../../components/scroll-to-top/scroll-to-top';
+
+import { SpinnerComponent } from '../../../components/spinner/spinner';
 
 @Component({
   standalone: true,
@@ -33,7 +34,8 @@ import { ScrollToTop } from '../../../components/scroll-to-top/scroll-to-top';
     AgCharts,
     AddBudget,
     ConfirmDialogModule,
-    ScrollToTop,
+
+    SpinnerComponent,
   ],
   templateUrl: './budgets.html',
   styleUrls: ['./budgets.scss'],
@@ -80,16 +82,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   set listFilter(value: string) {
     this._listFilter.set(value);
   }
-  // get listFilter(): string {
-  //   return this._listFilter;
-  // }
-
-  // set listFilter(value: string) {
-  //   this._listFilter = value;
-  //   this.displayBudgetCategoryData = this.listFilter
-  //     ? this.performFilter(this.listFilter)
-  //     : this.budgetCategoryData();
-  // }
+  isLoading = true;
 
   public options: any;
   constructor(
@@ -105,53 +98,12 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     // console.log({ budgetCategoryData });
     this.isVisible = true;
 
-    // this.budgetCards = [
-    //   {
-    //     id: 1,
-    //     icon: 'fa-money-bill-wave',
-    //     amount: this.totalBalance(),
-    //     label: 'Total Budget',
-    //   },
-    //   {
-    //     id: 2,
-    //     icon: 'fa-money-bill-transfer',
-    //     amount: this.totalExpenses(),
-    //     label: 'Total Expenses',
-    //   },
-    //   {
-    //     id: 3,
-    //     icon: 'fa-piggy-bank',
-    //     amount:
-    //       this.totalExpenses() > this.totalBalance()
-    //         ? 0
-    //         : this.totalBalance() - this.totalExpenses(),
-    //     label: 'Remaining Budget',
-    //   },
-    // ];
     this.updateBudgetCards();
     this.getChartOptions(30);
     this.getProgressData();
-
-    // this.options = {
-    //   data: this.getBudgetChartData(),
-    //   title: {
-    //     text: 'Budget Composition',
-    //   },
-    //   series: [
-    //     {
-    //       type: 'pie',
-    //       angleKey: 'amount',
-    //       calloutLabelKey: 'category',
-    //       sectorLabelKey: 'amount',
-    //       outerRadiusOffset: 30,
-    //       sectorLabel: {
-    //         color: 'white',
-    //         fontWeight: 'bold',
-    //         formatter: ({ value }: any) => `₦${(value / 1000).toFixed(0)}K`,
-    //       },
-    //     },
-    //   ],
-    // };
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   getProgressData() {
@@ -285,16 +237,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     return { difference: undefined, color: '#FF6467', percentage };
   }
 
-  getChartData() {
-    return [
-      { asset: 'Stocks', amount: 60000 },
-      { asset: 'Bonds', amount: 40000 },
-      { asset: 'Cash', amount: 7000 },
-      { asset: 'Real Estate', amount: 5000 },
-      { asset: 'Commodities', amount: 3000 },
-    ];
-  }
-
   getStrokeColor(): string {
     const percentageSpent = this.getExpensesPercentage();
 
@@ -312,7 +254,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
 
   getExpensesPercentage(): number {
     const totalExpenses = this.dashboardService.getTotalExpenses();
-    // const remainingBalance = this.totalBalance() - totalExpenses;
+
     const perecentageBalance = Number(
       ((totalExpenses / this.totalBalance()) * 100).toFixed(1)
     );
@@ -354,11 +296,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         return this.getStrokeColor();
       }
     }
-
-    // if (item.label === 'Remaining Budget' && item.amount === 0) {
-    //   return 'text-red-500';
-    // }
-    // return 'text-gray-800';
   }
 
   performFilter(filterBy: string): IBudgetsCategory[] {
@@ -369,11 +306,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     );
   }
 
-  showSpinner() {
-    // if (this.isTableDataComplete) {
-    //   this.isShowSpinner = false;
-    // }
-  }
   showAddBudgetDialog() {
     this.showAddBudgetModal = true;
     this.selectedBudget = undefined;
@@ -401,7 +333,8 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     if (this.isCreateMode()) {
       const formData = { ...event };
       if (this.displayUpdateTotalBudgetModal()) {
-        this.dashboardService.totalBalance.set(formData.amountBudgeted);
+        // this.dashboardService.totalBalance.set(formData.amountBudgeted);
+        this.budgetService.updateTotalBudgetAmount(formData.amountBudgeted);
 
         this.updateBudgetCards();
 
@@ -420,9 +353,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       this.getProgressData();
     }
 
-    // this.budgetService.updateBudget(this.selectedBudget, formData);
-
-    // console.log('Received form', event);
   }
 
   onViewTransaction(data: IBudgetsCategory) {
@@ -460,11 +390,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       rejectIcon: 'none',
 
       accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
+       
         this.budgetService.deleteBudget(data.id);
         this.getChartOptions(30);
         this.getProgressData();
@@ -497,11 +423,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       rejectIcon: 'none',
 
       accept: () => {
-        // this.messageService.add({
-        //   severity: 'info',
-        //   summary: 'Confirmed',
-        //   detail: 'Transaction deleted',
-        // });
+        
         this.budgetService.deleteAllBudgets();
         this.getChartOptions(10);
         this.getProgressData();

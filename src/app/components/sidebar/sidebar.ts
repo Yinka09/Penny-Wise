@@ -16,7 +16,7 @@ export class SidebarComponent {
   @Input() isViewSidebar: boolean = false;
   @Input() isPhoneScreen!: boolean;
   // @Input() isViewSidebar!: boolean;
-  logo: string = 'pw-logo.png';
+  logo: string = 'pw-logo2.jpeg';
   selectedReportTab = '';
   private allSubscriptions = new Subscription();
   activeTab: string = 'Dashboard';
@@ -37,20 +37,20 @@ export class SidebarComponent {
       title: 'Transactions',
       action: '/main/transactions',
       isActive: false,
-      icon: 'pi pi-chart-bar',
+      icon: 'pi pi-credit-card',
     },
     {
       title: 'Budgets',
       action: '/main/budgets',
       isActive: false,
-      icon: 'pi pi-calendar-clock',
+      icon: 'pi pi-briefcase',
     },
 
     {
       title: 'Reports',
       action: '/main/reports',
       isActive: false,
-      icon: 'pi pi-cloud-download',
+      icon: 'pi pi-chart-bar',
     },
   ];
 
@@ -102,6 +102,10 @@ export class SidebarComponent {
     // this.activeTab = item.action;
     this.closePhoneSidebar();
     this.router.navigate([item.action]);
+  }
+
+  logOut() {
+    this.mainService.resetNavigationState();
   }
 
   ngOnDestroy(): void {

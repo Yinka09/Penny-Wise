@@ -40,7 +40,7 @@
             </label>
             <input
               type="firstName"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Enter your first name"
               formControlName="firstName"
             />
@@ -60,7 +60,7 @@
             </label>
             <input
               type="lastName"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Enter your last name"
               formControlName="lastName"
             />
@@ -82,7 +82,7 @@
             </label>
             <input
               type="email"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Enter your middle name "
               formControlName="middleName"
             />
@@ -101,7 +101,7 @@
             </label>
             <input
               type="email"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Enter your email "
               formControlName="email"
             />
@@ -125,7 +125,7 @@
             </label>
             <input
               [type]="viewPassword ? 'text' : 'password'"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Enter your password"
               formControlName="password"
             />
@@ -151,7 +151,7 @@
             </label>
             <input
               [type]="viewConfirmPassword ? 'text' : 'password'"
-              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] placeholder:italic bg-sky-50"
+              class="text-[0.8rem] mt-2 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 placeholder-opacity-75 placeholder:text-[0.8rem] bg-sky-50"
               placeholder="Confirm password"
               formControlName="confirmPassword"
             />
@@ -173,7 +173,7 @@
 
         <button
           type="submit"
-          [disabled]="!signUpForm.valid"
+          [disabled]="!signUpForm.valid || isLoading"
           class="text-[1rem] text-center block w-full bg-[#0078bd] text-white py-3 rounded-md hover:opacity-65 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-10 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
         >
           @if(isLoading){

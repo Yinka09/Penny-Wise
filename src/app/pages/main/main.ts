@@ -6,11 +6,12 @@ import { HeaderComponent } from '../../components/header/header';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { MainService } from '../../services/main/main';
 import { Subject, takeUntil } from 'rxjs';
+import { ScrollToTop } from "../../components/scroll-to-top/scroll-to-top";
 
 @Component({
   standalone: true,
   selector: 'app-main',
-  imports: [RouterOutlet, CommonModule, HeaderComponent, SidebarComponent],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, SidebarComponent, ScrollToTop],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })

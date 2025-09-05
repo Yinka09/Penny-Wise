@@ -136,7 +136,7 @@ export class AddTransactionComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const txn = this.selectedTransaction;
-    console.log('This is selected transaction', txn);
+    // console.log('This is selected transaction', txn);
 
     if (txn) {
       this.buildForm(txn);
@@ -165,7 +165,7 @@ export class AddTransactionComponent implements OnInit, OnChanges {
 
       const { type, category, date, amount, paymentMethod, description } =
         this.addTransactionForm.value;
-      console.log('Form values', this.addTransactionForm.value);
+      // console.log('Form values', this.addTransactionForm.value);
 
       this.formDetails.emit({
         transactionId,

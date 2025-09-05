@@ -26,6 +26,7 @@
     @if(!isNotTransactionPage){
     <button
       class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[white] cursor-pointer hidden sm:flex text-[#0078BD] font-medium"
+      (click)="navigateToTransactions()"
     >
       <i class="fa-solid fa-circle-plus"></i>
       <span class="text-[0.8rem]">Add New Transaction</span>

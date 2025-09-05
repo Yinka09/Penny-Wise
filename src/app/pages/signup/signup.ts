@@ -109,14 +109,15 @@ export class Signup implements OnInit, OnDestroy {
     const email = this.signUpForm.value.email;
     const password = this.signUpForm.value.passwords.password;
 
-    console.log('Form submitted with payload:', { email, password });
+    // console.log('Form submitted with payload:', { email, password });
     this.isLoading = true;
     this.authService
       .signUp(email, password)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (resData) => {
-          console.log(resData);
+          // console.log(resData);
+          localStorage.setItem('userInitials', resData.email);
           this.isLoading = false;
           this.messageService.add({
             severity: 'success',
@@ -124,8 +125,8 @@ export class Signup implements OnInit, OnDestroy {
             detail: 'Account created successfully',
           });
           setTimeout(() => {
-            this.router.navigate(['./login']);
-          }, 3000);
+            this.router.navigate(['./main/dashboard']);
+          }, 1500);
         },
         (errorMessage) => {
           console.log(errorMessage);

@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   autoLogin() {
-    const userDataString = localStorage.getItem('userData');
+    const userDataString = sessionStorage.getItem('userData');
     if (!userDataString) {
       return;
     }
@@ -89,8 +89,8 @@ export class AuthService {
   logout() {
     this.user.next(null);
 
-    this.router.navigate(['/auth']);
-    localStorage.removeItem('userData');
+    this.router.navigate(['/login']);
+    sessionStorage.removeItem('userData');
 
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -99,7 +99,7 @@ export class AuthService {
   }
 
   autoLogout(expirationDuration: number) {
-    console.log(expirationDuration);
+    // console.log(expirationDuration);
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, expirationDuration);
@@ -115,11 +115,11 @@ export class AuthService {
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
     this.autoLogout(expiresIn * 1000);
-    localStorage.setItem('userData', JSON.stringify(user));
+    sessionStorage.setItem('userData', JSON.stringify(user));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    console.log(errorRes);
+    // console.log(errorRes);
     let errorMessage = 'An unknown error occured';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);

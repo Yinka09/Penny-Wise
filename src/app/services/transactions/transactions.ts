@@ -7,7 +7,7 @@ import { TransactionsMockTableData } from '../../models/mock-data';
 })
 export class TransactionsService {
   private transactionsData = signal<ITransactionsTableData[]>(
-    TransactionsMockTableData
+    this.fetchTransactionsFromStorageData()
   );
 
   allTransactions = this.transactionsData.asReadonly();
@@ -15,45 +15,63 @@ export class TransactionsService {
   constructor() {}
 
   addTransaction(transaction: ITransactionsTableData) {
+    // this.transactionsData.update((prevTrans) => {
+    //   return [transaction, ...prevTrans];
+    // });
     this.transactionsData.update((prevTrans) => {
-      return [transaction, ...prevTrans];
+      const updated = [transaction, ...prevTrans];
+      sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+      return updated;
     });
   }
 
   updateTransaction(transactionId: string | undefined, updateVal: any) {
     this.transactionsData.update((prevTrans: ITransactionsTableData[]) => {
-      return prevTrans.map((el) =>
+      const updated = prevTrans.map((el) =>
         el.transactionId === transactionId ? { ...el, ...updateVal } : el
       );
+      sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+      return updated;
     });
   }
 
   deleteTransaction(id: string) {
-    this.transactionsData.update((prevTrans: ITransactionsTableData[]) =>
-      prevTrans.filter((el: ITransactionsTableData) => el.transactionId !== id)
-    );
-  }
-
-  addTransactionToIncome(transaction: ITransactionsTableData) {
-    this.transactionsData.update((prevTrans) => {
-      return prevTrans.map((el) =>
-        el.transactionId === transaction.transactionId
-          ? { ...el, type: 'Income' }
-          : el
+    this.transactionsData.update((prevTrans: ITransactionsTableData[]) => {
+      const updated = prevTrans.filter(
+        (el: ITransactionsTableData) => el.transactionId !== id
       );
+      sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+      return updated;
     });
   }
-  addTransactionToExpense(transaction: ITransactionsTableData) {
+
+  updateTransactionType(
+    transaction: ITransactionsTableData,
+    newType: 'Income' | 'Expense'
+  ) {
     this.transactionsData.update((prevTrans) => {
-      return prevTrans.map((el) =>
+      const updated: ITransactionsTableData[] = prevTrans.map((el) =>
         el.transactionId === transaction.transactionId
-          ? { ...el, type: 'Expense' }
+          ? { ...el, type: newType }
           : el
       );
+
+      sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+      return updated;
     });
   }
 
   resetTransactions() {
-    this.transactionsData.set([]);
+    const updated = this.transactionsData.set([]);
+    sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+  }
+
+  fetchTransactionsFromStorageData() {
+    const data = sessionStorage.getItem('transactionsData');
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return TransactionsMockTableData;
+    }
   }
 }

@@ -20,12 +20,16 @@
     class="flex flex-col flex-1 transition-animation"
   >
     <app-header class=""></app-header>
-    <main class="flex-1 p-4 overflow-y-auto bg-white transition-animation">
+    <main
+      class="flex-1 p-4 overflow-y-auto bg-white transition-animation"
+      #scrollContainer
+    >
       <router-outlet></router-outlet>
     </main>
-    <!-- <router-outlet></router-outlet> -->
   </div>
 </div>
+
+<app-scroll-to-top [scrollContainer]="scrollContainer"></app-scroll-to-top>
 
 <!-- <div class="main-container">
   <app-sidebar

@@ -46,22 +46,42 @@ export class ActionMenuRendererComponent implements ICellRendererAngularComp {
       this.params.context.componentParent.onEditTransaction(this.params.data);
     }
   }
-  onAddToExpense(event: any) {
+  onAddToExpense(event: any, type: 'Income' | 'Expense') {
     if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onAddTransactionToExpense(
+      this.params.context.componentParent.onUpdateTransactionType(
         this.params.data,
-        event
+        event,
+        type
       );
     }
   }
-  onAddToIncome(event: any) {
+  // onAddToExpense(event: any, type: string) {
+  //   if (this.params.context && this.params.context.componentParent) {
+  //     this.params.context.componentParent.onAddTransactionToExpense(
+  //       this.params.data,
+  //       event,
+  //       type
+  //     );
+  //   }
+  // }
+  onAddToIncome(event: any, type: string) {
     if (this.params.context && this.params.context.componentParent) {
-      this.params.context.componentParent.onAddTransactionToIncome(
+      this.params.context.componentParent.onUpdateTransactionType(
         this.params.data,
-        event
+        event,
+        type
       );
     }
   }
+  // onAddToIncome(event: any, type: string) {
+  //   if (this.params.context && this.params.context.componentParent) {
+  //     this.params.context.componentParent.onAddTransactionToIncome(
+  //       this.params.data,
+  //       event,
+  //       type
+  //     );
+  //   }
+  // }
 
   onDelete(event: any) {
     if (this.params.context && this.params.context.componentParent) {
