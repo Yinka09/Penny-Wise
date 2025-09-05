@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --port=4600",
+    "start": "node -r dotenv/config mynode.js && ng serve --open --port=4600",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -34,6 +34,7 @@
     "ag-charts-angular": "^12.1.2",
     "ag-grid-angular": "^34.1.2",
     "ag-grid-community": "^34.1.2",
+    "dotenv": "^17.2.2",
     "firebase": "^12.1.0",
     "lottie-web": "^5.13.0",
     "ng-circle-progress": "^1.7.1",
