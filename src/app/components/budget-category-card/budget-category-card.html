@@ -2,7 +2,11 @@
   class="flex flex-col gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%] bg-white"
 >
   <div class="heading flex justify-between items-center w-full">
-    <div class="text-gray-700 font-semibold text-[1.1rem]">
+    <div class="text-gray-700 font-semibold text-[0.9rem] lg:text-[1.1rem]">
+      <i
+        class="fa-solid text-[0.9rem] me-1"
+        [ngClass]="budgetCardData.icon"
+      ></i>
       {{ budgetCardData.budgetCategory }}
     </div>
     <div class="heading flex justify-between items-center gap-4">

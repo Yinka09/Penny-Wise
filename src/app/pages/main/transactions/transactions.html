@@ -8,25 +8,25 @@
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
 >
   <div class="flex flex-row items-center justify-between mb-6 lg:mb-0">
-    <h3 class="text-[1.1rem] md:text-[1.3rem] text-[#0078BD] font-semibold">
+    <h3 class="text-[1.1rem] md:text-[1.3rem] text-slate-700 font-semibold">
       Manage Transactions
     </h3>
 
     <div class="hidden lg:flex items-center gap-3 md:mt-0">
       <button
-        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[#0078BD] cursor-pointer flex text-[white] font-medium hover:bg-[#005f8a] transition duration-300"
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-green-600 cursor-pointer flex text-[white] font-medium hover:bg-green-700 transition duration-300"
         (click)="showAddTransactionDialog()"
       >
-        <i class="fa-solid fa-circle-plus text-[0.9rem]"></i>
-        <span class="text-[0.9rem]">Add New</span>
+        <i class="fa-solid fa-circle-plus text-[0.8rem]"></i>
+        <span class="text-[0.8rem]">Add New</span>
       </button>
       @if(displayTableData().length > 0){
       <button
         class="flex items-center py-2 px-3 gap-4 rounded-lg bg-red-500 cursor-pointer flex text-[white] font-medium hover:bg-red-600 transition duration-300"
         (click)="deleteAllTransactions($event)"
       >
-        <i class="fa-solid fa-times text-[0.9rem]"></i>
-        <span class="text-[0.9rem]">Delete All</span>
+        <i class="fa-solid fa-times text-[0.8rem]"></i>
+        <span class="text-[0.8rem]">Delete All</span>
       </button>
       }
     </div>
@@ -35,10 +35,10 @@
       class="block lg:hidden text-[0.8rem] cursor-pointer focus:outline-none rounded-lg w-[35%] lg:w-[20%] py-1 px-2 border-1 border-gray-300 font-medium focus:border-[#0078BD] transition duration-300"
     >
       <option value="0">Choose Action</option>
-      <option value="1" class="text-[#0078BD] font-medium">
+      <option value="1" class="text-green-700 font-medium">
         Add Transaction
       </option>
-      <option value="2" class="text-red-600 font-medium">
+      <option value="2" class="text-red-700 font-medium">
         Delete All Transactions
       </option>
     </select>

@@ -4,11 +4,12 @@ import { take } from 'rxjs/internal/operators/take';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -26,11 +27,44 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   showBackArrow = false;
+  showDropdown = false;
+
+  dropDownList = [
+    {
+      title: 'Dashboard',
+      action: '/main/dashboard',
+      isActive: true,
+    },
+
+    {
+      title: 'Transactions',
+      action: '/main/transactions',
+      isActive: false,
+    },
+    {
+      title: 'Budgets',
+      action: '/main/budgets',
+      isActive: false,
+    },
+
+    {
+      title: 'Reports',
+      action: '/main/reports',
+      isActive: false,
+    },
+
+    {
+      title: 'Logout',
+      action: '/main/logout',
+      isActive: false,
+    },
+  ];
 
   constructor(
     private mainService: MainService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.currentUrl = this.router.url;
@@ -62,6 +96,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
+  isActiveTab(item: string) {
+    const currentUrl = this.router.url;
+    return currentUrl.includes(item);
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  navigateTo(item: { title: string; action: string; isActive: boolean }) {
+    this.showDropdown = false;
+    if (item.title === 'Logout') {
+      this.logOut();
+    } else {
+      this.router.navigate([item.action]);
+    }
+  }
+
   toggleSidebar() {
     const subscribe1 = this.mainService.getViewSidebar().subscribe((val) => {
       this.isViewSidebar = val;
@@ -90,6 +142,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateToPrev() {
     this.location.back();
   }
+
+  logOut() {
+    this.mainService.resetNavigationState();
+    this.authService.logout();
+  }
+
   ngOnDestroy(): void {
     this.userInitials = '';
     this.allSubscriptions.unsubscribe();

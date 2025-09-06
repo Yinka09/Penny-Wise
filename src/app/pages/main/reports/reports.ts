@@ -46,6 +46,7 @@ import { ReportsService } from '../../../services/reports/reports';
 import { AgCharts } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 import { SpinnerComponent } from '../../../components/spinner/spinner';
+import { MainService } from '../../../services/main/main';
 
 ModuleRegistry.registerModules([
   RowStyleModule,
@@ -203,10 +204,12 @@ export class ReportsComponent implements OnInit {
     private dashboardService: DashboardService,
     private transactionService: TransactionsService,
     private budgetService: BudgetsService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private mainService: MainService
   ) {}
   ngOnInit(): void {
     // console.log(this.reportsService.getBarChartConfig());
+    this.mainService.setIsTransactionPage(false);
 
     this.allExpenses = this.transactionService
       .allTransactions()

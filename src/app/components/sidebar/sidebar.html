@@ -6,7 +6,6 @@
       [src]="logo"
       class="logo-img"
       [ngStyle]="{ width: isViewSidebar || isPhoneScreen ? '6rem' : '4rem' }"
-      
     />
     <div class="block sm:hidden" (click)="closePhoneSidebar()">
       <i class="pi pi-times" style="color: white; font-size: 1.2rem"></i>
@@ -51,7 +50,10 @@
     </div>
     }
 
-    <div class="flex flex-row items-center logout-btn-container cursor-pointer">
+    <div
+      class="flex flex-row items-center logout-btn-container cursor-pointer"
+      (click)="logOut()"
+    >
       <span
         ><i class="fa-solid fa-arrow-right-from-bracket text-white"></i
       ></span>

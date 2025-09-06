@@ -1,23 +1,23 @@
 <div
-  class="flex items-center justify-between px-0 bg-[#0078BD] py-4 px-4 gap-4 flex items-center px-4 sticky top-0 z-10"
+  class="flex items-center justify-between px-0 bg-slate-700 md:bg-transparent py-4 px-4 gap-4 flex items-center px-4 sticky top-0 z-10 border-b border-gray-200"
 >
-  <div class="flex items-center gap-4">
+  <div class="flex items-center gap-8">
     <div class="flex flex-col gap-3">
       <i
-        class="pi pi-bars cursor-pointer"
-        style="color: white"
+        class="pi pi-bars cursor-pointer text-white md:text-slate-700"
         (click)="toggleSidebar()"
       ></i>
       @if(showBackArrow){
       <i
-        class="pi pi-arrow-left cursor-pointer"
-        style="color: white"
+        class="pi pi-arrow-left cursor-pointer text-white md:text-slate-700"
         (click)="navigateToPrev()"
       ></i>
       }
     </div>
 
-    <h3 class="text-white font-semibold text-[1.1rem]">{{ title() }}</h3>
+    <h3 class="text-white md:text-slate-700 font-semibold text-[1.1rem]">
+      {{ title() }}
+    </h3>
   </div>
   <div class="flex items-center gap-4">
     <div>
@@ -25,18 +25,42 @@
     </div>
     @if(!isNotTransactionPage){
     <button
-      class="flex items-center py-2 px-3 gap-4 rounded-lg bg-[white] cursor-pointer hidden sm:flex text-[#0078BD] font-medium"
+      class="flex items-center py-2 px-3 gap-4 rounded-lg bg-green-600 hover:bg-green-700 cursor-pointer hidden sm:flex text-white font-medium"
       (click)="navigateToTransactions()"
     >
       <i class="fa-solid fa-circle-plus"></i>
       <span class="text-[0.8rem]">Add New Transaction</span>
     </button>
     }
-
-    <div
-      class="rounded-[50%] w-[40px] h-[40px] bg-white text-center font-semibold flex items-center justify-center text-[#0078BD] text-[0.9rem] shadow-md"
-    >
-      {{ userInitials }}
+    <div class="flex items-center gap-2 cursor-pointer">
+      <span
+        class="rounded-[50%] w-[40px] h-[40px] bg-white md:bg-slate-700 text-center font-semibold flex items-center justify-center text-slate-700 md:text-white text-[0.9rem] shadow-lg"
+      >
+        {{ userInitials }}
+      </span>
+      <button
+        class="fa-solid fa-caret-down relative cursor-pointer text-[1rem] md:text-slate-700 text-white"
+        (click)="toggleDropdown()"
+      ></button>
+      @if(showDropdown){
+      <ul
+        class="absolute top-15 right-4 bg-white shadow-lg rounded-md w-[150px] z-20 group-hover:block"
+      >
+        @for(item of dropDownList; track item.action){
+        <li
+          class="px-4 py-2"
+          [ngClass]="{
+            'bg-slate-300 text-black shadow-lg font-bold': isActiveTab(
+              item.action
+            )
+          }"
+          (click)="navigateTo(item)"
+        >
+          {{ item.title }}
+        </li>
+        }
+      </ul>
+      }
     </div>
   </div>
 </div>

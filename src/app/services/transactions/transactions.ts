@@ -62,8 +62,8 @@ export class TransactionsService {
   }
 
   resetTransactions() {
-    const updated = this.transactionsData.set([]);
-    sessionStorage.setItem('transactionsData', JSON.stringify(updated));
+    this.transactionsData.set([]);
+    sessionStorage.setItem('transactionsData', JSON.stringify([]));
   }
 
   fetchTransactionsFromStorageData() {

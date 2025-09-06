@@ -256,7 +256,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   onActionSelectChange(event: any) {
-    console.log('Action Event', event.target.value);
+    // console.log('Action Event', event.target.value);
     const action = event.target.value;
     if (action === '1') {
       this.showAddTransactionDialog();

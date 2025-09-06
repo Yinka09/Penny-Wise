@@ -20,6 +20,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SpinnerComponent } from '../../../components/spinner/spinner';
+import { MainService } from '../../../services/main/main';
 
 @Component({
   standalone: true,
@@ -90,10 +91,12 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     private budgetService: BudgetsService,
     private transactionService: TransactionsService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private mainService: MainService
   ) {}
 
   ngOnInit(): void {
+    this.mainService.setIsTransactionPage(false);
     const budgetCategoryData = this.budgetService.budgetCardData();
     // console.log({ budgetCategoryData });
     this.isVisible = true;
@@ -352,7 +355,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       this.getChartOptions(30);
       this.getProgressData();
     }
-
   }
 
   onViewTransaction(data: IBudgetsCategory) {
@@ -390,7 +392,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       rejectIcon: 'none',
 
       accept: () => {
-       
         this.budgetService.deleteBudget(data.id);
         this.getChartOptions(30);
         this.getProgressData();
@@ -423,7 +424,6 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       rejectIcon: 'none',
 
       accept: () => {
-        
         this.budgetService.deleteAllBudgets();
         this.getChartOptions(10);
         this.getProgressData();

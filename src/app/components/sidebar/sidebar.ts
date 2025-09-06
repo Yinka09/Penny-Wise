@@ -5,6 +5,7 @@ import { Subject, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MainService } from '../../services/main/main';
 import { ISidebarItems } from '../../models/interfaces';
+import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-sidebar',
@@ -54,7 +55,11 @@ export class SidebarComponent {
     },
   ];
 
-  constructor(private router: Router, private mainService: MainService) {}
+  constructor(
+    private router: Router,
+    private mainService: MainService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     const routerSub = this.router.events.subscribe((event) => {
@@ -106,6 +111,7 @@ export class SidebarComponent {
 
   logOut() {
     this.mainService.resetNavigationState();
+    this.authService.logout();
   }
 
   ngOnDestroy(): void {
