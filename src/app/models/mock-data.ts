@@ -329,6 +329,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 25000,
     amountSpent: 0,
     icon: 'fa-bowl-food',
+    iconColor: 'text-green-600',
+    iconBg: 'bg-green-100',
   },
   {
     id: 2,
@@ -336,6 +338,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 20000,
     amountSpent: 0,
     icon: 'fa-people-roof',
+    iconColor: 'text-blue-600',
+    iconBg: 'bg-blue-100',
   },
   {
     id: 3,
@@ -343,6 +347,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 40000,
     amountSpent: 0,
     icon: 'fa-house',
+    iconColor: 'text-purple-400',
+    iconBg: 'bg-purple-100',
   },
   {
     id: 4,
@@ -350,6 +356,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 12000,
     amountSpent: 0,
     icon: 'fa-truck-arrow-right',
+    iconColor: 'text-yellow-600',
+    iconBg: 'bg-yellow-100',
   },
   {
     id: 5,
@@ -357,6 +365,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 6000,
     amountSpent: 0,
     icon: 'fa-toilet-portable',
+    iconColor: 'text-pink-600',
+    iconBg: 'bg-pink-100',
   },
   {
     id: 6,
@@ -364,6 +374,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 15000,
     amountSpent: 0,
     icon: 'fa-utensils',
+    iconColor: 'text-red-600',
+    iconBg: 'bg-red-100',
   },
   {
     id: 7,
@@ -371,6 +383,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 10000,
     amountSpent: 0,
     icon: 'fa-money-bills',
+    iconColor: 'text-indigo-500',
+    iconBg: 'bg-indigo-100',
   },
   {
     id: 8,
@@ -378,6 +392,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 6000,
     amountSpent: 0,
     icon: 'fa-champagne-glasses',
+    iconColor: 'text-teal-600',
+    iconBg: 'bg-teal-100',
   },
   {
     id: 9,
@@ -385,6 +401,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 5000,
     amountSpent: 0,
     icon: 'fa-lightbulb',
+    iconColor: 'text-orange-600',
+    iconBg: 'bg-orange-100',
   },
   {
     id: 10,
@@ -392,6 +410,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 8000,
     amountSpent: 0,
     icon: 'fa-briefcase-medical',
+    iconColor: 'text-cyan-600',
+    iconBg: 'bg-cyan-100',
   },
   {
     id: 11,
@@ -399,6 +419,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 8000,
     amountSpent: 0,
     icon: 'fa-user-graduate',
+    iconColor: 'text-lime-600',
+    iconBg: 'bg-lime-100',
   },
   {
     id: 12,
@@ -406,6 +428,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 2000,
     amountSpent: 0,
     icon: 'fa-cart-shopping',
+    iconColor: 'text-amber-600',
+    iconBg: 'bg-amber-100',
   },
   {
     id: 13,
@@ -413,6 +437,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 3000,
     amountSpent: 0,
     icon: 'fa-plane',
+    iconColor: 'text-fuchsia-600',
+    iconBg: 'bg-fuchsia-100',
   },
   {
     id: 14,
@@ -420,6 +446,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 2000,
     amountSpent: 0,
     icon: 'fa-person-cane',
+    iconColor: 'text-rose-600',
+    iconBg: 'bg-rose-100',
   },
   {
     id: 15,
@@ -427,6 +455,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 2000,
     amountSpent: 0,
     icon: 'fa-gifts',
+    iconColor: 'text-sky-600',
+    iconBg: 'bg-sky-100',
   },
   {
     id: 16,
@@ -434,6 +464,8 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 1000,
     amountSpent: 0,
     icon: 'fa-hand-holding-dollar',
+    iconColor: 'text-stone-600',
+    iconBg: 'bg-stone-100',
   },
   {
     id: 17,
@@ -441,5 +473,7 @@ export const BudgetCategoryData: IBudgetsCategory[] = [
     amountBudgeted: 1000,
     amountSpent: 0,
     icon: 'fa-money-bill-transfer',
+    iconColor: 'text-slate-600',
+    iconBg: 'bg-slate-100',
   },
 ];

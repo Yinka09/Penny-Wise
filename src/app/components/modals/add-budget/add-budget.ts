@@ -180,6 +180,8 @@ export class AddBudget implements OnInit, OnChanges {
     if (this.addBudgetForm.valid) {
       const budgetId = this.selectedBudget?.id ?? this.generateBudgetId();
       const icon = this.selectedBudget?.icon ?? '';
+      const iconColor = this.selectedBudget?.iconColor ?? '';
+      const iconBg = this.selectedBudget?.iconBg ?? '';
 
       const { budgetCategory, amountBudgeted, amountSpent } =
         this.addBudgetForm.getRawValue();
@@ -190,6 +192,8 @@ export class AddBudget implements OnInit, OnChanges {
         amountBudgeted,
         amountSpent,
         icon,
+        iconColor,
+        iconBg,
       });
 
       // const allBudgets = this.budgetService.getBudgetCatagoriesWithAmount();

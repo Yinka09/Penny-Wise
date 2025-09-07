@@ -118,7 +118,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       outerStrokeColor: this.getStrokeColor(),
       innerStrokeColor: this.getStrokeColor(),
       animation: true,
-      animationDuration: 300,
+      animationDuration: 2500,
     };
   }
 

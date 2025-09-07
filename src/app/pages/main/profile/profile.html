@@ -1,0 +1,96 @@
+@if(isLoading){
+<app-spinner></app-spinner>
+} @else {
+<p-toast />
+<p-confirmDialog />
+<div
+  class="w-full bg-[#F5F7FB] px-4 lg:px-6 py-6 h-[100%] overflow-y-auto lg:overflow-hidden"
+  [@fadeSlideInOut]="isVisible"
+  #scrollContainer
+>
+  <!-- <h3 class="font-semibold text-[1.1rem] lg:text-[1.5rem] mb-4">
+      User Profile
+    </h3> -->
+  <div
+    class="w-full bg-white rounded-xl shadow-lg p-6 flex flex-col lg:flex-row gap-6 lg:justify-center"
+  >
+    <div class="w-full lg:w-[30%] flex flex-col items-center lg:items-center">
+      <!-- <p-avatar
+        icon="pi pi-user"
+        class="mr-2"
+        size="xlarge"
+        shape="circle"
+        style="background-color: #ece9fc; color: #2a1261"
+      /> -->
+      <div
+        class="w-[100px] h-[100px] lg:w-[130px] lg:h-[130px] rounded-[50%] bg-[#ece9fc] flex items-center justify-center"
+      >
+        <i class="pi pi-user text-[#2a1261]"></i>
+      </div>
+      <h2 class="mt-4 text-xl font-semibold">User</h2>
+      <p class="text-gray-500">{{ userData?.email }}</p>
+    </div>
+    <div class="w-full lg:w-[30%] flex flex-col items-center lg:items-start">
+      <div class="border border-gray-300 rounded-lg p-4 w-full">
+        <h3 class="font-semibold text-lg">General Preferences</h3>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600 text-[0.9rem]">Enable Notifications</p>
+          <div class="flex rounded-[50%]">
+            <p-toggleswitch [(ngModel)]="checkedNotifications" />
+          </div>
+        </div>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600 text-[0.9rem]">Send Campaigns</p>
+          <div class="flex rounded-[50%]">
+            <p-toggleswitch [(ngModel)]="checkedCampaigns" />
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-gray-300 rounded-lg p-4 w-full mt-6">
+        <h3 class="font-semibold text-lg">Account Security</h3>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600 text-[1rem]">Disable Password</p>
+          <div class="flex rounded-[50%]">
+            <p-toggleswitch [(ngModel)]="checkedPassword" disabled="true" />
+          </div>
+        </div>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600 text-[0.9rem]">Change Password</p>
+          <div class="flex rounded-[50%]">
+            <p-avatar
+              icon="pi pi-lock"
+              class="mr-2 cursor-pointer"
+              size="normal"
+              shape="circle"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="border border-gray-300 rounded-lg p-4 w-full mt-6">
+        <h3 class="font-semibold text-lg">Data & Privacy</h3>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 flex items-center justify-between">
+          <p class="text-gray-600 text-[0.9rem]">Email Preferences</p>
+          <div class="flex rounded-[50%]">
+            <p-checkbox [(ngModel)]="checkedEmail" [binary]="true" />
+          </div>
+        </div>
+        <hr class="my-2 border-gray-200" />
+        <div class="mt-4 w-full flex justify-center">
+          <p-button
+            label="Delete Account"
+            severity="danger"
+            [raised]="true"
+            (onClick)="onDeleteAccount($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

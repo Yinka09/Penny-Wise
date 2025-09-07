@@ -73,16 +73,19 @@ export class AddTransactionComponent implements OnInit, OnChanges {
   formSubmitted = false;
   maxDate: Date | undefined;
 
-  categories: ITransactionCategory[] = [
-    { name: 'Income', code: 'Income' },
+  showExpenseCategories = false;
+  showIncomeCategories = false;
+  expenseCategories: ITransactionCategory[] = [
+    { name: 'Rent', code: 'Rent' },
+    { name: 'Transportation', code: 'Transportation' },
     { name: 'Salary Payment', code: 'Salary Payment' },
     { name: 'Family', code: 'Family' },
     { name: 'Food Stuffs', code: 'Food Stuffs' },
-    { name: 'Rent', code: 'Rent' },
+    { name: 'Bills & Subscriptions', code: 'Bills Subscriptions' },
+
     { name: 'Toiletries', code: 'Toiletries' },
     { name: 'Restaurant & Dining', code: 'Restaurant & Dining' },
-    { name: 'Bills & Subscriptions', code: 'Bills Subscriptions' },
-    { name: 'Transportation', code: 'Transportation' },
+
     { name: 'Entertainment', code: 'Entertainment' },
     { name: 'Utilities', code: 'Utilities' },
     { name: 'Healthcare', code: 'Healthcare' },
@@ -93,6 +96,13 @@ export class AddTransactionComponent implements OnInit, OnChanges {
     { name: 'Gifts & Donations', code: 'Gifts Donations' },
     { name: 'Loan', code: 'Loan' },
     { name: 'Miscellaneous', code: 'Miscellaneous' },
+  ];
+  incomeCategories: ITransactionCategory[] = [
+    { name: 'Income', code: 'Income' },
+    { name: 'Salary Payment', code: 'Salary Payment' },
+    { name: 'Family', code: 'Family' },
+    { name: 'Rent', code: 'Rent' },
+    { name: 'Gifts & Donations', code: 'Gifts Donations' },
   ];
   transactionType: ITransactionCategory[] = [
     { name: 'Income', code: 'Income' },
@@ -131,7 +141,14 @@ export class AddTransactionComponent implements OnInit, OnChanges {
     if (!this.addTransactionForm) {
       this.initEmptyForm();
     }
-    this.addTransactionForm.patchValue(txn, { emitEvent: false });
+    // this.addTransactionForm.patchValue(txn, { emitEvent: false });
+    this.addTransactionForm.patchValue(
+      {
+        ...txn,
+        date: txn.date ? new Date(txn.date) : null,
+      },
+      { emitEvent: false }
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -157,7 +174,6 @@ export class AddTransactionComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    // console.log('Submitting form', this.addTransactionForm.value);
     this.formSubmitted = true;
     if (this.addTransactionForm.valid) {
       const transactionId =
@@ -165,9 +181,8 @@ export class AddTransactionComponent implements OnInit, OnChanges {
 
       const { type, category, date, amount, paymentMethod, description } =
         this.addTransactionForm.value;
-      // console.log('Form values', this.addTransactionForm.value);
 
-      this.formDetails.emit({
+      const payload = {
         transactionId,
         type,
         category,
@@ -175,10 +190,26 @@ export class AddTransactionComponent implements OnInit, OnChanges {
         amount,
         paymentMethod,
         description,
-      });
+      };
+
+      // console.log('Submitting form', payload);
+
+      this.formDetails.emit(payload);
+      // this.formDetails.emit({
+      //   transactionId,
+      //   type,
+      //   category,
+      //   date: formattedDate,
+      //   amount,
+      //   paymentMethod,
+      //   description,
+      // });
 
       setTimeout(() => {
         this.formSubmitted = false;
+
+        this.showIncomeCategories = false;
+        this.showExpenseCategories = false;
         this.addTransactionForm.reset();
         this.showAddTransactionModalChange.emit(false);
 
@@ -215,6 +246,23 @@ export class AddTransactionComponent implements OnInit, OnChanges {
     }
   }
 
+  onChangeTransactionType(event: any) {
+    // console.log('Selected transaction type', event.value);
+    if (event.value === 'Income') {
+      this.showIncomeCategories = true;
+      this.showExpenseCategories = false;
+    } else {
+      this.showExpenseCategories = true;
+      this.showIncomeCategories = false;
+    }
+  }
+
+  onCloseModal(event: any) {
+    this.showAddTransactionModalChange.emit(event);
+    this.showExpenseCategories = false;
+    this.showIncomeCategories = false;
+    // this.addTransactionForm.reset();
+  }
   generateTransactionId() {
     let newNum = '';
     const constantText = 'TNX-';

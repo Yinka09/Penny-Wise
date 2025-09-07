@@ -82,7 +82,7 @@ export class Login implements OnInit, OnDestroy {
       .subscribe(
         (resData) => {
           // console.log(resData);
-          localStorage.setItem('userInitials', resData.email);
+          sessionStorage.setItem('userInitials', resData.email);
           this.isLoading = false;
           this.messageService.add({
             severity: 'success',

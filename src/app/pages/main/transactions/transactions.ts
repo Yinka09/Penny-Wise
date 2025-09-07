@@ -129,6 +129,11 @@ export class TransactionsComponent implements OnInit {
       headerName: 'DATE',
       field: 'date',
       filter: 'agDateColumnFilter',
+      valueFormatter: (params) => {
+        if (!params.value) return '';
+        const date = new Date(params.value);
+        return date.toLocaleDateString('en-CA').replace(/-/g, '/');
+      },
     },
     {
       headerName: 'DESCRIPTION',
@@ -259,12 +264,15 @@ export class TransactionsComponent implements OnInit {
     // console.log('Action Event', event.target.value);
     const action = event.target.value;
     if (action === '1') {
+      console.log('Action Event', event.target.value);
       this.showAddTransactionDialog();
     } else if (action === '2') {
       this.deleteAllTransactions(event);
     } else {
       return;
     }
+
+    event.target.value = '0';
   }
 
   onAddTransaction(event: ITransactionsTableData) {

@@ -130,4 +130,6 @@ export interface IBudgetsCategory {
   amountBudgeted: number;
   amountSpent: number;
   icon: string;
+  iconColor: string;
+  iconBg: string;
 }

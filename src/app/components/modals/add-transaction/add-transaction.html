@@ -5,7 +5,7 @@
     [modal]="true"
     (onHide)="onCancel()"
     [(visible)]="showAddTransactionModal"
-    (visibleChange)="showAddTransactionModalChange.emit($event)"
+    (visibleChange)="onCloseModal($event)"
     [styleClass]="'custom-dialog'"
     (onShow)="focusUsername()"
   >
@@ -40,6 +40,7 @@
             variant="filled"
             class="w-full mt-4"
             formControlName="type"
+            (onChange)="onChangeTransactionType($event)"
           />
           @if (isInvalid('type')) {
           <p class="text-red-600 font-normal text-[0.8rem] mt-2">
@@ -48,9 +49,6 @@
           }
         </div>
         <div class="flex-1 mb-4 md:mb-0">
-          <label for="category" class="font-semibold block"
-            >Category <span class="text-red-600 font-bold">*</span></label
-          >
           <!-- <select
             id="type"
             class="w-full my-4 border border-gray-300 rounded-md p-2 cursor-pointer"
@@ -67,9 +65,14 @@
             <option value="donations">Donations</option>
             <option value="miscellaneous">Miscellaneous</option>
           </select> -->
-
+          @if(showExpenseCategories || isEditMode() &&
+          addTransactionForm.get('type')?.value === 'Expense' || isViewMode() &&
+          addTransactionForm.get('type')?.value === 'Expense'){
+          <label for="category" class="font-semibold block"
+            >Category <span class="text-red-600 font-bold">*</span></label
+          >
           <p-select
-            [options]="categories"
+            [options]="expenseCategories"
             placeholder="Select a Category"
             [editable]="true"
             optionLabel="name"
@@ -78,7 +81,23 @@
             class="w-full mt-4"
             formControlName="category"
           />
-          @if (isInvalid('category')) {
+          } @if(showIncomeCategories || isEditMode() &&
+          addTransactionForm.get('type')?.value === 'Income' || isViewMode() &&
+          addTransactionForm.get('type')?.value === 'Income'){
+          <label for="category" class="font-semibold block"
+            >Category <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-select
+            [options]="incomeCategories"
+            placeholder="Select a Category"
+            [editable]="true"
+            optionLabel="name"
+            optionValue="code"
+            variant="filled"
+            class="w-full mt-4"
+            formControlName="category"
+          />
+          } @if (isInvalid('category')) {
           <p class="text-red-600 font-normal text-[0.8rem] mt-2">
             Category is required
           </p>

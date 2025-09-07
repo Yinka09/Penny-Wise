@@ -1,4 +1,12 @@
-import { Component, computed, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { MainService } from '../../services/main/main';
 import { take } from 'rxjs/internal/operators/take';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -14,6 +22,7 @@ import { AuthService } from '../../services/auth/auth';
   styleUrl: './header.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
   userInitials: string = '';
   // title: string = '';
   title = computed(() => {
@@ -50,6 +59,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {
       title: 'Reports',
       action: '/main/reports',
+      isActive: false,
+    },
+    {
+      title: 'Profile',
+      action: '/main/profile',
       isActive: false,
     },
 
@@ -105,8 +119,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showDropdown = !this.showDropdown;
   }
 
-  navigateTo(item: { title: string; action: string; isActive: boolean }) {
+  navigateTo(
+    item: { title: string; action: string; isActive: boolean },
+    event: any
+  ) {
+    event.stopPropagation();
     this.showDropdown = false;
+
     if (item.title === 'Logout') {
       this.logOut();
     } else {
@@ -146,6 +165,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logOut() {
     this.mainService.resetNavigationState();
     this.authService.logout();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (
+      this.showDropdown &&
+      this.dropdownContainer &&
+      !this.dropdownContainer.nativeElement.contains(event.target)
+    ) {
+      this.showDropdown = false;
+    }
   }
 
   ngOnDestroy(): void {

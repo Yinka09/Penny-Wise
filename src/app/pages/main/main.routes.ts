@@ -4,6 +4,7 @@ import { MainComponent } from './main';
 import { TransactionsComponent } from './transactions/transactions';
 import { BudgetsComponent } from './budgets/budgets';
 import { ReportsComponent } from './reports/reports';
+import { ProfileComponent } from './profile/profile';
 
 export const MAIN_ROUTES: Routes = [
   {
@@ -30,6 +31,10 @@ export const MAIN_ROUTES: Routes = [
       {
         path: 'reports',
         component: ReportsComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
       },
     ],
   },

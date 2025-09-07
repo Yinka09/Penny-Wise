@@ -3,6 +3,7 @@ import { AuthResponseData, User } from '../../models/auth.model';
 import {
   SIGNIN_BASE_URL,
   SIGNUP_BASE_URL,
+  DELETEUSER_BASE_URL,
 } from '../../constants/url-constants';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
@@ -58,6 +59,17 @@ export class AuthService {
       );
   }
 
+  deleteUser(idToken: string) {
+    return this.http.post(DELETEUSER_BASE_URL, { idToken }).pipe(
+      catchError(this.handleError),
+      tap((resData) => {
+        console.log(resData);
+
+        // this.logout();
+      })
+    );
+  }
+
   autoLogin() {
     const userDataString = sessionStorage.getItem('userData');
     if (!userDataString) {
@@ -111,10 +123,14 @@ export class AuthService {
     token: string,
     expiresIn: number
   ) {
-    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000); // Convert resData.expiresIn to milliseconds number. Add it to the current timestamp(JS time since creation in milliseconds). Then convert the result to a date object.
+    const expirationDate = new Date(
+      new Date().getTime() + expiresIn * 1000 + 3 * 60 * 60 * 1000
+    );
+    // const expirationDate = new Date(new Date().getTime() + expiresIn * 1000); // Convert resData.expiresIn to milliseconds number. Add it to the current timestamp(JS time since creation in milliseconds). Then convert the result to a date object.
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
-    this.autoLogout(expiresIn * 1000);
+    // this.autoLogout(expiresIn * 1000);
+    this.autoLogout(expiresIn * 3 * 60 * 60 * 1000);
     sessionStorage.setItem('userData', JSON.stringify(user));
   }
 
@@ -141,6 +157,13 @@ export class AuthService {
         break;
       case 'INVALID_PASSWORD':
         errorMessage = 'This password is not correct.';
+        break;
+      case 'INVALID_ID_TOKEN':
+        errorMessage =
+          "The user's credential is no longer valid. The user must sign in again.";
+        break;
+      case 'USER_NOT_FOUND':
+        errorMessage = 'User not found.';
         break;
     }
     return throwError(errorMessage);

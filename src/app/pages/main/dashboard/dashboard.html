@@ -3,7 +3,7 @@
 <app-spinner></app-spinner>
 } @else {
 <div
-  class="bg-white overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+  class="bg-[#F5F7FB] px-4 lg:px-6 py-6 h-full overflow-y-auto lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
   [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
 >
   @if(cardData.length > 0){
@@ -24,7 +24,7 @@
       class="chart-table-container flex flex-col lg:flex-row justify-start gap-4 lg:justify-between w-full mt-3"
     >
       <div
-        class="chart-container p-4 w-[100%] lg:w-[50%] rounded-lg shadow-md border-1 border-gray-300"
+        class="chart-container p-4 w-[100%] lg:w-[50%] rounded-lg shadow-md border-1 border-gray-300 bg-white"
       >
         <div class="flex flex-row justify-between">
           <div>
@@ -37,15 +37,14 @@
           </select>
         </div>
         <div class="mt-4" style="width: 100%; height: 100%; flex: 1 1 auto">
-          <app-ag-chart
-            [monthName]="monthName"
-            [year]="year"
-            [data]="getData()"
-          ></app-ag-chart>
+          <ag-charts
+            [options]="options"
+            style="width: 100%; height: 300px; display: block"
+          ></ag-charts>
         </div>
       </div>
       <div
-        class="p-4 w-[100%] lg:w-[50%] rounded-lg shadow-md border-1 border-gray-300"
+        class="p-4 w-[100%] lg:w-[50%] rounded-lg shadow-md border-1 border-gray-300 bg-white"
       >
         <div class="flex flex-row justify-between">
           <div>

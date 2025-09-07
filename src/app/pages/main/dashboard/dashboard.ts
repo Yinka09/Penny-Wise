@@ -59,6 +59,8 @@ import {
   routerTransitions2,
 } from '../../../services/animation/animation';
 import { SpinnerComponent } from '../../../components/spinner/spinner';
+import { AgCharts } from 'ag-charts-angular';
+import { AgChartOptions } from 'ag-charts-community';
 
 @Component({
   standalone: true,
@@ -67,9 +69,10 @@ import { SpinnerComponent } from '../../../components/spinner/spinner';
     ToastModule,
     CommonModule,
     CardComponent,
-    AgChartComponent,
+
     AgGridAngular,
     SpinnerComponent,
+    AgCharts,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -174,6 +177,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   transactionTableDetails: ITransactionsTableData[] = [];
   isLoading = true;
+  options: AgChartOptions = {};
   constructor(
     private mainService: MainService,
     private messageService: MessageService,
@@ -188,10 +192,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // this.cardData = CardDetails;
 
     this.mainService.setIsTransactionPage(false);
+    this.getChartConfig();
 
     setTimeout(() => {
       this.cardData = this.dashboardService.createDashboardCards();
-      this.chartData = this.dashboardService.chartData();
+      // this.chartData = this.dashboardService.chartData();
       this.isLoading = false;
     }, 1000);
 
@@ -201,6 +206,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getData() {
     return this.chartData;
+  }
+
+  getChartConfig() {
+    this.options = {
+      data: this.dashboardService.chartData(),
+      title: {
+        text: `Expenses for ${this.monthName} ${this.year}`,
+      },
+      series: [
+        {
+          type: 'pie',
+          angleKey: 'amount',
+          calloutLabelKey: 'expense',
+          sectorLabelKey: 'amount',
+          legendItemKey: 'expense',
+          sectorLabel: {
+            color: 'white',
+            fontWeight: 'bold',
+            formatter: ({ value }: any) => `$${(value / 1000).toFixed(0)}K`,
+          },
+        },
+      ],
+    };
   }
 
   getTransactionTableDetails(params: GridReadyEvent<ITransactionsTableData>) {

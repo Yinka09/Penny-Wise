@@ -6,3 +6,7 @@ export const SIGNUP_BASE_URL =
 export const SIGNIN_BASE_URL =
   'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
   environment.API_KEY;
+
+export const DELETEUSER_BASE_URL =
+  'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=' +
+  environment.API_KEY;

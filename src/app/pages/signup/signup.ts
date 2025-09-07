@@ -64,9 +64,9 @@ export class Signup implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      fullName: ['', Validators.required],
+      // middleName: ['', Validators.required],
+      // lastName: ['', Validators.required],
       email: [
         '',
         {
@@ -151,27 +151,34 @@ export class Signup implements OnInit, OnDestroy {
     this.viewConfirmPassword = !this.viewConfirmPassword;
   }
 
-  get isFirstNameInvalid() {
+  get isFullNameInvalid() {
     return (
-      (this.signUpForm.get('firstName')?.dirty ||
-        this.signUpForm.get('firstName')?.touched) &&
-      this.signUpForm.get('firstName')?.hasError('required')
+      (this.signUpForm.get('fullName')?.dirty ||
+        this.signUpForm.get('fullName')?.touched) &&
+      this.signUpForm.get('fullName')?.hasError('required')
     );
   }
-  get isLastNameInvalid() {
-    return (
-      (this.signUpForm.get('lastName')?.dirty ||
-        this.signUpForm.get('lastName')?.touched) &&
-      this.signUpForm.get('lastName')?.hasError('required')
-    );
-  }
-  get isMiddleNameInvalid() {
-    return (
-      (this.signUpForm.get('middleName')?.dirty ||
-        this.signUpForm.get('middleName')?.touched) &&
-      this.signUpForm.get('middleName')?.hasError('required')
-    );
-  }
+  // get isFirstNameInvalid() {
+  //   return (
+  //     (this.signUpForm.get('firstName')?.dirty ||
+  //       this.signUpForm.get('firstName')?.touched) &&
+  //     this.signUpForm.get('firstName')?.hasError('required')
+  //   );
+  // }
+  // get isLastNameInvalid() {
+  //   return (
+  //     (this.signUpForm.get('lastName')?.dirty ||
+  //       this.signUpForm.get('lastName')?.touched) &&
+  //     this.signUpForm.get('lastName')?.hasError('required')
+  //   );
+  // }
+  // get isMiddleNameInvalid() {
+  //   return (
+  //     (this.signUpForm.get('middleName')?.dirty ||
+  //       this.signUpForm.get('middleName')?.touched) &&
+  //     this.signUpForm.get('middleName')?.hasError('required')
+  //   );
+  // }
 
   get isEmailInvalid() {
     return (
