@@ -1,7 +1,15 @@
 <div class="w-full border-1 border-gray-200 rounded-xl p-3 lg:p-4 bg-white">
-  <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
-    Summary Statistics
-  </h4>
+  <div class="flex flex-row justify-between items-center mb-6">
+    <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
+      Summary Statistics
+    </h4>
+    <i
+      class="fa-solid text-[0.7rem] cursor-pointer text-gray-400"
+      [ngClass]="isMasked ? 'fa-eye' : 'fa-eye-slash'"
+      (click)="toggleVisibility()"
+    ></i>
+  </div>
+
   <form [formGroup]="summaryForm">
     <div class="flex flex-row items-center justify-between mt-4">
       <label

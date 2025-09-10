@@ -28,7 +28,26 @@ export class ActionMenuRendererComponent implements ICellRendererAngularComp {
   }
 
   checkTransactionType() {
-    return this.transactionType === 'Income' ? true : false;
+    let type = '';
+    switch (this.transactionType) {
+      case 'Income':
+        type = 'Expense';
+        break;
+      case 'Expense':
+        type = 'Income';
+        break;
+      case 'Deposit':
+        type = 'Withdrawal';
+        break;
+      case 'Withdrawal':
+        type = 'Deposit';
+        break;
+      default:
+        type = '';
+    }
+
+    // return this.transactionType === 'Income' ? true : false;
+    return type;
   }
 
   onSelectCustomerAction() {
@@ -46,7 +65,7 @@ export class ActionMenuRendererComponent implements ICellRendererAngularComp {
       this.params.context.componentParent.onEditTransaction(this.params.data);
     }
   }
-  onAddToExpense(event: any, type: 'Income' | 'Expense') {
+  onAddToExpense(event: any, type: string) {
     if (this.params.context && this.params.context.componentParent) {
       this.params.context.componentParent.onUpdateTransactionType(
         this.params.data,

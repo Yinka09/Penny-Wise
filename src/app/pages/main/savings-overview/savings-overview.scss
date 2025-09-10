@@ -1,0 +1,19 @@
+.pi-search {
+  position: relative;
+  // top: 12px;
+  left: -47%;
+  @media (max-width: 1030px) {
+    left: -45%;
+    top: -28px;
+  }
+
+  @media (max-width: 1300px) {
+    // left: 66%;
+    // top: 20px;
+  }
+
+  // @media (min-width: 1301px) {
+  //   left: 35%;
+  //   top: 13px;
+  // }
+}

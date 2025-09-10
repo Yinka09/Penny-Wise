@@ -6,7 +6,7 @@
   [@fadeSlideInOut]="isVisible"
 >
   <section
-    class="bg-white w-full rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-5 p-5 lg:p-4"
+    class="bg-gray-50 w-full rounded-xl shadow-lg flex flex-col lg:flex-row items-center justify-between gap-5 p-5 lg:p-4"
   >
     <div class="w-full">
       <h3 class="font-semibold text-[1.1rem] lg:text-[1.7rem] leading-loose">
@@ -63,16 +63,24 @@
     >
       @for( card of budgetCards; track card.id){
       <div
-        class="flex flex-col items-center justify-center gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%] bg-white"
+        class="flex flex-col items-center justify-center gap-3 border border-gray-300 rounded-xl p-4 shadow w-[100%] bg-white relative"
         [ngStyle]="{ color: getCardTextColor(card) }"
       >
+        <i
+          class="fa-solid text-[0.6rem] cursor-pointer absolute right-5 top-5 text-gray-400"
+          [ngClass]="isMasked[card.label] ? 'fa-eye' : 'fa-eye-slash'"
+          (click)="toggleVisibility(card.label)"
+        ></i>
         <i
           class="fa-solid fa-money-bill-wave text-[1.3rem] lg:text-[1.3rem] font-bold"
           [ngClass]="card.icon"
         ></i>
         <p class="text-[1.3rem] lg:text-[1.3rem] font-bold">
-          {{ card.amount | currency : "₦" : "symbol" : "1.2-2" }}
+          {{ showVisibleAmount(card, card.label) }}
         </p>
+        <!-- <p class="text-[1.3rem] lg:text-[1.3rem] font-bold">
+          {{ card.amount | currency : "₦" : "symbol" : "1.2-2" }}
+        </p> -->
         <span class="text-[0.9rem] lg:text-[0.9rem] text-gray-400">{{
           card.label
         }}</span>

@@ -5,6 +5,8 @@ import { TransactionsComponent } from './transactions/transactions';
 import { BudgetsComponent } from './budgets/budgets';
 import { ReportsComponent } from './reports/reports';
 import { ProfileComponent } from './profile/profile';
+import { SavingsOverviewComponent } from './savings-overview/savings-overview';
+import { SavingsHistoryComponent } from './savings-history/savings-history';
 
 export const MAIN_ROUTES: Routes = [
   {
@@ -35,6 +37,14 @@ export const MAIN_ROUTES: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'savings',
+        children: [
+          { path: '', redirectTo: 'overview', pathMatch: 'full' },
+          { path: 'overview', component: SavingsOverviewComponent },
+          { path: 'history', component: SavingsHistoryComponent },
+        ],
       },
     ],
   },

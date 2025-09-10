@@ -18,6 +18,7 @@ export class TransactionsService {
     // this.transactionsData.update((prevTrans) => {
     //   return [transaction, ...prevTrans];
     // });
+
     this.transactionsData.update((prevTrans) => {
       const updated = [transaction, ...prevTrans];
       sessionStorage.setItem('transactionsData', JSON.stringify(updated));

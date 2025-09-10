@@ -2,7 +2,7 @@ import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { BudgetsService } from '../../services/budgets/budgets';
-import type { IBudgetsCategory } from '../../models/interfaces';
+import { IBudgetsCategory } from '../../models/interfaces';
 
 @Component({
   selector: 'app-budget-category-card',

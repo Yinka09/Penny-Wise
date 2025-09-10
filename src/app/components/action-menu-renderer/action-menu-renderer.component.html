@@ -11,7 +11,15 @@
     <span>Edit</span>
   </button>
 
-  @if (checkTransactionType()){
+  <button
+    mat-menu-item
+    (click)="onAddToExpense($event, checkTransactionType())"
+  >
+    <mat-icon>add</mat-icon>
+    <span>Add to {{ checkTransactionType() }}</span>
+  </button>
+
+  <!-- @if (checkTransactionType() === 'Expense') {
   <button mat-menu-item (click)="onAddToExpense($event, 'Expense')">
     <mat-icon>add</mat-icon>
     <span>Add to Expense</span>
@@ -25,7 +33,7 @@
     <mat-icon>add</mat-icon>
     <span>Add to Income</span>
   </button>
-  }
+  } -->
   <button
     data-bs-toggle="modal"
     data-bs-target="#viewCustomerModal"

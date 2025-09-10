@@ -16,6 +16,7 @@ export interface ISidebarItems {
   action: string;
   isActive: boolean;
   icon: string;
+  children?: ISidebarItems[];
 }
 
 export interface ITransactions {
@@ -51,17 +52,6 @@ export interface ICardData {
   iconBg: string;
   percentage: number;
 }
-
-// export interface ITransactionsTableData {
-//   customerId: string;
-//   transactionDate: string;
-//   transactionType: string;
-//   amount: number;
-//   currency: string;
-//   paymentRef: string;
-//   channel: string;
-//   status: string;
-// }
 
 export interface ICustomers {
   id: number;
@@ -132,4 +122,34 @@ export interface IBudgetsCategory {
   icon: string;
   iconColor: string;
   iconBg: string;
+}
+
+export interface ISavingsCategory {
+  id: number;
+  name: string;
+  icon: string;
+  iconColor: string;
+  iconBg: string;
+}
+
+export interface ISavings {
+  id: number;
+  title: string;
+  description: string;
+  savingCategoryId: number;
+  amountSaved: number;
+  targetAmount: number;
+  status: string;
+  date: Date;
+}
+
+export interface ISavingsTableData {
+  id: number;
+  savingsId: number;
+  savingCategoryId: number;
+  withdrawal?: 'Withdrawal';
+  amount: number;
+  date: Date;
+  description: string;
+  type: 'Deposit' | 'Withdrawal';
 }

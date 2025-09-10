@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import type { ICardData } from '../../models/interfaces';
+import { ICardData } from '../../models/interfaces';
+type MaskedKeys =
+  | 'Total Budget'
+  | 'Total Income'
+  | 'Total Expenses'
+  | 'Total Savings'
+  | string;
 
 @Component({
   selector: 'app-card',
@@ -12,6 +18,13 @@ export class CardComponent {
   @Input() cardItem!: ICardData;
   monthName = new Date().toLocaleString('default', { month: 'long' });
   year = new Date().getFullYear();
+  isMasked: Record<MaskedKeys, boolean> = {
+    'Total Budget': true,
+    'Total Income': true,
+    'Total Expenses': true,
+    'Total Savings': true,
+  };
+
   constructor() {}
   getCardStyles(item: ICardData) {
     const itemTitle = item.title;
@@ -43,6 +56,12 @@ export class CardComponent {
           iconBg: '#DFA2261A',
           color: '#DFA226',
         };
+      case 'Total Savings':
+        return {
+          icon: 'assets/dashboard/pending.svg',
+          iconBg: '#F0F9FF',
+          color: '#0078BD',
+        };
 
       default:
         return {
@@ -54,6 +73,26 @@ export class CardComponent {
   }
 
   trimText(value: any): string {
-    return value.length > 10 ? value.substring(0, 10) + '...' : value;
+    return value.length > 20 ? value.substring(0, 10) + '...' : value;
+  }
+
+  toggleVisibility(item: MaskedKeys) {
+    this.isMasked[item] = !this.isMasked[item];
+  }
+
+  showVisibleAmount(item: ICardData, title: MaskedKeys) {
+    return this.isMasked[title] ? '*****' : this.valueFormatter(item.amount);
+  }
+
+  valueFormatter(value: number | null) {
+    if (value !== null) {
+      return this.trimText(
+        new Intl.NumberFormat('en-NG', {
+          style: 'currency',
+          currency: 'NGN',
+        }).format(value)
+      );
+    }
+    return '';
   }
 }

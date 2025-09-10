@@ -1,0 +1,90 @@
+<p-toast />
+@if(isLoading){
+<app-spinner></app-spinner>
+} @else {
+
+<div
+  class="bg-white px-4 lg:px-6 py-6 h-[100%] lg:overflow-hidden w-full flex-1 flex flex-col overflow-x-hidden"
+  [@fadeSlideInOut]="isVisible ? 'in' : 'out'"
+>
+  <div class="flex flex-row items-center justify-between mb-6 lg:mb-0">
+    <h3 class="text-[1.1rem] md:text-[1.3rem] text-slate-700 font-semibold">
+      Manage Savings
+    </h3>
+
+    <div class="hidden lg:flex items-center gap-3 md:mt-0">
+      <button
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-green-600 cursor-pointer flex text-[white] font-medium hover:bg-green-700 transition duration-300"
+        (click)="showAddHistoryDialog()"
+      >
+        <i class="fa-solid fa-circle-plus text-[0.8rem]"></i>
+        <span class="text-[0.8rem]">Add New</span>
+      </button>
+      @if(displayTableData().length > 0){
+      <button
+        class="flex items-center py-2 px-3 gap-4 rounded-lg bg-red-500 cursor-pointer flex text-[white] font-medium hover:bg-red-600 transition duration-300"
+        (click)="deleteAllSavingsHistory($event)"
+      >
+        <i class="fa-solid fa-times text-[0.8rem]"></i>
+        <span class="text-[0.8rem]">Delete All</span>
+      </button>
+      }
+    </div>
+    <select
+      (change)="onActionSelectChange($event)"
+      class="block lg:hidden text-[0.8rem] cursor-pointer focus:outline-none rounded-lg w-[35%] lg:w-[20%] py-1 px-2 border-1 border-gray-300 font-medium focus:border-[#0078BD] transition duration-300"
+    >
+      <option value="0">Choose Action</option>
+      <option value="1" class="text-green-700 font-medium">Add History</option>
+      <option value="2" class="text-red-700 font-medium">
+        Delete All History
+      </option>
+    </select>
+  </div>
+  <div class="w-full flex align-center justify-center gap-4 mt-0 lg:mt-5">
+    @for(tab of tabHeaders; track tab.value){
+    <button
+      type="button"
+      type="button"
+      class="text-[0.9rem] md:text-[1.1rem] cursor-pointer"
+      [ngClass]="tab.value == selectedTab() ? 'active' : 'tab-btn'"
+      (click)="onTabChange(tab)"
+    >
+      {{ tab.label }}
+    </button>
+    }
+  </div>
+
+  <div class="table-container">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      style="height: 100%; width: 100%"
+      [rowData]="displayTableData()"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowHeight]="rowHeight"
+      [rowClass]="rowClass"
+      (gridReady)="getSavingsTableData($event)"
+      [context]="{ componentParent: this }"
+      [pagination]="true"
+      [paginationPageSize]="paginationPageSize"
+      [paginationPageSizeSelector]="paginationPageSizeSelector"
+      [paginationNumberFormatter]="paginationNumberFormatter"
+      [animateRows]="true"
+      (firstDataRendered)="onFirstDataRendered($event)"
+    ></ag-grid-angular>
+  </div>
+</div>
+
+<app-add-savings-history
+  [(showAddSavingsModal)]="showAddSavingsModal"
+  (formDetails)="onAddTransaction($event)"
+  [selectedSavings]="selectedSavings"
+  [isEditMode]="isEditMode()"
+  [isCreateMode]="isCreateMode()"
+  [isViewMode]="isViewMode()"
+>
+</app-add-savings-history>
+
+<p-confirmDialog />
+}

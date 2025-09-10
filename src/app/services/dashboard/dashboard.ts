@@ -1,6 +1,7 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { TransactionsService } from '../transactions/transactions';
 import { ICardData } from '../../models/interfaces';
+import { SavingsService } from '../savings/savings-service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +46,10 @@ export class DashboardService {
     return { category: maxCategory, amount: maxAmount };
   });
 
-  constructor(private transactionService: TransactionsService) {}
+  constructor(
+    private transactionService: TransactionsService,
+    private savingsService: SavingsService
+  ) {}
 
   createDashboardCards = computed(() => {
     const cardData = [
@@ -53,7 +57,7 @@ export class DashboardService {
         title: 'Total Budget',
         amount: this.totalBalance(),
         description: 'Total budget for',
-        icon: 'fa-piggy-bank',
+        icon: 'fa-coins',
         iconBg: '#E1BFF399',
         percentage: this.getTotalBalancePercentage(this.totalBalance()),
       },
@@ -74,15 +78,25 @@ export class DashboardService {
         percentage: this.getTotalBalancePercentage(this.getTotalExpenses()),
       },
       {
-        title: 'Top Category',
-        amount: this.highestExpenseCategory().amount,
-        description: this.highestExpenseCategory().category + ' expenses for',
-        icon: 'fa-money-bill-trend-up',
+        title: 'Total Savings',
+        amount: this.savingsService.totalSavingsBalance(),
+        description: 'Total savings for',
+        icon: 'fa-piggy-bank',
         iconBg: '#E113131A',
         percentage: this.getTotalBalancePercentage(
-          this.highestExpenseCategory().amount
+          this.savingsService.totalSavingsBalance()
         ),
       },
+      // {
+      //   title: 'Top Category',
+      //   amount: this.highestExpenseCategory().amount,
+      //   description: this.highestExpenseCategory().category + ' expenses for',
+      //   icon: 'fa-money-bill-trend-up',
+      //   iconBg: '#E113131A',
+      //   percentage: this.getTotalBalancePercentage(
+      //     this.highestExpenseCategory().amount
+      //   ),
+      // },
     ];
 
     return cardData;

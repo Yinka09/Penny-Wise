@@ -22,6 +22,19 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SpinnerComponent } from '../../../components/spinner/spinner';
 import { MainService } from '../../../services/main/main';
 
+type MaskedKeys =
+  | 'Total Budget'
+  | 'Total Expenses'
+  | 'Remaining Budget'
+  | string;
+
+interface IBudgetCard {
+  id: number;
+  icon: string;
+  amount: number;
+  label: string;
+}
+
 @Component({
   standalone: true,
   selector: 'app-budgets',
@@ -65,7 +78,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
       : this.budgetCategoryData()
   );
 
-  _listFilter = signal<string>(''); // make filter reactive
+  _listFilter = signal<string>('');
 
   showAddBudgetModal: boolean = false;
 
@@ -86,6 +99,13 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   public options: any;
+
+  isMasked: Record<MaskedKeys, boolean> = {
+    'Total Budget': true,
+
+    'Total Expenses': true,
+    'Remaining Budget': true,
+  };
   constructor(
     private dashboardService: DashboardService,
     private budgetService: BudgetsService,
@@ -442,6 +462,30 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         });
       },
     });
+  }
+
+  trimText(value: any): string {
+    return value.length > 15 ? value.substring(0, 10) + '...' : value;
+  }
+
+  toggleVisibility(item: MaskedKeys) {
+    this.isMasked[item] = !this.isMasked[item];
+  }
+
+  showVisibleAmount(item: IBudgetCard, title: MaskedKeys) {
+    return this.isMasked[title] ? '*****' : this.valueFormatter(item.amount);
+  }
+
+  valueFormatter(value: number | null) {
+    if (value !== null) {
+      return this.trimText(
+        new Intl.NumberFormat('en-NG', {
+          style: 'currency',
+          currency: 'NGN',
+        }).format(value)
+      );
+    }
+    return '';
   }
   ngOnDestroy(): void {}
 }

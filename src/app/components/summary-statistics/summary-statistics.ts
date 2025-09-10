@@ -36,9 +36,14 @@ export class SummaryStatisticsComponent implements OnInit {
   @Input() remainingBudget = 0;
   totalBudgetAllocated = input<number>(0);
   totalBudgetUnallocated = input<number>(0);
+  isMasked = true;
 
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {
+    this.buildForm();
+  }
+
+  buildForm() {
     this.summaryForm = this.fb.group({
       totalIncome: [
         { value: this.valueFormatter(this.totalIncome), disabled: true },
@@ -72,11 +77,17 @@ export class SummaryStatisticsComponent implements OnInit {
       ],
     });
   }
+  toggleVisibility() {
+    this.isMasked = !this.isMasked;
+    this.buildForm();
+  }
 
   valueFormatter(value: number) {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-    }).format(value);
+    return this.isMasked
+      ? '****'
+      : new Intl.NumberFormat('en-NG', {
+          style: 'currency',
+          currency: 'NGN',
+        }).format(value);
   }
 }
