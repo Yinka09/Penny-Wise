@@ -1,0 +1,117 @@
+<div
+  class="flex items-center justify-between px-0 bg-slate-700 py-4 lg:py-2 px-4 gap-4 flex items-center sticky top-0 z-10"
+>
+  <div class="hidden md:block">
+    <img src="/pw-logo2.jpeg" class="logo-img w-[4rem]" />
+  </div>
+  <div class="block md:hidden cursor-pointer" (click)="toggleMobileMenu()">
+    <i class="fa-solid fa-bars text-white text-[1.4rem]"></i>
+  </div>
+
+  <div class="hidden md:block">
+    <ul class="flex items-center justify-center gap-4 cursor-pointer">
+      <li>
+        <a
+          routerLink="/home"
+          fragment="features"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium"
+          >Features</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="#benefits"
+          fragment="features"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium"
+          >Benefits</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/contact"
+          fragment="contact"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium"
+          >Experience</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/contact"
+          fragment="contact"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium"
+          >Contact</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="block md:hidden">
+    <h3 class="text-white text-center text-[1.1rem] font-semibold">
+      PennyWise
+    </h3>
+  </div>
+  <div class="flex items-center gap-2 lg:gap-5">
+    <i
+      class="fa-classic fa-bell text-white text-[1rem] hover:text-gray-400 cursor-pointer !hidden !md:block"
+    ></i>
+    <i
+      class="fa-classic fa-envelope text-white text-[1rem] hover:text-gray-400 cursor-pointer !hidden !md:block"
+    ></i>
+
+    <button
+      class="bg-green-600 hover:bg-green-700 py-2 lg:py-2 w-[80px] lg:w-[100px] text-white text-[0.9rem] lg:text-[0.9rem] transition duration-300 cursor-pointer rounded font-semibold shadow-lg"
+      routerLink="/login"
+    >
+      Login
+    </button>
+  </div>
+</div>
+
+@if(showMobileMenu){
+<div
+  class="block md:hidden bg-slate-700 p-4 z-10 absolute top-0 w-full flex flex-col"
+>
+  <div class="flex justify-between">
+    <div><img src="/pw-logo2.jpeg" class="logo-img w-[3rem]" /></div>
+    <i
+      class="fa-solid fa-xmark text-white text-[1.2rem] cursor-pointer"
+      (click)="toggleMobileMenu()"
+    ></i>
+  </div>
+  <ul
+    class="flex flex-row justify-center items-center gap-2 cursor-pointer mt-2"
+  >
+    <li>
+      <a
+        routerLink="/home"
+        fragment="features"
+        class="text-white text-[0.8rem] 0 font-medium"
+        >Features</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/about"
+        fragment="features"
+        class="text-white text-[0.8rem] font-medium"
+        >Benefits</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/contact"
+        fragment="contact"
+        class="text-white text-[0.8rem] font-medium"
+        >Experience</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/contact"
+        fragment="contact"
+        class="text-white text-[0.8rem] font-medium"
+        >Contact</a
+      >
+    </li>
+  </ul>
+</div>
+}

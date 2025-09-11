@@ -1,0 +1,53 @@
+<section
+  class="bg-white w-full md:h-[calc(100dvh-84px)] flex flex-col items-center py-6 lg:py-6"
+>
+  <h3
+    class="font-semibold text-[1.2rem] md:text-[1.5rem] lg:text-[1.7rem] text-center my-8 lg:my-10 leading-normal"
+  >
+    {{ title }}
+  </h3>
+  @if(!showPhotoGrid){
+  <div
+    class="w-[100%] md:w-[70%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-12 mx-auto px-4 lg:p-0 lg:h-[calc(100dvh-100px)]"
+  >
+    @for(item of featuresArray; track item.id){
+    <div
+      class="flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px]"
+    >
+      <i
+        class="fa-solid {{
+          item.icon
+        }} text-[#0078BD] text-[1.4rem] lg:text-[1.8rem]"
+      ></i>
+      <h3 class="font-semibold text-[1rem] text-center">
+        {{ item.title }}
+      </h3>
+      <p class="text-justify leading-normal text-gray-400 text-[0.8rem]">
+        {{ item.description }}
+      </p>
+    </div>
+    }
+  </div>
+  } @else {
+  <div
+    class="w-[100%] md:w-[70%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mx-auto px-4 lg:p-0 lg:h-[calc(100dvh-100px)]"
+  >
+    @for(photoGrid of photoArray; track photoGrid.id){
+    <div
+      class="flex flex-col gap-4 border border-gray-200 rounded-lg h-[150px] lg:h-[220px]"
+    >
+      <div class="w-full h-[80%] rounded-t-lg overflow-hidden">
+        <img
+          [src]="photoGrid.imgSrc"
+          alt="Feature Image"
+          class="w-full h-auto object-cover hover:scale-105 transition duration-300 aspect-video"
+        />
+      </div>
+
+      <p class="text-center font-medium">{{ photoGrid.title }}</p>
+    </div>
+
+    }
+  </div>
+  }
+</section>

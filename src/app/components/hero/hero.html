@@ -1,0 +1,58 @@
+<section
+  class=" w-full h-[calc(100dvh-70px)] md:h-[calc(100dvh-84px)] flex flex-col justify-center items-center {{
+    bgColor
+  }} "
+>
+  <div
+    class="w-[100%] md:w-[70%] flex flex-col md:flex-row items-center justify-center px-4 lg:p-0 gap-5 lg:gap-12"
+  >
+    <div class="w-full">
+      <h3
+        class="font-semibold leading-snug text-center md:text-left"
+        [ngClass]="textSizeArray"
+      >
+        {{ title }}
+      </h3>
+      <p
+        class="my-2 text-gray-500 text-[1rem] font-small text-justify leading-relaxed"
+      >
+        {{ description }}
+      </p>
+      @if(!showButton){
+      <ul class="mt-6">
+        @for(list of listArray; track $index){
+        <li
+          class="flex items-center gap-3 my-2 text-gray-900 text-[0.9rem] font-normal"
+        >
+          <i class="fa-solid fa-circle-check text-[#0078BD]"></i>
+          {{ list }}
+        </li>
+        }
+      </ul>
+      } @if(showButton){
+      <button
+        type="button"
+        class="mt-7 bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 hidden md:block cursor-pointer hover:bg-[#005f8a]"
+      >
+        Explore Now
+        <i class="fa-solid fa-arrow-right text-white ms-3"></i>
+      </button>
+      }
+    </div>
+    <div class="w-full flex items-center justify-center md:justify-end">
+      <img
+        [src]="imgSrc"
+        alt="Reports Header image"
+        class="w-full h-[300px] md:h-[400px] border-1 border-gray-300 rounded-lg shadow-md aspect-video object-cover"
+      />
+    </div>
+    @if(showButton){
+    <button
+      type="button"
+      class="bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 block md:hidden w-full cursor-pointer hover:bg-[#005f8a]"
+    >
+      Explore Now
+      <i class="fa-solid fa-arrow-right text-white ms-3"></i></button
+    >}
+  </div>
+</section>

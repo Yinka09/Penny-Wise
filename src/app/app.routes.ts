@@ -4,12 +4,17 @@ import { Signup } from './pages/signup/signup';
 import { DashboardComponent } from './pages/main/dashboard/dashboard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found';
 import { AuthGuard } from './services/auth/auth.guard';
+import { Home } from './pages/home/home';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: Home,
   },
   {
     path: 'login',
