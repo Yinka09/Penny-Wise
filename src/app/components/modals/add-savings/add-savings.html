@@ -1,1 +1,175 @@
-<p>add-savings works!</p>
+<p-toast />
+<div class="card flex justify-center">
+  <p-dialog
+    [header]="setDialogHeader()"
+    [modal]="true"
+    (onHide)="onCancel()"
+    [(visible)]="showAddSavingsModal"
+    (visibleChange)="showAddSavingsModalChange.emit($event)"
+    [styleClass]="'custom-dialog'"
+    (onShow)="focusUsername()"
+  >
+    <span class="p-text-secondary block mb-6"
+      >Fill in the details for your Savings</span
+    >
+    <form [formGroup]="addSavingsForm" (ngSubmit)="onSubmit()">
+      <div class="block md:flex items-center justify-between gap-4 mb-4">
+        <div class="flex-1 mb-4">
+          <label for="title" class="font-semibold"
+            >Title <span class="text-red-600 font-bold">*</span></label
+          >
+          <input
+            type="text"
+            pInputText
+            formControlName="title"
+            class="w-full mt-4"
+          />
+          @if (isInvalid('title')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Please enter a max of 50 characters
+          </p>
+          }
+        </div>
+        <div class="flex-1 mb-4">
+          <label for="savingsCategory" class="font-semibold"
+            >Savings Category
+            <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-select
+            [options]="savingsCategories"
+            placeholder="Select a Category"
+            [editable]="true"
+            optionLabel="name"
+            optionValue="code"
+            variant="filled"
+            class="w-full mt-4"
+            formControlName="savingsCategory"
+          />
+          @if (isInvalid('budgetCategory')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Savings Category is required
+          </p>
+          }
+        </div>
+      </div>
+      <div class="block md:flex items-center justify-between gap-4 mb-4">
+        <div class="flex-1 w-full mb-4">
+          <label class="font-bold block mb-3" for="targetAmount">
+            Target Amount(₦)
+            <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-inputnumber
+            mode="currency"
+            currency="NGN"
+            currencyDisplay="symbol"
+            inputId="amount"
+            [minFractionDigits]="2"
+            variant="filled"
+            class="w-full"
+            formControlName="targetAmount"
+          />
+          @if (isInvalid('targetAmount')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Target Amount is required
+          </p>
+          }
+        </div>
+        <div class="flex-1 w-full mb-4">
+          <label for="icondisplay" class="font-bold block mb-3">
+            Date <span class="text-red-600 font-bold">*</span></label
+          >
+          <p-datepicker
+            [iconDisplay]="'input'"
+            [showIcon]="true"
+            inputId="icondisplay"
+            variant="filled"
+            [appendTo]="'body'"
+            [maxDate]="maxDate"
+            [readonlyInput]="true"
+            class="w-full"
+            formControlName="date"
+          />
+          @if (isInvalid('date')) {
+          <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+            Date is required
+          </p>
+          }
+        </div>
+      </div>
+
+      <div class="block w-full mb-4">
+        <label class="font-bold block mb-3" for="amountSaved">
+          Amount Saved(₦)
+          <span class="text-red-600 font-bold">*</span></label
+        >
+        <p-inputnumber
+          mode="currency"
+          currency="NGN"
+          currencyDisplay="symbol"
+          inputId="amount"
+          [minFractionDigits]="2"
+          variant="filled"
+          class="w-full"
+          formControlName="amountSaved"
+        />
+      </div>
+      <div class="block w-full mb-4">
+        <label for="description" class="font-semibold block mb-2"
+          >Description <span class="text-red-600 font-bold">*</span></label
+        >
+
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          [autoResize]="true"
+          variant="filled"
+          class="w-full"
+          formControlName="description"
+        ></textarea>
+        @if (isInvalid('description')) {
+        <p class="text-red-600 font-normal text-[0.8rem] mt-2">
+          Description is required
+        </p>
+        }
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button
+          type="button"
+          class="bg-gray-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer"
+          (click)="onCancel()"
+        >
+          {{ isViewMode() ? "Close" : "Cancel" }}
+        </button>
+        @if(!isViewMode() && !displayUpdateTotalSavingsModal()){
+        <button
+          type="submit"
+          class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+          [disabled]="!addSavingsForm.valid || formSubmitted"
+        >
+          @if(formSubmitted){
+          <i
+            class="pi pi-spin pi-spinner mt-0 me-2"
+            style="font-size: 0.9rem"
+          ></i>
+          } {{ isCreateMode() ? "Submit" : "Update" }}
+        </button>
+        } @if(displayUpdateTotalSavingsModal()){
+        <button
+          type="submit"
+          class="bg-green-500 text-white text-[1rem] rounded-lg py-2 px-4 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+          [disabled]="!addSavingsForm.valid || formSubmitted"
+        >
+          @if(formSubmitted){
+          <i
+            class="pi pi-spin pi-spinner mt-0 me-2"
+            style="font-size: 0.9rem"
+          ></i>
+          } Save Changes
+        </button>
+        }
+      </div>
+    </form>
+  </p-dialog>
+</div>

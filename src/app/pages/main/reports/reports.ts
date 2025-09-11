@@ -17,6 +17,7 @@ import { BudgetsService } from '../../../services/budgets/budgets';
 import {
   IBudgetsCategory,
   ITransactionsTableData,
+  type ISavingsTableData,
 } from '../../../models/interfaces';
 import { KeyInsights } from '../../../components/key-insights/key-insights';
 import { SummaryStatisticsComponent } from '../../../components/summary-statistics/summary-statistics';
@@ -47,6 +48,7 @@ import { AgCharts } from 'ag-charts-angular';
 import { AgChartOptions } from 'ag-charts-community';
 import { SpinnerComponent } from '../../../components/spinner/spinner';
 import { MainService } from '../../../services/main/main';
+import { SavingsService } from '../../../services/savings/savings-service';
 
 ModuleRegistry.registerModules([
   RowStyleModule,
@@ -143,12 +145,92 @@ export class ReportsComponent implements OnInit {
           params.value === 'Income'
             ? 'fa-hand-holding-dollar'
             : 'fa-money-bill-transfer';
-        // const statusIcon = params.value === 'whitelist' ? 'bi-check' : 'bi-x';
 
         return `<span class="span-class ${statusClass}"><i class="fa-solid ${statusIcon}"></i>${params.value}</span>`;
-        // return `<span class="span-class ${statusClass}"><i class="bi ${statusIcon} me-2"></i>${params.value}</span>`;
       },
       width: 140,
+      // flex: 0,
+    },
+  ];
+  savingsColumnDefs: ColDef[] = [
+    {
+      headerName: 'DATE',
+      field: 'date',
+      filter: 'agDateColumnFilter',
+      valueFormatter: (params) => {
+        if (!params.value) return '';
+        const date = new Date(params.value);
+        return date.toLocaleDateString('en-CA').replace(/-/g, '/');
+      },
+    },
+    {
+      headerName: 'DESCRIPTION',
+      field: 'description',
+      filter: true,
+    },
+    {
+      headerName: 'CATEGORY',
+      // field: 'savingCategory',
+      valueGetter: (params) =>
+        this.savingsService.getSavingsCategoryName(
+          params.data.savingCategoryId
+        ),
+      filter: 'agTextColumnFilter',
+      cellStyle: {
+        fontWeight: '600',
+      },
+    },
+
+    {
+      headerName: 'GOAL',
+      valueGetter: (params) =>
+        this.savingsService.getSavingsGoalTitle(params.data.savingsId),
+
+      filter: true,
+      cellStyle: {
+        fontWeight: '600',
+      },
+    },
+    {
+      headerName: 'AMOUNT (₦)',
+      field: 'amount',
+      filter: 'agNumberColumnFilter',
+      cellStyle: (params) => {
+        return {
+          color: params.data.type === 'Withdrawal' ? 'red' : 'green',
+          fontWeight: 600,
+        };
+      },
+      valueFormatter: (params) => {
+        if (params.value == null) return '';
+
+        const formatted = new Intl.NumberFormat('en-NG', {
+          style: 'decimal',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(params.value);
+
+        return params.data.type === 'Withdrawal'
+          ? `-₦${formatted}`
+          : `+₦${formatted}`;
+      },
+    },
+    {
+      headerName: 'TYPE',
+      field: 'type',
+      filter: true,
+
+      cellRenderer: (params: any) => {
+        const statusClass =
+          params.value === 'Deposit' ? 'bg-active' : 'bg-inactive';
+        const statusIcon =
+          params.value === 'Deposit'
+            ? 'fa-hand-holding-dollar'
+            : 'fa-money-bill-transfer';
+
+        return `<span class="span-class ${statusClass}"><i class="fa-solid ${statusIcon}"></i>${params.value}</span>`;
+      },
+      // width: 500,
       // flex: 0,
     },
   ];
@@ -160,6 +242,7 @@ export class ReportsComponent implements OnInit {
   };
 
   displayTableData: ITransactionsTableData[] = [];
+  savingsDisplayTable: ISavingsTableData[] = [];
 
   isAllDataLoaded = {
     isAllCustomersDataLoaded: false,
@@ -193,10 +276,24 @@ export class ReportsComponent implements OnInit {
     return this.budgetService.budgetCardData();
   });
 
+  totalSavingsAmount = computed(() => {
+    return this.reportsService.getTotalSavings();
+  });
+  totalTargetedSavings = computed(() => {
+    return this.reportsService.getTotalTargetedSavings();
+  });
+
+  totalGoalsWithOverSavings = computed(() => {
+    return this.savingsService.getGoalsWithOverSavings();
+  });
+
   summaryForm: FormGroup = new FormGroup({});
   donutChartConfig: any;
   barChartConfig: any;
+  savingsBarchartConfig: any;
   lineChartConfig: any;
+  pieChartConfig: any;
+
   isLoading = true;
 
   constructor(
@@ -205,10 +302,11 @@ export class ReportsComponent implements OnInit {
     private transactionService: TransactionsService,
     private budgetService: BudgetsService,
     private reportsService: ReportsService,
-    private mainService: MainService
+    private mainService: MainService,
+    private savingsService: SavingsService
   ) {}
   ngOnInit(): void {
-    // console.log(this.reportsService.getBarChartConfig());
+    console.log(this.savingsService.getTotalSavingsComposition());
     this.mainService.setIsTransactionPage(false);
 
     this.allExpenses = this.transactionService
@@ -244,7 +342,9 @@ export class ReportsComponent implements OnInit {
   setDonutChartConfig() {
     this.donutChartConfig = this.reportsService.getDonutChartConfig();
     this.barChartConfig = this.reportsService.getBarChartConfig();
+    this.savingsBarchartConfig = this.savingsService.getBarChartConfig();
     this.lineChartConfig = this.reportsService.getLineChartConfig();
+    this.pieChartConfig = this.savingsService.getPieChartConfig();
   }
 
   buildForm() {
@@ -285,9 +385,13 @@ export class ReportsComponent implements OnInit {
   getTransactionTableDetails() {
     this.displayTableData = this.dashboardService
       .getAllTransactions()
-      .slice(0, 5);
+      .slice(0, 6);
+    this.savingsDisplayTable = this.savingsService
+      .savingsTableData()
+      .slice(0, 6);
     this.isAllDataLoaded.isAllTableDataLoaded = true;
   }
+
   getOverbudgetCategories() {
     return this.budgetCardData().filter(
       (budget) =>

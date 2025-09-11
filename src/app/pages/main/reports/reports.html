@@ -6,7 +6,7 @@
   [@fadeSlideInOut]="isVisible"
   #scrollContainer
 >
-  <section class="bg-gray-50 w-full p-2 rounded-xl shadow-lg p-5 lg:p-6">
+  <section class="bg-white w-full p-2 rounded-xl shadow-lg p-5 lg:p-6">
     <div
       class="w-full flex flex-col md:flex-row items-center justify-center p-1 lg:p-0 mx-auto gap-5 lg:gap-10"
     >
@@ -61,6 +61,8 @@
           [remainingBudget]="remainingBudget"
           [totalBudgetAllocated]="totalBudgetAllocated()"
           [totalBudgetUnallocated]="totalBudgetUnallocated()"
+          [totalSavingsAmount]="totalSavingsAmount()"
+          [totalTargetedSavings]="totalTargetedSavings()"
         ></app-summary-statistics>
 
         <app-key-insights
@@ -71,6 +73,9 @@
           [overbudgetCategories]="getOverbudgetCategories()"
           [highestBudgetCategory]="highestBudgetCategory()"
           [getHighestBudgetCategory]="getHighestBudgetCategory()"
+          [totalSavings]="totalSavingsAmount()"
+          [totalTargtedSavings]="totalTargetedSavings()"
+          [totalGoalsWithOverSavings]="totalGoalsWithOverSavings()"
         ></app-key-insights>
 
         <app-ag-table
@@ -78,6 +83,15 @@
           [columnDefs]="columnDefs"
           [defaultColDef]="defaultColDef"
           [displayTableData]="displayTableData"
+          [title]="'Recent Transactions'"
+        ></app-ag-table>
+
+        <app-ag-table
+          [rowClass]="rowClass"
+          [columnDefs]="savingsColumnDefs"
+          [defaultColDef]="defaultColDef"
+          [displayTableData]="savingsDisplayTable"
+          [title]="'Recent Savings History'"
         ></app-ag-table>
       </div>
       <div class="w-full">
@@ -86,7 +100,15 @@
         >
           <ag-charts
             [options]="donutChartConfig"
-            style="width: 100%; height: 100%; display: block"
+            style="width: 100%; height: 405px; display: block"
+          ></ag-charts>
+        </div>
+        <div
+          class="w-full border-1 border-gray-200 rounded-lg p-2 lg:p-1 bg-white mt-5"
+        >
+          <ag-charts
+            [options]="pieChartConfig"
+            style="width: 100%; height: 405px; display: block"
           ></ag-charts>
         </div>
         <div
@@ -94,17 +116,26 @@
         >
           <ag-charts
             [options]="barChartConfig"
-            style="width: 100%; height: 100%; display: block"
+            style="width: 100%; height: 405px; display: block"
           ></ag-charts>
         </div>
+
         <div
           class="w-full border-1 border-gray-200 rounded-lg p-2 lg:p-1 bg-white mt-5"
         >
           <ag-charts
-            [options]="lineChartConfig"
-            style="height: 100%; display: block"
+            [options]="savingsBarchartConfig"
+            style="width: 100%; height: 405px; display: block"
           ></ag-charts>
         </div>
+        <!-- <div
+          class="w-full border-1 border-gray-200 rounded-lg p-2 lg:p-1 bg-white mt-5"
+        >
+          <ag-charts
+            [options]="lineChartConfig"
+            style="height: 400px; display: block"
+          ></ag-charts>
+        </div> -->
       </div>
     </div>
   </section>

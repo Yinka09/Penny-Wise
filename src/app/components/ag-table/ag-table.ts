@@ -33,7 +33,11 @@ ModuleRegistry.registerModules([
   PaginationModule,
   ...(!environment.production ? [ValidationModule] : []),
 ]);
-import { ITransactionsTableData, ICustomers } from '../../models/interfaces';
+import {
+  ITransactionsTableData,
+  ICustomers,
+  type ISavingsTableData,
+} from '../../models/interfaces';
 
 @Component({
   selector: 'app-ag-table',
@@ -50,12 +54,14 @@ export class AgTableComponent implements OnInit, OnChanges {
   @Input() defaultColDef?: ColDef;
   @Input() rowData?: ITransactionsTableData[] | ICustomers[];
   @Input() ActionMenuRendererComponent?: any;
+
+  @Input() title?: string;
   @Output() gridReady = new EventEmitter<GridReadyEvent>();
 
   @Output() actionSelected: EventEmitter<any> = new EventEmitter<any>();
   @Output() hotlistCustomer: EventEmitter<any> = new EventEmitter<any>();
   @Output() whitelistCustomer: EventEmitter<any> = new EventEmitter<any>();
-  @Input() displayTableData!: ITransactionsTableData[];
+  @Input() displayTableData!: ITransactionsTableData[] | ISavingsTableData[];
 
   selectedCustomer: ICustomers | null = null;
 

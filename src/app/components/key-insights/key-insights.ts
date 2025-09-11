@@ -9,7 +9,7 @@ import {
 import { DashboardService } from '../../services/dashboard/dashboard';
 import { TransactionsService } from '../../services/transactions/transactions';
 import { BudgetsService } from '../../services/budgets/budgets';
-import { IBudgetsCategory } from '../../models/interfaces';
+import { IBudgetsCategory, type ISavings } from '../../models/interfaces';
 
 @Component({
   selector: 'app-key-insights',
@@ -19,6 +19,9 @@ import { IBudgetsCategory } from '../../models/interfaces';
 })
 export class KeyInsights implements OnInit {
   @Input() totalBudget = 0;
+  totalGoalsWithOverSavings = input<ISavings[]>([]);
+  totalSavings = input<number>(0);
+  totalTargtedSavings = input<number>(0);
   summaryMsg = input<string>('');
   currentMonth = new Date().toLocaleString('default', { month: 'long' });
   currentYear = new Date().getFullYear();
@@ -32,7 +35,9 @@ export class KeyInsights implements OnInit {
   getHighestBudgetCategory = input<string | null>(null);
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // console.log(this.totalGoalsWithOverSavings());
+  }
   valueFormatter(value: number) {
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',

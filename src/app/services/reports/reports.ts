@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DashboardService } from '../dashboard/dashboard';
 import { TransactionsService } from '../transactions/transactions';
 import { BudgetsService } from '../budgets/budgets';
+import { SavingsService } from '../savings/savings-service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,21 @@ export class ReportsService {
   constructor(
     private dashboardService: DashboardService,
     private transactionsService: TransactionsService,
-    private budgetService: BudgetsService
+    private budgetService: BudgetsService,
+    private savingsService: SavingsService
   ) {}
   // getData() {
   //   const DonutChartCdata = this.dashboardService.chartData();
   //   return DonutChartCdata;
   // }
 
+  getTotalSavings() {
+    return this.savingsService.totalSavingsBalance();
+  }
+
+  getTotalTargetedSavings() {
+    return this.savingsService.getAllTargetedSavingsAmount();
+  }
   getDonutChartConfig() {
     const DonutChartCdata = this.dashboardService.chartData();
     const TotalExpense = this.dashboardService.getTotalExpenses();
@@ -101,7 +110,7 @@ export class ReportsService {
         text: 'Income Expense Trend',
       },
       subtitle: {
-        text: '',
+        text: 'In the past 10 days',
       },
       data: this.getBarChartData().chartData,
       series: this.getBarChartData().chartSeries,

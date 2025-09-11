@@ -34,6 +34,8 @@ export class SummaryStatisticsComponent implements OnInit {
   @Input() totalBudget = 0;
   @Input() totalExpenses = 0;
   @Input() remainingBudget = 0;
+  @Input() totalSavingsAmount = 0;
+  @Input() totalTargetedSavings = 0;
   totalBudgetAllocated = input<number>(0);
   totalBudgetUnallocated = input<number>(0);
   isMasked = true;
@@ -73,6 +75,17 @@ export class SummaryStatisticsComponent implements OnInit {
       ],
       remainingBudget: [
         { value: this.valueFormatter(this.remainingBudget), disabled: true },
+        Validators.required,
+      ],
+      totalSavings: [
+        { value: this.valueFormatter(this.totalSavingsAmount), disabled: true },
+        Validators.required,
+      ],
+      totalTargetedSavings: [
+        {
+          value: this.valueFormatter(this.totalTargetedSavings),
+          disabled: true,
+        },
         Validators.required,
       ],
     });

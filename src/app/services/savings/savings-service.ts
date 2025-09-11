@@ -9,6 +9,7 @@ import {
   ISavings,
   ISavingsTableData,
 } from '../../models/interfaces';
+import { getLastNDays } from '../../models/helper-funtion';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,23 @@ export class SavingsService {
 
     return totalWithdrawals;
   });
+
+  chartData = computed(() => {
+    const savingsGoals = this.allSavingsData();
+    // const expenses = this.transactionService
+    //   .allTransactions()
+    //   .filter((txn) => txn.type === 'Expense');
+
+    const totals: Record<string, number> = {};
+    for (const goal of savingsGoals) {
+      totals[goal.title] = (totals[goal.title] || 0) + goal.targetAmount;
+    }
+
+    return Object.entries(totals).map(([title, targetAmount]) => ({
+      goal: title,
+      amount: targetAmount,
+    }));
+  });
   constructor() {}
 
   // calculateTotalDeposits() {
@@ -70,6 +88,184 @@ export class SavingsService {
 
   //   return totalWithdrawals;
   // }
+
+  getBarChartConfig() {
+    return {
+      title: {
+        text: 'Savings Deposit Withdrawal Trend',
+      },
+      subtitle: {
+        text: 'In the past 10 days',
+      },
+      data: this.getBarChartData().chartData,
+      series: this.getBarChartData().chartSeries,
+    };
+  }
+
+  getBarChartData() {
+    const allTransactions = this.savingsTableData();
+    const lastTenDays = getLastNDays(10);
+
+    let chartSeries = [
+      {
+        type: 'bar',
+        xKey: 'date',
+        yKey: 'Deposit',
+        yName: 'Deposit',
+      },
+      {
+        type: 'bar',
+        xKey: 'date',
+        yKey: 'Withdrawal',
+        yName: 'Withdrawal',
+      },
+    ];
+
+    let chartData: { date: string; [key: string]: number | string }[] = [];
+
+    for (let date of lastTenDays) {
+      const dataEntry = { date: date.date, Deposit: 0, Withdrawal: 0 };
+
+      for (let txn of allTransactions) {
+        const formattedTxnDate = new Date(txn.date).toLocaleDateString('en-GB');
+
+        if (formattedTxnDate === date.date) {
+          if (txn.type === 'Deposit') {
+            dataEntry.Deposit += txn.amount;
+          } else if (txn.type === 'Withdrawal') {
+            dataEntry.Withdrawal += txn.amount;
+          }
+        }
+      }
+
+      chartData.push(dataEntry);
+    }
+
+    return { chartData, chartSeries };
+  }
+
+  getLineChartConfig() {
+    return {
+      title: {
+        text: 'Target Amount VS Saved Amount',
+      },
+      subtitle: {
+        text: 'A Comparision of Targeted VS Actual Saved Amount',
+      },
+      data: this.getLineChartData().chartData,
+      series: this.getLineChartData().chartSeries,
+    };
+  }
+
+  getLineChartData() {
+    const savingsGoals = this.getAllSavingsWithSavedAmount();
+    let chartSeries = [
+      {
+        type: 'line',
+        xKey: 'category',
+        yKey: 'Target Amount',
+        yName: 'Target Amount',
+      },
+      {
+        type: 'line',
+        xKey: 'category',
+        yKey: 'Saved Amount',
+        yName: 'Saved Amount',
+      },
+    ];
+
+    let chartData: { category: string; [key: string]: number | string }[] = [];
+    for (let goal of savingsGoals) {
+      const dataEntry = {
+        category: goal.title,
+        ['Target Amount']: goal.targetAmount,
+        ['Saved Amount']: goal.amountSaved,
+      };
+
+      chartData.push(dataEntry);
+    }
+    return { chartData, chartSeries };
+  }
+
+  getPieChartConfig() {
+    return {
+      data: this.getTotalSavingsComposition(),
+      title: {
+        text: 'Total Savings Composition',
+      },
+      series: [
+        {
+          type: 'pie',
+          angleKey: 'amount',
+          calloutLabelKey: 'goal',
+          sectorLabelKey: 'amount',
+
+          sectorLabel: {
+            color: 'white',
+            fontWeight: 'bold',
+            formatter: ({ value }: any) => `₦${(value / 1000).toFixed(0)}K`,
+          },
+        },
+      ],
+    };
+  }
+
+  getTotalSavingsComposition() {
+    const savingsTableData = this.savingsTableData();
+    let allSavingsObj: Record<string, number> = {};
+    // let allSavingsObj: { goal: string; amount: number } | undefined;
+    let allSavingsArr: { goal: string; amount: number }[] = [];
+    savingsTableData.map((el) => {
+      const goalName =
+        this.getSavingsGoalById(el.savingsId)?.title || 'unknown';
+
+      if (!allSavingsObj[goalName]) {
+        allSavingsObj[goalName] = 0;
+      }
+      allSavingsObj[goalName] += el.type === 'Deposit' ? el.amount : -el.amount;
+    });
+
+    console.log(allSavingsObj);
+    for (const [key, value] of Object.entries(allSavingsObj)) {
+      allSavingsArr.push({ goal: key, amount: value });
+    }
+    return allSavingsArr;
+  }
+
+  getDonutChartConfig() {
+    const DonutChartCdata = this.chartData();
+
+    return {
+      data: DonutChartCdata,
+      title: {
+        text: 'Targeted Savings Composition',
+      },
+      series: [
+        {
+          type: 'donut',
+          calloutLabelKey: 'goal',
+          angleKey: 'amount',
+          innerRadiusRatio: 0.9,
+          innerLabels: [
+            {
+              text: 'Total Goals',
+              fontWeight: 'bold',
+            },
+            {
+              text: this.valueFormatter(this.getAllTargetedSavingsAmount()),
+              spacing: 1,
+              fontSize: 16,
+              color: 'black',
+              fontWeight: 'normal',
+            },
+          ],
+          innerCircle: {
+            fill: '#EFE2F6',
+          },
+        },
+      ],
+    };
+  }
 
   fetchTotalSavingsFromStorage() {
     const data = sessionStorage.getItem('totalSavings');
@@ -212,19 +408,23 @@ export class SavingsService {
     });
   }
 
-  // getAllSavingsWithSavedAmount() {
-  //   const allSavings = this.allSavingsData();
-  //   const allSavingsTableData = this.savingsTableData();
-  //   for (let goal of allSavings) {
-  //     for (let txn of allSavingsTableData) {
-  //       if (goal.id === txn.savingsId) {
-  //         goal.amountSaved += txn.type === 'Deposit' ? txn.amount : -txn.amount;
-  //       }
-  //     }
-  //   }
+  getGoalsWithOverSavings() {
+    const allSavings = this.getAllSavingsWithSavedAmount();
+    const goalsWithOverSavings = allSavings.filter((el) => {
+      return el.amountSaved > el.targetAmount;
+    });
+    return goalsWithOverSavings;
+  }
 
-  //   return allSavings;
-  // }
+  getAllTargetedSavingsAmount() {
+    const allGoals = this.getAllSavingsWithSavedAmount();
+    let totalAmount = 0;
+    allGoals.map((el) => {
+      totalAmount += el.targetAmount;
+    });
+    return totalAmount;
+  }
+
   addToSavings(item: ISavings) {
     this.allSavingsData.update((prevData) => {
       const updated = [item, ...prevData];
@@ -233,11 +433,25 @@ export class SavingsService {
     });
   }
 
-  updateSavingsItem(item: ISavings, updatedAmount: number) {
+  updateSavingsItem(item: ISavings | undefined, updatedVal: any) {
     this.allSavingsData.update((prevData) => {
       const updated = prevData.map((el) =>
-        el.id === item.id ? { ...el, ...item, amountSaved: updatedAmount } : el
+        el.id === item?.id ? { ...el, ...updatedVal } : el
       );
+      sessionStorage.setItem('allSavingsData', JSON.stringify(updated));
+      return updated;
+    });
+
+    // this.savingsTableData.update((prevData) => {
+    //   const updated = prevData.filter((el) => el.savingsId !== item.id);
+    //   sessionStorage.setItem('savingsTableData', JSON.stringify(updated));
+    //   return updated;
+    // });
+  }
+
+  deleteSavingsItem(item: ISavings) {
+    this.allSavingsData.update((prevData) => {
+      const updated = prevData.filter((el) => el.id !== item.id);
       sessionStorage.setItem('allSavingsData', JSON.stringify(updated));
       return updated;
     });
@@ -245,14 +459,6 @@ export class SavingsService {
     this.savingsTableData.update((prevData) => {
       const updated = prevData.filter((el) => el.savingsId !== item.id);
       sessionStorage.setItem('savingsTableData', JSON.stringify(updated));
-      return updated;
-    });
-  }
-
-  deleteSavingsItem(item: ISavings) {
-    this.allSavingsData.update((prevData) => {
-      const updated = prevData.filter((el) => el.id !== item.id);
-      sessionStorage.setItem('allSavingsData', JSON.stringify(updated));
       return updated;
     });
   }
@@ -324,5 +530,12 @@ export class SavingsService {
   getSavingsGoalTitle(id: number) {
     const goal = this.allSavingsData().find((el) => el.id === id);
     return goal ? goal.title : 'Unknown';
+  }
+
+  valueFormatter(value: number) {
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+    }).format(value);
   }
 }

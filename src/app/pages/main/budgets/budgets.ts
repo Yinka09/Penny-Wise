@@ -5,7 +5,6 @@ import {
   routerTransitions2,
 } from '../../../services/animation/animation';
 import { DashboardService } from '../../../services/dashboard/dashboard';
-import { CurrencyPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { BudgetsService } from '../../../services/budgets/budgets';
@@ -21,6 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SpinnerComponent } from '../../../components/spinner/spinner';
 import { MainService } from '../../../services/main/main';
+import { ReportsService } from '../../../services/reports/reports';
 
 type MaskedKeys =
   | 'Total Budget'
@@ -40,7 +40,7 @@ interface IBudgetCard {
   selector: 'app-budgets',
   imports: [
     CircleProgressModule,
-    CurrencyPipe,
+
     CommonModule,
     ProgressBarModule,
     BudgetCategoryCard,
@@ -106,13 +106,16 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     'Total Expenses': true,
     'Remaining Budget': true,
   };
+
+  lineChartConfig: any;
   constructor(
     private dashboardService: DashboardService,
     private budgetService: BudgetsService,
     private transactionService: TransactionsService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private mainService: MainService
+    private mainService: MainService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -124,6 +127,8 @@ export class BudgetsComponent implements OnInit, OnDestroy {
     this.updateBudgetCards();
     this.getChartOptions(30);
     this.getProgressData();
+
+    this.lineChartConfig = this.reportsService.getLineChartConfig();
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);

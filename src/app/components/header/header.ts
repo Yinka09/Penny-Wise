@@ -62,6 +62,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       isActive: false,
     },
     {
+      title: 'Savings History',
+      action: '/main/savings/history',
+      isActive: false,
+    },
+    {
+      title: 'Savings Overview',
+      action: '/main/savings/overview',
+      isActive: false,
+    },
+    {
       title: 'Profile',
       action: '/main/profile',
       isActive: false,

@@ -20,13 +20,13 @@
   <div class="flex flex-row justify-between">
     <div>
       <h4 class="font-medium text-[0.9rem] lg:text-[1.2rem] leading-snug">
-        Recent Transactions
+        {{ title }}
       </h4>
     </div>
   </div>
   <div class="mt-4 min-w-full" style="height: 100%; overflow-x: auto">
     <ag-grid-angular
-      style="height: 300px; display: block; min-width: 100%; overflow-x: auto"
+      style="height: 350px; display: block; min-width: 100%; overflow-x: auto"
       [rowHeight]="50"
       [rowClass]="rowClass"
       [columnDefs]="columnDefs"

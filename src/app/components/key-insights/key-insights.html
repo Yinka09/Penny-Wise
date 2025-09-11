@@ -40,5 +40,46 @@
       finances better and avoid overspending.
     </p>
     }
+
+    <p class="leading-snug mt-3">
+      You've saved <b>{{ valueFormatter(totalSavings()) }}</b> so far towards
+      your goals, out of a total target of
+      <b>{{ valueFormatter(totalTargtedSavings()) }}</b>
+    </p>
+    @if(totalSavings() > totalTargtedSavings()){
+    <p class="leading-snug mt-3">
+      Weldone! you are ahead your targted savings with
+      <b> {{ valueFormatter(totalSavings() - totalTargtedSavings()) }}</b
+      >.
+    </p>
+    } @else if(totalTargtedSavings() > totalSavings()){
+    <p class="leading-snug mt-3">
+      You're still
+      <b> {{ valueFormatter(totalTargtedSavings() - totalSavings()) }}</b>
+      behind your overall savings target — but don't worry, you're making great
+      progress!
+    </p>
+    } @else {
+    <p class="leading-snug mt-3">
+      Weldone you are exactly at your
+      {{ valueFormatter(totalTargtedSavings()) }} savings target!
+    </p>
+    } @if(totalGoalsWithOverSavings().length > 0){
+    <p class="leading-snug mt-3">
+      Amazing work! You're ahead on your @for(goal of
+      totalGoalsWithOverSavings(); track goal.id){
+      <b
+        >"{{ goal.title }}" with
+        {{ valueFormatter(goal.amountSaved - goal.targetAmount) }}</b
+      >@if(isLastItem($index, totalGoalsWithOverSavings())){ } @else {, } } over
+      saved.
+    </p>
+    } @if(totalTargtedSavings() > totalSavings()){
+    <p class="leading-snug mt-3">
+      Take a moment to review the goals that need a little extra boost, and keep
+      moving forward. Remember every deposit, no matter how small, moves you
+      closer to financial freedom!
+    </p>
+    }
   </article>
 </div>

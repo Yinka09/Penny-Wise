@@ -174,16 +174,16 @@ export class SidebarComponent {
     // this.mainService.setViewSmallScreenSidebar(!this.isViewSidebar);
   }
 
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event) {
-    if (
-      this.showChildrenMenu &&
-      this.dropdownContainer &&
-      !this.dropdownContainer.nativeElement.contains(event.target)
-    ) {
-      this.showChildrenMenu = false;
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // onClickOutside(event: Event) {
+  //   if (
+  //     this.showChildrenMenu &&
+  //     this.dropdownContainer &&
+  //     !this.dropdownContainer.nativeElement.contains(event.target)
+  //   ) {
+  //     this.showChildrenMenu = false;
+  //   }
+  // }
 
   logOut() {
     this.mainService.resetNavigationState();

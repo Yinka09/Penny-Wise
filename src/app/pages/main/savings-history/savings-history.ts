@@ -51,9 +51,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { Router } from '@angular/router';
 import { ActionMenuRendererComponent } from '../../../components/action-menu-renderer/action-menu-renderer.component';
-import { AddTransactionComponent } from '../../../components/modals/add-transaction/add-transaction';
+
 import { TransactionsService } from '../../../services/transactions/transactions';
-import { ChangeDetectorRef } from '@angular/core';
+
 import {
   routerTransitions,
   routerTransitions2,
@@ -68,7 +68,7 @@ import { AddSavingsHistory } from '../../../components/modals/add-savings-histor
     ToastModule,
     CommonModule,
     AgGridAngular,
-    AddTransactionComponent,
+
     ConfirmDialogModule,
     ToastModule,
     SpinnerComponent,
