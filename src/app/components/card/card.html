@@ -15,7 +15,7 @@
       ></i>
     </div>
     <div class="w-[calc(100%-2.5rem)]">
-      <p class="text-[0.9rem] font-medium first-letter:uppercase">
+      <p class="text-[1rem] font-medium first-letter:uppercase">
         {{ cardItem.title }}
       </p>
       <div>
@@ -41,7 +41,7 @@
           </span> -->
 
           <i
-            class="fa-solid text-[0.6rem] cursor-pointer"
+            class="fa-solid text-[0.7rem] cursor-pointer"
             [ngClass]="isMasked[cardItem.title] ? 'fa-eye' : 'fa-eye-slash'"
             [ngStyle]="{ color: getCardStyles(cardItem).color }"
             (click)="toggleVisibility(cardItem.title)"

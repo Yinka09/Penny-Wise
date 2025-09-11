@@ -48,13 +48,13 @@
         </button>
       </div>
     </div>
-    <div class="w-full lg:w-[30%] flex flex-col justify-between">
+    <div class="w-full lg:w-[30%] flex flex-col justify-between gap-3 lg:gap-0">
       @for(card of savingsCardArr(); track card.id){
       <div
         class="bg-white w-full p-5 rounded-xl text-justify border-1 border-gray-200 relative"
       >
         <i
-          class="fa-solid text-[0.6rem] cursor-pointer absolute right-5 top-5 text-gray-400"
+          class="fa-solid text-[0.7rem] cursor-pointer absolute right-5 top-5 text-gray-400"
           [ngClass]="card.isMasked ? 'fa-eye' : 'fa-eye-slash'"
           (click)="toggleVisibility(card)"
         ></i>

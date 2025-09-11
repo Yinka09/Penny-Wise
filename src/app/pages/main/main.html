@@ -1,8 +1,8 @@
-<div class="flex h-screen overflow-hidden">
+<div class="flex h-[100dvh] overflow-hidden">
   <app-sidebar
     [class.w-[220px]]="isViewSidebar"
     [class.w-[80px]]="!isViewSidebar"
-    class="bg-slate-700 hidden md:block fixed top-0 left-0 h-screen transition-animation"
+    class="bg-slate-700 hidden md:block fixed top-0 left-0 h-[100dvh] transition-animation"
     [isViewSidebar]="isViewSidebar"
   ></app-sidebar>
   <app-sidebar
