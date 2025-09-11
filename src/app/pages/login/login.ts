@@ -92,7 +92,7 @@ export class Login implements OnInit, OnDestroy {
           this.loginForm.reset();
           setTimeout(() => {
             this.router.navigate(['/main/dashboard']);
-          }, 1500);
+          }, 1000);
         },
         (errorMessage) => {
           // console.log(errorMessage);
