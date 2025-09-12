@@ -83,7 +83,7 @@ export const scrollAnimation = trigger('fadeInUp', [
     'hidden',
     style({
       opacity: 0,
-      transform: 'translateY(80px)',
+      transform: 'translateY(100px)',
     })
   ),
   state(
