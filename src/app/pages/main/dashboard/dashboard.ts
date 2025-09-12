@@ -163,6 +163,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // flex: 1,
     minWidth: 120,
     resizable: true,
+    suppressMovable: true,
   };
 
   isAllDataLoaded = {

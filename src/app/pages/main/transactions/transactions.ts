@@ -121,6 +121,7 @@ export class TransactionsComponent implements OnInit {
     minWidth: 120,
     resizable: true,
     sortable: true,
+    suppressMovable: true,
   };
 
   rowClass = 'ag-grid-table ';

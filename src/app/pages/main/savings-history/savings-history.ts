@@ -124,6 +124,7 @@ export class SavingsHistoryComponent implements OnInit {
     minWidth: 120,
     resizable: true,
     sortable: true,
+    suppressMovable: true,
   };
 
   rowClass = 'ag-grid-table ';

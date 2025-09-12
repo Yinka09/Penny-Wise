@@ -239,6 +239,7 @@ export class ReportsComponent implements OnInit {
     // flex: 1,
     minWidth: 120,
     resizable: true,
+    suppressMovable: true,
   };
 
   displayTableData: ITransactionsTableData[] = [];
