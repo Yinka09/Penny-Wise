@@ -12,7 +12,7 @@
   >
     @for(item of featuresArray; track item.id){
     <div
-      class="flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px]"
+      class="flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px] transform hover:-translate-y-1 hover:scale-107 hover:shadow-lg"
     >
       <i
         class="fa-solid {{
@@ -34,7 +34,7 @@
   >
     @for(photoGrid of photoArray; track photoGrid.id){
     <div
-      class="flex flex-col gap-4 border border-gray-200 rounded-lg h-[150px] lg:h-[220px]"
+      class="flex flex-col gap-4 border border-gray-200 rounded-lg h-[200px] lg:h-[220px] bg-gray-50"
     >
       <div class="w-full h-[80%] rounded-t-lg overflow-hidden">
         <img
@@ -44,7 +44,9 @@
         />
       </div>
 
-      <p class="text-center font-medium">{{ photoGrid.title }}</p>
+      <p class="text-center font-medium bg-gray-50">
+        {{ photoGrid.title }}
+      </p>
     </div>
 
     }

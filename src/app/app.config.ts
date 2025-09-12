@@ -13,6 +13,7 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { LottieComponent, provideLottieOptions } from 'ngx-lottie';
 import player from 'lottie-web';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { _anchorElementToMouseMoveEvent } from 'ag-grid-community';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),

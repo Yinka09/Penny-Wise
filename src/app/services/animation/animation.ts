@@ -77,6 +77,26 @@ export const routerTransitions = trigger('routerTransitions', [
     ]),
   ]),
 ]);
+
+export const scrollAnimation = trigger('fadeInUp', [
+  state(
+    'hidden',
+    style({
+      opacity: 0,
+      transform: 'translateY(80px)',
+    })
+  ),
+  state(
+    'visible',
+    style({
+      opacity: 1,
+      transform: 'translateY(0)',
+    })
+  ),
+  transition('hidden => visible', [animate('600ms ease-out')]),
+  transition('visible => hidden', [animate('400ms ease-in')]),
+]);
+
 // export const routerTransitions = trigger('routerTransitions', [
 //   transition('* <=> *', [
 //     group([

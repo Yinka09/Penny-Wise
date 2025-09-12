@@ -11,36 +11,36 @@
   <div class="hidden md:block">
     <ul class="flex items-center justify-center gap-4 cursor-pointer">
       <li>
-        <a
-          routerLink="/home"
-          fragment="features"
-          class="text-white text-[1rem] hover:text-gray-400 font-medium"
-          >Features</a
+        <button
+          class="text-white text-[1rem] hover:text-gray-400 font-medium cursor-pointer"
+          (click)="scrollToSection('features')"
         >
+          Features
+        </button>
       </li>
       <li>
-        <a
-          routerLink="#benefits"
-          fragment="features"
-          class="text-white text-[1rem] hover:text-gray-400 font-medium"
-          >Benefits</a
+        <button
+          (click)="scrollToSection('benefits')"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium cursor-pointer"
         >
+          Benefits
+        </button>
       </li>
       <li>
-        <a
-          routerLink="/contact"
-          fragment="contact"
-          class="text-white text-[1rem] hover:text-gray-400 font-medium"
-          >Experience</a
+        <button
+          (click)="scrollToSection('experience')"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium cursor-pointer"
         >
+          Experience
+        </button>
       </li>
       <li>
-        <a
-          routerLink="/contact"
-          fragment="contact"
-          class="text-white text-[1rem] hover:text-gray-400 font-medium"
-          >Contact</a
+        <button
+          (click)="scrollToSection('contact')"
+          class="text-white text-[1rem] hover:text-gray-400 font-medium cursor-pointer"
         >
+          Contact
+        </button>
       </li>
     </ul>
   </div>
@@ -57,12 +57,21 @@
       class="fa-classic fa-envelope text-white text-[1rem] hover:text-gray-400 cursor-pointer !hidden !md:block"
     ></i>
 
-    <button
+    <!-- <button
       class="bg-green-600 hover:bg-green-700 py-2 lg:py-2 w-[80px] lg:w-[100px] text-white text-[0.9rem] lg:text-[0.9rem] transition duration-300 cursor-pointer rounded font-semibold shadow-lg"
       routerLink="/login"
     >
       Login
-    </button>
+    </button> -->
+
+    <a
+      href="/login"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bg-green-600 hover:bg-green-700 py-2 lg:py-2 w-[80px] lg:w-[100px] text-white text-[0.9rem] lg:text-[0.9rem] transition duration-300 cursor-pointer rounded font-semibold shadow-lg flex items-center justify-center font-semibold"
+    >
+      Login
+    </a>
   </div>
 </div>
 
@@ -71,47 +80,61 @@
   class="block md:hidden bg-slate-700 p-4 z-10 absolute top-0 w-full flex flex-col"
 >
   <div class="flex justify-between">
-    <div><img src="/pw-logo2.jpeg" class="logo-img w-[3rem]" /></div>
+    <div><img src="/pw-logo2.jpeg" class="logo-img w-[4rem]" /></div>
     <i
       class="fa-solid fa-xmark text-white text-[1.2rem] cursor-pointer"
       (click)="toggleMobileMenu()"
     ></i>
   </div>
   <ul
-    class="flex flex-row justify-center items-center gap-2 cursor-pointer mt-2"
+    class="flex flex-row justify-center items-center gap-4 cursor-pointer mt-4 flex-wrap"
   >
     <li>
-      <a
-        routerLink="/home"
-        fragment="features"
-        class="text-white text-[0.8rem] 0 font-medium"
-        >Features</a
+      <button
+        class="text-white text-[0.9rem] hover:text-gray-400 font-medium cursor-pointer"
+        (click)="scrollToSection('features')"
       >
+        Features
+      </button>
     </li>
     <li>
-      <a
-        routerLink="/about"
-        fragment="features"
-        class="text-white text-[0.8rem] font-medium"
-        >Benefits</a
+      <button
+        (click)="scrollToSection('benefits')"
+        class="text-white text-[0.9rem] hover:text-gray-400 font-medium cursor-pointer"
       >
+        Benefits
+      </button>
     </li>
     <li>
-      <a
-        routerLink="/contact"
-        fragment="contact"
-        class="text-white text-[0.8rem] font-medium"
-        >Experience</a
+      <button
+        (click)="scrollToSection('experience')"
+        class="text-white text-[0.9rem] hover:text-gray-400 font-medium cursor-pointer"
       >
+        Experience
+      </button>
     </li>
     <li>
-      <a
-        routerLink="/contact"
-        fragment="contact"
-        class="text-white text-[0.8rem] font-medium"
-        >Contact</a
+      <button
+        (click)="scrollToSection('contact')"
+        class="text-white text-[0.9rem] hover:text-gray-400 font-medium cursor-pointer"
       >
+        Contact
+      </button>
     </li>
   </ul>
+  <div class="flex items-center gap-2 lg:gap-5 mt-4 justify-center w-full mt-4">
+    <button
+      (click)="navigateToAuth('/login')"
+      class="bg-green-600 hover:bg-green-700 py-2 lg:py-2 w-[50%] lg:w-[100px] text-white text-[0.9rem] lg:text-[0.9rem] transition duration-300 cursor-pointer rounded font-semibold shadow-lg flex items-center justify-center font-semibold"
+    >
+      Login
+    </button>
+    <button
+      (click)="navigateToAuth('/signup')"
+      class="bg-[#0078BD] hover:bg-[#005f8a] py-2 lg:py-2 w-[50%] lg:w-[100px] text-white text-[0.9rem] lg:text-[0.9rem] transition duration-300 cursor-pointer rounded font-semibold shadow-lg flex items-center justify-center font-semibold"
+    >
+      Signup
+    </button>
+  </div>
 </div>
 }

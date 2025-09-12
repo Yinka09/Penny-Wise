@@ -1,5 +1,5 @@
 <section
-  class=" w-full h-[calc(100dvh-70px)] md:h-[calc(100dvh-84px)] flex flex-col justify-center items-center {{
+  class=" w-full h-[calc(100dvh-70px)] md:h-[calc(100dvh-80px)] flex flex-col justify-center items-center {{
     bgColor
   }} "
 >
@@ -14,7 +14,7 @@
         {{ title }}
       </h3>
       <p
-        class="my-2 text-gray-500 text-[1rem] font-small text-justify leading-relaxed"
+        class="my-2 text-gray-500 text[0.8rem] lg:text-[1rem] font-small text-justify leading-relaxed"
       >
         {{ description }}
       </p>
@@ -30,29 +30,33 @@
         }
       </ul>
       } @if(showButton){
-      <button
-        type="button"
-        class="mt-7 bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 hidden md:block cursor-pointer hover:bg-[#005f8a]"
+      <a
+        href="/login"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-center w-[180px] mt-7 bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 hidden md:block cursor-pointer hover:bg-[#005f8a] transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg"
       >
         Explore Now
         <i class="fa-solid fa-arrow-right text-white ms-3"></i>
-      </button>
+      </a>
       }
     </div>
     <div class="w-full flex items-center justify-center md:justify-end">
       <img
-        [src]="imgSrc"
+        [src]="'reports/header-img.png'"
         alt="Reports Header image"
-        class="w-full h-[300px] md:h-[400px] border-1 border-gray-300 rounded-lg shadow-md aspect-video object-cover"
+        class="w-full h-[250px] md:h-[400px] border-1 border-gray-300 rounded-lg shadow-md aspect-video object-cover"
       />
     </div>
     @if(showButton){
-    <button
-      type="button"
-      class="bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 block md:hidden w-full cursor-pointer hover:bg-[#005f8a]"
+    <a
+      href="/login"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-center bg-[#0078BD] text-[1.1rem] px-4 py-4 rounded shadow-md text-white font-semibold transition duration-300 block md:hidden w-full cursor-pointer hover:bg-[#005f8a] transform hover:-translate-y-1 hover:scale-105 hover:shadow-lg"
     >
       Explore Now
-      <i class="fa-solid fa-arrow-right text-white ms-3"></i></button
+      <i class="fa-solid fa-arrow-right text-white ms-3"></i></a
     >}
   </div>
 </section>

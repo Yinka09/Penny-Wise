@@ -1,5 +1,5 @@
 <div class="flex flex-col flex-1 transition-animation h-[100dvh]">
-  <app-home-header></app-home-header>
+  <app-home-header (scrollEmitter)="scrollToSection($event)"></app-home-header>
   <main class="flex-1 overflow-y-auto transition-animation">
     <app-hero
       [bgColor]="'bg-[#F3F7FC]'"
@@ -9,23 +9,30 @@
       [showButton]="true"
       [imgSrc]="firstImgSrc"
     ></app-hero>
-    <app-grid-section
-      id="features"
-      [title]="firstGridTitle"
-      [showPhotoGrid]="false"
-    ></app-grid-section>
-    <app-hero
-      [bgColor]="'bg-gray-50'"
-      [textSizeArray]="secondTextSizeArray"
-      [title]="secondTitle"
-      [description]="secondDescription"
-      [showButton]="false"
-      [imgSrc]="secondImgSrc"
-    ></app-hero>
-    <app-grid-section
-      [title]="secondGridTitle"
-      [showPhotoGrid]="true"
-    ></app-grid-section>
-    <app-home-footer></app-home-footer>
+    <section #features [@fadeInUp]="sectionStates['features']">
+      <app-grid-section
+        [title]="firstGridTitle"
+        [showPhotoGrid]="false"
+      ></app-grid-section>
+    </section>
+    <section #benefits [@fadeInUp]="sectionStates['benefits']">
+      <app-hero
+        [bgColor]="'bg-gray-50'"
+        [textSizeArray]="secondTextSizeArray"
+        [title]="secondTitle"
+        [description]="secondDescription"
+        [showButton]="false"
+        [imgSrc]="secondImgSrc"
+      ></app-hero>
+    </section>
+    <section #experience [@fadeInUp]="sectionStates['experience']">
+      <app-grid-section
+        [title]="secondGridTitle"
+        [showPhotoGrid]="true"
+      ></app-grid-section>
+    </section>
+    <section #contact [@fadeInUp]="sectionStates['contact']">
+      <app-home-footer></app-home-footer>
+    </section>
   </main>
 </div>
