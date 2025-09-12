@@ -1,14 +1,42 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  AfterViewInit,
+  Input,
+} from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-grid-section',
   imports: [],
   templateUrl: './grid-section.html',
   styleUrl: './grid-section.scss',
+  animations: [
+    trigger('fadeInCard', [
+      state('hidden', style({ opacity: 0, transform: 'translateY(100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition('hidden => visible', animate('600ms ease-out')),
+    ]),
+  ],
 })
-export class GridSection {
+export class GridSection implements AfterViewInit {
   @Input() title: string = '';
   @Input() showPhotoGrid = false;
+
+  @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
+  @ViewChildren('photoCard') photoCards!: QueryList<ElementRef>;
+
+  cardStates: { [key: number]: 'hidden' | 'visible' } = {};
+  photoCardStates: { [key: number]: 'hidden' | 'visible' } = {};
+
   featuresArray = [
     {
       id: 1,
@@ -86,4 +114,40 @@ export class GridSection {
       imgSrc: 'landing-page/account-transactions.png',
     },
   ];
+
+  ngAfterViewInit() {
+    this.observeCards(this.featureCards, this.featuresArray, this.cardStates);
+    this.observeCards(this.photoCards, this.photoArray, this.photoCardStates);
+  }
+
+  constructor() {
+    this.featuresArray.forEach((item) => (this.cardStates[item.id] = 'hidden'));
+    this.photoArray.forEach(
+      (item) => (this.photoCardStates[item.id] = 'hidden')
+    );
+  }
+
+  private observeCards(
+    cards: QueryList<ElementRef>,
+    dataArray: { id: number }[],
+    states: Record<number, 'hidden' | 'visible'>
+  ) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const cardIndex = cards
+            .toArray()
+            .findIndex((el) => el.nativeElement === entry.target);
+
+          if (cardIndex === -1) return;
+
+          const id = dataArray[cardIndex].id;
+          states[id] = entry.isIntersecting ? 'visible' : 'hidden';
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    cards.forEach((card) => observer.observe(card.nativeElement));
+  }
 }

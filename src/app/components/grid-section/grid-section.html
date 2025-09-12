@@ -12,6 +12,8 @@
   >
     @for(item of featuresArray; track item.id){
     <div
+      #featureCard
+      [@fadeInCard]="cardStates[item.id]"
       class="flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px] transform hover:-translate-y-1 hover:scale-107 hover:shadow-lg"
     >
       <i
@@ -34,6 +36,8 @@
   >
     @for(photoGrid of photoArray; track photoGrid.id){
     <div
+      #photoCard
+      [@fadeInCard]="photoCardStates[photoGrid.id]"
       class="flex flex-col gap-4 border border-gray-200 rounded-lg h-[200px] lg:h-[220px] bg-gray-50"
     >
       <div class="w-full h-[80%] rounded-t-lg overflow-hidden">
