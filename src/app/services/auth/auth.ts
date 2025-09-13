@@ -103,6 +103,7 @@ export class AuthService {
 
     this.router.navigate(['/login']);
     sessionStorage.removeItem('userData');
+    localStorage.removeItem('userInitials');
 
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -132,6 +133,7 @@ export class AuthService {
     // this.autoLogout(expiresIn * 1000);
     this.autoLogout(expiresIn * 3 * 60 * 60 * 1000);
     sessionStorage.setItem('userData', JSON.stringify(user));
+    localStorage.setItem('userInitials', email);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
