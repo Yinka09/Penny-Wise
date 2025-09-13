@@ -242,8 +242,6 @@ export class SavingsHistoryComponent implements OnInit {
     this.isVisible = true;
     this.currentUrl = this.router.url;
 
-    console.log('this is:', this.savingsService.calculateTotalDeposits());
-
     this.mainService.headerTitle.set('Savings History');
     this.mainService.setIsTransactionPage(true);
     setTimeout(() => {

@@ -135,8 +135,9 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    // console.log(errorRes);
-    let errorMessage = 'An unknown error occured';
+    // let errorMessage = 'An unknown error occured';
+    let errorMessage =
+      'Connection issue detected. Please check your internet and try again.';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMessage);
     }

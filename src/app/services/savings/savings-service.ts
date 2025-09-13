@@ -225,7 +225,7 @@ export class SavingsService {
       allSavingsObj[goalName] += el.type === 'Deposit' ? el.amount : -el.amount;
     });
 
-    console.log(allSavingsObj);
+    // console.log(allSavingsObj);
     for (const [key, value] of Object.entries(allSavingsObj)) {
       allSavingsArr.push({ goal: key, amount: value });
     }

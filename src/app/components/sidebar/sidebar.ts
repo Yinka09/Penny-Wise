@@ -27,7 +27,7 @@ export class SidebarComponent {
   @Input() isPhoneScreen!: boolean;
   // @Input() isViewSidebar!: boolean;
 
-  logo: string = 'pw-logo2.jpeg';
+  logo: string = 'pw-logo2.jpg';
   selectedReportTab = '';
   private allSubscriptions = new Subscription();
   activeTab: string = 'Dashboard';

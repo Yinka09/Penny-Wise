@@ -307,7 +307,6 @@ export class ReportsComponent implements OnInit {
     private savingsService: SavingsService
   ) {}
   ngOnInit(): void {
-    console.log(this.savingsService.getTotalSavingsComposition());
     this.mainService.setIsTransactionPage(false);
 
     this.allExpenses = this.transactionService
