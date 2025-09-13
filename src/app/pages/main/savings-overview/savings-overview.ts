@@ -175,6 +175,7 @@ export class SavingsOverviewComponent implements OnInit {
       // this.getChartOptions(30);
       // this.getProgressData();
     }
+    this.setDonutChartConfig();
   }
 
   onEditSavings(data: ISavings) {
@@ -192,7 +193,7 @@ export class SavingsOverviewComponent implements OnInit {
 
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure you want to delete this Goal?',
+      message: 'Are you sure you want to delete this goal?',
       header: 'Confirm Delete',
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: 'p-button-danger   ',

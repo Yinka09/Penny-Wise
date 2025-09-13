@@ -225,8 +225,8 @@ export class AddSavings {
           severity: 'success',
           summary: 'Success',
           detail: this.isCreateMode()
-            ? 'Savings submitted Successfully'
-            : 'Budget Updated Successfully',
+            ? 'Goal submitted Successfully'
+            : 'Goal Updated Successfully',
           life: 3000,
         });
       }, 1500);
@@ -247,12 +247,12 @@ export class AddSavings {
     if (this.displayUpdateTotalSavingsModal()) {
       return 'Update Total Savings';
     }
-    if ( this.isCreateMode()) {
+    if (this.isCreateMode()) {
       return 'Add New Savings Goal';
     } else if (this.isViewMode()) {
       return 'View Savings Goal';
     } else {
-      return 'Update Savings ';
+      return 'Update Savings Goal';
     }
   }
 

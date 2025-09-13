@@ -44,7 +44,7 @@ export class SavingsCard implements OnInit {
     const percentageSpent = this.getProgressPercentage(item);
 
     switch (true) {
-      case percentageSpent <= 50:
+      case percentageSpent <= 35:
         return '#FF0000';
       case percentageSpent <= 80:
         return '#78C000';
