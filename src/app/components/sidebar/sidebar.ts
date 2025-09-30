@@ -152,7 +152,7 @@ export class SidebarComponent {
     this.mainService.setViewSmallScreenSidebar(false);
   }
 
-  navigateToPage(item: any) {
+  navigateToPage(item: ISidebarItems) {
     this.setOpenMenu(item);
     this.activeChildTab = '';
 

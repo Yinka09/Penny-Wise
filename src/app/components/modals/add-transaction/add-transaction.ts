@@ -118,6 +118,7 @@ export class AddTransactionComponent implements OnInit, OnChanges {
   selectedCategory: ITransactionCategory | undefined;
   transactionDate: Date | undefined;
   addTransactionForm: FormGroup = new FormGroup({});
+
   constructor(
     private messageService: MessageService,
     private fb: FormBuilder

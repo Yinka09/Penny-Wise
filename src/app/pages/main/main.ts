@@ -1,4 +1,4 @@
-import { Component, type OnDestroy, type OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -6,12 +6,18 @@ import { HeaderComponent } from '../../components/header/header';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { MainService } from '../../services/main/main';
 import { Subject, takeUntil } from 'rxjs';
-import { ScrollToTop } from "../../components/scroll-to-top/scroll-to-top";
+import { ScrollToTop } from '../../components/scroll-to-top/scroll-to-top';
 
 @Component({
   standalone: true,
   selector: 'app-main',
-  imports: [RouterOutlet, CommonModule, HeaderComponent, SidebarComponent, ScrollToTop],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    HeaderComponent,
+    SidebarComponent,
+    ScrollToTop,
+  ],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
