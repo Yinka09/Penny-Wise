@@ -9,7 +9,7 @@
       [showButton]="true"
       [imgSrc]="firstImgSrc"
     ></app-hero>
-    <section #features [@fadeInUp]="sectionStates['features']">
+    <section #features>
       <app-grid-section
         [title]="firstGridTitle"
         [showPhotoGrid]="false"
@@ -25,7 +25,7 @@
         [imgSrc]="secondImgSrc"
       ></app-hero>
     </section>
-    <section #experience [@fadeInUp]="sectionStates['experience']">
+    <section #experience>
       <app-grid-section
         [title]="secondGridTitle"
         [showPhotoGrid]="true"

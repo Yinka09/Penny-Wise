@@ -142,10 +142,18 @@ export class GridSection implements AfterViewInit {
           if (cardIndex === -1) return;
 
           const id = dataArray[cardIndex].id;
-          states[id] = entry.isIntersecting ? 'visible' : 'hidden';
+
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            states[id] = 'visible';
+          } else if (!entry.isIntersecting || entry.intersectionRatio < 0.05) {
+            states[id] = 'hidden';
+          }
         });
       },
-      { threshold: 0.2 }
+      {
+        threshold: [0.05, 0.2, 0.4],
+        rootMargin: '40px 0px -20px 0px',
+      }
     );
 
     cards.forEach((card) => observer.observe(card.nativeElement));

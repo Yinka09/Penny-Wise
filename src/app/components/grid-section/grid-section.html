@@ -13,17 +13,15 @@
     @for(item of featuresArray; track item.id){
     <div
       #featureCard
-      [@fadeInCard]="cardStates[item.id]"
-      class="flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px] transform hover:-translate-y-1 hover:scale-107 hover:shadow-lg"
+      [class.visible]="cardStates[item.id] === 'visible'"
+      class="card flex flex-col items-center justify-center gap-4 border border-gray-200 p-5 rounded-lg h-[150px] lg:h-[200px] transform hover:-translate-y-1 hover:scale-107 hover:shadow-lg"
     >
       <i
         class="fa-solid {{
           item.icon
         }} text-[#0078BD] text-[1.4rem] lg:text-[1.8rem]"
       ></i>
-      <h3 class="font-semibold text-[1rem] text-center">
-        {{ item.title }}
-      </h3>
+      <h3 class="font-semibold text-[1rem] text-center">{{ item.title }}</h3>
       <p class="text-justify leading-normal text-gray-400 text-[0.8rem]">
         {{ item.description }}
       </p>
@@ -37,8 +35,8 @@
     @for(photoGrid of photoArray; track photoGrid.id){
     <div
       #photoCard
-      [@fadeInCard]="photoCardStates[photoGrid.id]"
-      class="flex flex-col gap-4 border border-gray-200 rounded-lg h-[200px] lg:h-[220px] bg-gray-50"
+      [class.visible]="photoCardStates[photoGrid.id] === 'visible'"
+      class="card flex flex-col gap-4 border border-gray-200 rounded-lg h-[200px] lg:h-[220px] bg-gray-50"
     >
       <div class="w-full h-[80%] rounded-t-lg overflow-hidden">
         <img
@@ -48,9 +46,7 @@
         />
       </div>
 
-      <p class="text-center font-medium bg-gray-50">
-        {{ photoGrid.title }}
-      </p>
+      <p class="text-center font-medium bg-gray-50">{{ photoGrid.title }}</p>
     </div>
 
     }

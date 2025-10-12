@@ -63,8 +63,7 @@ export class AuthService {
     return this.http.post(DELETEUSER_BASE_URL, { idToken }).pipe(
       catchError(this.handleError),
       tap((resData) => {
-        console.log(resData);
-
+        // console.log(resData);
         // this.logout();
       })
     );
