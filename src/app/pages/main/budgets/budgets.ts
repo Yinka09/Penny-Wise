@@ -369,11 +369,14 @@ export class BudgetsComponent implements OnInit, OnDestroy {
         this.getProgressData();
         this.resetAllBudgets();
         this.displayUpdateTotalBudgetModal.set(false);
+
+        console.log('I am iin create and updating total budget only');
       } else {
-        console.log('I am not updating total budget only');
+        // console.log('I am not updating total budget only');
         this.budgetService.addBudget(formData);
         this.getChartOptions(30);
         this.getProgressData();
+         console.log('I am iin create and updating total budget only');
       }
     } else {
       this.budgetService.updateBudget(this.selectedBudget, formData);
@@ -404,7 +407,7 @@ export class BudgetsComponent implements OnInit, OnDestroy {
   }
 
   onDeleteBudget(data: IBudgetsCategory, event: any) {
-    console.log('On Delete', data);
+    // console.log('On Delete', data);
 
     this.confirmationService.confirm({
       target: event.target as EventTarget,

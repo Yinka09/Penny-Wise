@@ -129,7 +129,7 @@ export class Signup implements OnInit, OnDestroy {
           }, 1500);
         },
         (errorMessage) => {
-          console.log(errorMessage);
+          // console.log(errorMessage);
           this.error = errorMessage;
           this.messageService.add({
             severity: 'error',

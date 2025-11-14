@@ -277,7 +277,7 @@ export class SavingsHistoryComponent implements OnInit {
     // console.log('Action Event', event.target.value);
     const action = event.target.value;
     if (action === '1') {
-      console.log('Action Event', event.target.value);
+      // console.log('Action Event', event.target.value);
       this.showAddHistoryDialog();
     } else if (action === '2') {
       this.deleteAllSavingsHistory(event);
@@ -360,7 +360,7 @@ export class SavingsHistoryComponent implements OnInit {
   }
 
   onDeleteTransaction(data: ISavingsTableData, event: any) {
-    console.log('On Delete', data);
+    // console.log('On Delete', data);
 
     this.confirmationService.confirm({
       target: event.target as EventTarget,

@@ -210,7 +210,7 @@ export class AddSavings {
         amountSaved,
       };
 
-      console.log('Submitting form', payload);
+      // console.log('Submitting form', payload);
 
       this.formDetails.emit(payload);
 
