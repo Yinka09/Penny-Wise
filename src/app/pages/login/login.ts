@@ -52,13 +52,13 @@ export class Login implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: [
-        '',
+        'johndoe@gmail.com',
         {
           validators: [Validators.required, Validators.email],
         },
       ],
       password: [
-        '',
+        '000000#',
         {
           validators: [Validators.required, Validators.minLength(6)],
         },
